@@ -124,15 +124,13 @@
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr) minmax(0, 1fr);
     grid-template-areas:
       'papers profile aside'
-      'curriculum curriculum aside'
-      'contact contact contact';
+      'curriculum curriculum aside';
     align-items: start;
   }
 
   .panel--papers { grid-area: papers; align-self: stretch; }
   .profile { grid-area: profile; }
   .panel--curriculum { grid-area: curriculum; }
-  .panel--contact { grid-area: contact; }
 
   /* Right column: projects above organizations, as tall as their content. */
   .dashboard__aside {
@@ -152,7 +150,6 @@
   .panel--curriculum { order: 1; }
   .panel--papers { order: 2; }
   .panel--organizations { order: 3; }
-  .panel--contact { order: 4; }
 }
 
 /* Panels */

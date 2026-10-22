@@ -14,7 +14,6 @@ export const en = {
     projects: 'Projects',
     curriculum: 'Curriculum',
     organizations: 'Organizations',
-    contact: 'Contact',
     skipToContent: 'Skip to content',
   },
   brand: {
@@ -38,7 +37,6 @@ export const en = {
     projects: { title: 'Projects', lead: 'Public repositories. Descriptions follow each project’s README; status reflects what is documented there.' },
     curriculum: { title: 'Curriculum', lead: 'Professional experience, academic background, and skills.' },
     organizations: { title: 'Organizations', lead: 'Employers, universities, and groups from the professional and academic record.' },
-    contact: { title: 'Contact', lead: 'Professional channels only.' },
   },
   curriculum: {
     experience: 'Professional experience',
@@ -57,6 +55,7 @@ export const en = {
     status: 'Status',
     role: 'Contribution',
     statusValues: {
+      planning: 'Planning',
       experimental: 'Experimental',
       prototype: 'Prototype',
       mvp: 'MVP',
@@ -79,7 +78,6 @@ export const en = {
   },
   contact: {
     email: 'Email',
-    note: 'Links open in a new tab.',
   },
   footer: {
     builtWith: 'Static site hosted on GitHub Pages. No tracking or analytics.',

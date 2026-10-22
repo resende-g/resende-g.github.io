@@ -1,5 +1,5 @@
 /*
- * Provisional design tokens. The site is dark-first because the background photograph is a night scene;
+ * Provisional design tokens. The site is dark-first because the background photograph is a dark-toned black-and-white image;
  * light values are kept under [data-theme="light"] for a future toggle and are not active by default.
  */
 :root {
@@ -31,7 +31,7 @@
 
   --bg: #090c14;
   /* Blur applied to the background photograph itself so the glass panels read as distinct surfaces. */
-  --backdrop-blur: 18px;
+  --backdrop-blur: 4px;
   --backdrop-brightness: 1.15;
   --overlay: linear-gradient(180deg, rgba(6, 9, 18, 0.06) 0%, rgba(6, 9, 18, 0.16) 55%, rgba(6, 9, 18, 0.38) 100%);
 

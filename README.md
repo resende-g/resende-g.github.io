@@ -139,19 +139,17 @@ The page follows a dashboard wireframe (desktop, ≥1024px):
 ├──────────────┴───────────────────┤              │
 │ Curriculum                       ├──────────────┤
 │ (experience, education, skills)  │ Organizations│
-├──────────────────────────────────┴──────────────┤
-│ Contact                                         │
-└─────────────────────────────────────────────────┘
+└──────────────────────────────────┴──────────────┘
 ```
 
 Below 1024px the panels stack in one column with the profile card first. Areas are defined with CSS grid in `src/styles/layout.css`; panel order in navigation comes from `PANEL_IDS` in `src/config/site.ts`.
 
 ### Background photograph and brand mark
 
-- `src/assets/background.jpg` (2000px) and `background-small.jpg` (1000px) are served through a `<picture>` element. The photograph itself is blurred (`--backdrop-blur`, default 18px), slightly brightened (`--backdrop-brightness`) and covered by a light darkening gradient (`--overlay`), all in `src/styles/tokens.css`, so the glass panels read as distinct surfaces over it. Replace both files to change the scene; keep the same names or update `src/components/Backdrop.tsx`.
+- `src/assets/background.jpg` (1440×810, 16:9 crop) and `background-small.jpg` (900×800, for narrow screens) are served through a `<picture>` element. The photograph itself is lightly blurred (`--backdrop-blur`, default 4px, so the Bombe rotors stay recognizable), slightly brightened (`--backdrop-brightness`) and covered by a light darkening gradient (`--overlay`), all in `src/styles/tokens.css`, so the glass panels read as distinct surfaces over it. Replace both files to change the scene; keep the same names or update `src/components/Backdrop.tsx`.
 - `src/assets/logo-white.png` / `logo-black.png` are the brand mark with transparent background; `public/favicon.png` and `apple-touch-icon.png` are derived from it. The mark appears in the header and in the profile card.
 - Profile links are icon buttons (`src/components/Icons.tsx`). GitHub and ORCID paths come from simple-icons (CC0, inline SVG); the Lattes button uses the supplied mark (`src/assets/lattes-mask.png`) as a CSS mask so it takes the current color; the LinkedIn and e-mail glyphs are simplified in-house drawings. Swap any of them by editing its small component.
-- The theme is dark-first because the photograph is a night scene. A light token set is kept under `:root[data-theme="light"]` in `src/styles/tokens.css` for a future toggle; it is not active.
+- The theme is dark-first because the photograph (a black-and-white picture of a Bombe codebreaking machine) is toned down in the files themselves so the glass panels stay legible over it. A light token set is kept under `:root[data-theme="light"]` in `src/styles/tokens.css` for a future toggle; it is not active.
 
 ## Language behavior
 
@@ -199,7 +197,7 @@ npm run build && npm run preview
 
 ## Known limitations and pending tasks
 
-- **Background image license:** the night-dune photograph was supplied as a design reference. It closely resembles a desktop wallpaper distributed by Apple; confirm the right to publish it before the site goes live, or replace it with a licensed or original image (two files under `src/assets/`).
+- **Background image license:** the Bombe photograph was supplied by the site owner. Its source and license have not been recorded here; confirm them (and add a credit line if the license requires one) or replace it with a licensed or original image (two files under `src/assets/`).
 - **Project metrics:** the wireframe labels the right panel "Projects and metrics". No metrics are shown because none are documented; repository statistics could be added later from the GitHub API without inventing figures.
 - **Organization links:** the organization tiles are not linked because their URLs were not verified from the build environment; add a `url` field in `src/content/organizations.ts` after checking each one.
 - **Light theme:** not active; the dark theme matches the background photograph.

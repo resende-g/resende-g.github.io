@@ -12,7 +12,6 @@ export const ptBR: Dictionary = {
     projects: 'Projetos',
     curriculum: 'Currículo',
     organizations: 'Organizações',
-    contact: 'Contato',
     skipToContent: 'Ir para o conteúdo',
   },
   brand: {
@@ -36,7 +35,6 @@ export const ptBR: Dictionary = {
     projects: { title: 'Projetos', lead: 'Repositórios públicos. As descrições seguem o README de cada projeto; a situação reflete o que está documentado ali.' },
     curriculum: { title: 'Currículo', lead: 'Experiência profissional, formação acadêmica e competências.' },
     organizations: { title: 'Organizações', lead: 'Empregadores, universidades e grupos do histórico profissional e acadêmico.' },
-    contact: { title: 'Contato', lead: 'Apenas canais profissionais.' },
   },
   curriculum: {
     experience: 'Experiência profissional',
@@ -55,6 +53,7 @@ export const ptBR: Dictionary = {
     status: 'Situação',
     role: 'Contribuição',
     statusValues: {
+      planning: 'Em planejamento',
       experimental: 'Experimental',
       prototype: 'Protótipo',
       mvp: 'MVP',
@@ -77,7 +76,6 @@ export const ptBR: Dictionary = {
   },
   contact: {
     email: 'E-mail',
-    note: 'Os links abrem em uma nova aba.',
   },
   footer: {
     builtWith: 'Site estático hospedado no GitHub Pages. Sem rastreamento ou analytics.',

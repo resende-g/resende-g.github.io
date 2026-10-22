@@ -86,9 +86,11 @@ export function ProfileCard() {
             <a className="button button--primary" href="#projects">
               {t.hero.primaryCta}
             </a>
-            <a className="button button--secondary" href="#contact">
-              {t.hero.secondaryCta}
-            </a>
+            {contact.email && (
+              <a className="button button--secondary" href={`mailto:${contact.email}`}>
+                {t.hero.secondaryCta}
+              </a>
+            )}
             {cvFile && (
               <a className="button button--secondary" href={publicPath(cvFile)} download>
                 {t.hero.downloadCv}

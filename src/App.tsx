@@ -2,7 +2,6 @@ import { Backdrop } from './components/Backdrop';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { ProfileCard } from './components/ProfileCard';
-import { Contact } from './components/sections/Contact';
 import { Curriculum } from './components/sections/Curriculum';
 import { Organizations } from './components/sections/Organizations';
 import { Papers } from './components/sections/Papers';
@@ -26,7 +25,6 @@ export function App() {
           <Organizations />
         </div>
         <Curriculum />
-        <Contact />
       </main>
       <Footer />
     </>

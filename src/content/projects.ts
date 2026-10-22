@@ -1,6 +1,6 @@
 import type { Localized } from '../i18n/locales';
 
-export type ProjectStatus = 'experimental' | 'prototype' | 'mvp' | 'firstRelease';
+export type ProjectStatus = 'planning' | 'experimental' | 'prototype' | 'mvp' | 'firstRelease';
 
 export interface Project {
   id: string;
@@ -48,15 +48,26 @@ export const projects: Project[] = [
     demoUrl: 'https://carb.portal-carb-prototipo.workers.dev',
   },
   {
-    id: 'gedep',
-    name: 'GEDEP Portal',
+    id: 'dark-bmo',
+    name: 'dark-BMO',
     description: {
-      en: 'Institutional portal for GEDEP, a study group on law and political economy at UFBA: mission, calendar, meeting records, bibliography, approved publications, and a contribution form with server-side validation, private attachments, and rate limiting. Admin area and authentication are planned, not yet included.',
-      'pt-BR': 'Portal institucional do GEDEP, grupo de estudos em Direito e economia política da UFBA: apresentação, calendário, registros de reuniões, bibliografia, produções aprovadas e formulário de contribuição com validação no servidor, anexos privados e limite de envios. Área administrativa e autenticação estão planejadas, ainda não incluídas.',
+      en: 'DIY handheld multitool for hands-on information security study, in the style of the Flipper Zero, built around an ESP32-S3 with a look inspired by BMO from Adventure Time. Planned features: sub-GHz 433 MHz radio (CC1101), NFC (PN532), infrared, Wi-Fi, and Bluetooth on the Bruce firmware, plus retro games through Retro-Go. The README states the project is planned, with parts partially purchased and not yet assembled; the RF, NFC, and IR functions are meant for studying protocols on one’s own equipment, in a lab, or in CTFs.',
+      'pt-BR': 'Multitool portátil DIY para estudar segurança da informação na prática, no estilo do Flipper Zero, baseado em ESP32-S3 e com visual inspirado no BMO de Hora de Aventura. Previstos: rádio sub-GHz 433 MHz (CC1101), NFC (PN532), infravermelho, Wi-Fi e Bluetooth com o firmware Bruce, além de jogos retrô via Retro-Go. O README registra que o projeto está planejado, com peças parcialmente compradas e ainda não montado; as funções de RF, NFC e IR servem para estudar protocolos em equipamento próprio, em laboratório ou em CTFs.',
     },
-    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'PostgreSQL (Neon)', 'Drizzle ORM'],
-    status: 'mvp',
-    repositoryUrl: 'https://github.com/resende-g/GEDEP',
+    technologies: ['ESP32-S3', 'CC1101', 'PN532', 'Bruce', 'Retro-Go', 'MicroPython'],
+    status: 'planning',
+    repositoryUrl: 'https://github.com/resende-g/dark-BMO',
+  },
+  {
+    id: 'bmo',
+    name: 'BMO',
+    description: {
+      en: 'Experimental local assistant for querying documents with models run through Ollama, prioritizing local execution, verifiable references, and separation between document collections. The MVP targets a command-line tool on Ubuntu that answers questions about a public document using locally retrieved passages and shows each passage with its source. The README states the MVP is not finished and the repository currently holds only the initial documentation; the prototype code is not in it yet.',
+      'pt-BR': 'Assistente local experimental para consultar documentos com modelos executados pelo Ollama, com prioridade para execução local, referências verificáveis e separação entre coleções de documentos. O MVP prevê uma ferramenta de linha de comando no Ubuntu que responda perguntas sobre um documento público usando trechos recuperados localmente e mostre cada trecho com sua fonte. O README registra que o MVP não está concluído e que o repositório, por enquanto, contém só a documentação inicial; o código do protótipo ainda não está nele.',
+    },
+    technologies: ['Ollama', 'Local LLMs', 'Ubuntu'],
+    status: 'experimental',
+    repositoryUrl: 'https://github.com/resende-g/BMO',
   },
   {
     id: 'esperanca',
