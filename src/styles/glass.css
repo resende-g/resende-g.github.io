@@ -1,0 +1,117 @@
+/*
+ * Glass surfaces. Used sparingly: header, hero card, section cards, chips.
+ * Falls back to a near-opaque surface where backdrop-filter is unsupported.
+ */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    var(--glass-shadow),
+    0 0 0 1px var(--glass-edge),
+    inset 0 1px 0 var(--glass-highlight);
+  border-radius: var(--radius-lg);
+}
+
+.glass--strong {
+  background: var(--glass-bg-strong);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .glass {
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    backdrop-filter: blur(22px) saturate(160%);
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass,
+  .glass--strong {
+    background: var(--glass-fallback);
+  }
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background: var(--chip-bg);
+  border: 1px solid var(--divider);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color var(--motion-fast) var(--ease),
+    border-color var(--motion-fast) var(--ease),
+    transform var(--motion-fast) var(--ease);
+}
+
+.button:hover {
+  text-decoration: none;
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.button--primary {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.button--primary:hover {
+  filter: brightness(1.06);
+}
+
+.button--secondary {
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  box-shadow: 0 0 0 1px var(--glass-edge);
+  color: var(--text);
+}
+
+.button--secondary:hover {
+  background: var(--glass-bg-strong);
+}
+
+.link-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.link-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.25rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  border: 1px solid var(--divider);
+  color: var(--text);
+  font-size: 0.9rem;
+  transition:
+    background-color var(--motion-fast) var(--ease),
+    border-color var(--motion-fast) var(--ease);
+}
+
+.link-pill:hover {
+  text-decoration: none;
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}

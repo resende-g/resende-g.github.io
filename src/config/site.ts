@@ -1,0 +1,26 @@
+import type { Locale } from '../i18n/locales';
+
+/**
+ * Site-level configuration (navigation, documents, repository).
+ * Content about the person lives in src/content; UI strings in src/i18n.
+ */
+export const SECTION_IDS = ['experience', 'projects', 'education', 'research', 'skills', 'contact'] as const;
+export type SectionId = (typeof SECTION_IDS)[number];
+
+/**
+ * CV files for download, relative to the `public/` folder (e.g. "cv/Gabriel_Resende_CV_EN.pdf").
+ * `null` hides the button for that language. Only place files here that are approved for public release.
+ */
+export const CV_FILES: Record<Locale, string | null> = {
+  en: null,
+  'pt-BR': null,
+};
+
+/** Public repository of this site (shown in the footer). */
+export const SITE_REPOSITORY_URL = 'https://github.com/resende-g/resende.github.io';
+
+/** Resolves a path under `public/` against the configured base path. */
+export function publicPath(path: string): string {
+  const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+  return `${base}${path.replace(/^\//, '')}`;
+}
