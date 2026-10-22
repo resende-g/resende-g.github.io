@@ -292,6 +292,19 @@
   fill: currentColor;
 }
 
+.icon-mask {
+  display: inline-block;
+  width: 1.35rem;
+  height: 1.35rem;
+  background-color: currentColor;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
 .profile__description {
   width: 100%;
   padding: var(--space-4);

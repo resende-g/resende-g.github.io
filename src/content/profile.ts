@@ -33,7 +33,7 @@ export const profile: Profile = {
     'pt-BR': 'Atuo na qualidade de dados jurídicos no Jusbrasil: avalio completude, corretude e revocação da legislação coletada, valido crawlers e analiso respostas de sistemas de IA e mecanismos de busca jurídicos. Minha formação combina o curso superior de tecnologia em Segurança da Informação, a graduação em Direito em andamento na Universidade Federal da Bahia (UFBA) e interesses de pesquisa em IA, proteção de dados e governança digital.',
   },
   location: { en: 'Salvador, Bahia, Brazil', 'pt-BR': 'Salvador, Bahia, Brasil' },
-  photo: null,
+  photo: 'images/profile.jpg',
   initials: 'GR',
   links: [
     { id: 'github', label: 'GitHub', url: 'https://github.com/resende-g' },

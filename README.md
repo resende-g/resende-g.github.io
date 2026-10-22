@@ -113,10 +113,7 @@ Append to `publications` in `src/content/research.ts` (title, venue, year, optio
 
 ### Profile photo
 
-1. Place an authorized photo of the site owner at `public/images/profile.jpg` (a square crop of at least 400×400 px is recommended; keep the original aspect ratio and avoid heavy filters).
-2. In `src/content/profile.ts`, set `photo: 'images/profile.jpg'`.
-
-Until then, a centered placeholder with initials is shown. If the file is missing or fails to load, the placeholder is shown automatically.
+The current photo is `public/images/profile.jpg` (512×512, supplied by the site owner) and is referenced from `src/content/profile.ts` (`photo: 'images/profile.jpg'`). To replace it, overwrite the file with a square crop (at least 400×400 px); set `photo: null` to show the initials placeholder instead. If the file fails to load, the placeholder is shown automatically.
 
 ### CV downloads
 
@@ -153,6 +150,7 @@ Below 1024px the panels stack in one column with the profile card first. Areas a
 
 - `src/assets/background.jpg` (2000px) and `background-small.jpg` (1000px) are served through a `<picture>` element. The photograph itself is blurred (`--backdrop-blur`, default 18px), slightly brightened (`--backdrop-brightness`) and covered by a light darkening gradient (`--overlay`), all in `src/styles/tokens.css`, so the glass panels read as distinct surfaces over it. Replace both files to change the scene; keep the same names or update `src/components/Backdrop.tsx`.
 - `src/assets/logo-white.png` / `logo-black.png` are the brand mark with transparent background; `public/favicon.png` and `apple-touch-icon.png` are derived from it. The mark appears in the header and in the profile card.
+- Profile links are icon buttons (`src/components/Icons.tsx`). GitHub and ORCID paths come from simple-icons (CC0, inline SVG); the Lattes button uses the supplied mark (`src/assets/lattes-mask.png`) as a CSS mask so it takes the current color; the LinkedIn and e-mail glyphs are simplified in-house drawings. Swap any of them by editing its small component.
 - The theme is dark-first because the photograph is a night scene. A light token set is kept under `:root[data-theme="light"]` in `src/styles/tokens.css` for a future toggle; it is not active.
 
 ## Language behavior
@@ -201,7 +199,6 @@ VITE_BASE_PATH=/resende.github.io/ npm run build && npm run preview
 ## Known limitations and pending tasks
 
 - **Background image license:** the night-dune photograph was supplied as a design reference. It closely resembles a desktop wallpaper distributed by Apple; confirm the right to publish it before the site goes live, or replace it with a licensed or original image (two files under `src/assets/`).
-- **Profile photo:** no authorized photo exists in the repository; the placeholder is shown. Add one as described above.
 - **Project metrics:** the wireframe labels the right panel "Projects and metrics". No metrics are shown because none are documented; repository statistics could be added later from the GitHub API without inventing figures.
 - **Organization links:** the organization tiles are not linked because their URLs were not verified from the build environment; add a `url` field in `src/content/organizations.ts` after checking each one.
 - **Light theme:** not active; the dark theme matches the background photograph.

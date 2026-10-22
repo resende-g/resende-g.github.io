@@ -1,9 +1,10 @@
 import type { SVGProps } from 'react';
+import lattesMask from '../assets/lattes-mask.png';
 
 /**
  * Inline SVG icons (no runtime dependency, no external requests).
- * GitHub and ORCID paths come from simple-icons (CC0). LinkedIn, Lattes and Mail are simplified
- * in-house drawings; replace them with official assets if brand-accurate marks are required.
+ * GitHub and ORCID paths come from simple-icons (CC0). LinkedIn and Mail are simplified in-house drawings.
+ * Lattes uses the supplied mark as a CSS mask so it takes the current text color like the SVG icons.
  */
 type IconProps = SVGProps<SVGSVGElement>;
 
@@ -36,13 +37,15 @@ export function LinkedInIcon(props: IconProps) {
   );
 }
 
-/** Simplified monogram for the Lattes platform (CNPq). */
-export function LattesIcon(props: IconProps) {
+/** Lattes (CNPq) mark rendered through a mask image, colored by `currentColor`. */
+export function LattesIcon({ className }: { className?: string }) {
+  const mask = `url(${lattesMask})`;
   return (
-    <svg {...base} {...props}>
-      <path d="M5 2h14a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3zm0 1.8A1.2 1.2 0 0 0 3.8 5v14A1.2 1.2 0 0 0 5 20.2h14a1.2 1.2 0 0 0 1.2-1.2V5A1.2 1.2 0 0 0 19 3.8z" />
-      <path d="M7.4 6h3.3v9.1H17V18H7.4z" />
-    </svg>
+    <span
+      className={className ? `icon-mask ${className}` : 'icon-mask'}
+      aria-hidden="true"
+      style={{ WebkitMaskImage: mask, maskImage: mask }}
+    />
   );
 }
 
