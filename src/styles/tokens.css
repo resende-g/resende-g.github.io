@@ -30,7 +30,10 @@
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   --bg: #090c14;
-  --overlay: linear-gradient(180deg, rgba(6, 9, 18, 0.35) 0%, rgba(6, 9, 18, 0.55) 55%, rgba(6, 9, 18, 0.8) 100%);
+  /* Blur applied to the background photograph itself so the glass panels read as distinct surfaces. */
+  --backdrop-blur: 18px;
+  --backdrop-brightness: 1.15;
+  --overlay: linear-gradient(180deg, rgba(6, 9, 18, 0.06) 0%, rgba(6, 9, 18, 0.16) 55%, rgba(6, 9, 18, 0.38) 100%);
 
   --text: #eef0f5;
   --text-muted: #b7bcc9;
@@ -40,12 +43,12 @@
   --accent-contrast: #0b1430;
   --accent-soft: rgba(157, 184, 255, 0.16);
 
-  --glass-bg: rgba(18, 22, 34, 0.48);
-  --glass-bg-strong: rgba(18, 22, 34, 0.66);
-  --glass-border: rgba(255, 255, 255, 0.14);
-  --glass-edge: rgba(0, 0, 0, 0.35);
-  --glass-highlight: rgba(255, 255, 255, 0.2);
-  --glass-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+  --glass-bg: rgba(18, 22, 34, 0.42);
+  --glass-bg-strong: rgba(18, 22, 34, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-edge: rgba(0, 0, 0, 0.4);
+  --glass-highlight: rgba(255, 255, 255, 0.28);
+  --glass-shadow: 0 18px 48px rgba(0, 0, 0, 0.42);
   --glass-fallback: rgba(16, 20, 30, 0.96);
 
   --surface: rgba(255, 255, 255, 0.05);

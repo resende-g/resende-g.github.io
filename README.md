@@ -151,7 +151,7 @@ Below 1024px the panels stack in one column with the profile card first. Areas a
 
 ### Background photograph and brand mark
 
-- `src/assets/background.jpg` (2000px) and `background-small.jpg` (1000px) are served through a `<picture>` element with a darkening overlay. Replace both files to change the scene; keep the same names or update `src/components/Backdrop.tsx`.
+- `src/assets/background.jpg` (2000px) and `background-small.jpg` (1000px) are served through a `<picture>` element. The photograph itself is blurred (`--backdrop-blur`, default 18px), slightly brightened (`--backdrop-brightness`) and covered by a light darkening gradient (`--overlay`), all in `src/styles/tokens.css`, so the glass panels read as distinct surfaces over it. Replace both files to change the scene; keep the same names or update `src/components/Backdrop.tsx`.
 - `src/assets/logo-white.png` / `logo-black.png` are the brand mark with transparent background; `public/favicon.png` and `apple-touch-icon.png` are derived from it. The mark appears in the header and in the profile card.
 - The theme is dark-first because the photograph is a night scene. A light token set is kept under `:root[data-theme="light"]` in `src/styles/tokens.css` for a future toggle; it is not active.
 
