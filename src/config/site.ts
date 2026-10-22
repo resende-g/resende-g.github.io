@@ -19,7 +19,7 @@ export const CV_FILES: Record<Locale, string | null> = {
 };
 
 /** Public repository of this site (shown in the footer). */
-export const SITE_REPOSITORY_URL = 'https://github.com/resende-g/resende.github.io';
+export const SITE_REPOSITORY_URL = 'https://github.com/resende-g/resende-g.github.io';
 
 /** Resolves a path under `public/` against the configured base path. */
 export function publicPath(path: string): string {

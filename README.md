@@ -165,23 +165,24 @@ The workflow in `.github/workflows/deploy.yml` builds and deploys on every push 
 
 One-time setup, done manually in the repository settings:
 
-1. **Settings → Pages → Build and deployment → Source:** select **GitHub Actions**.
-2. Merge (or push) this code to `main`. The "Deploy to GitHub Pages" workflow runs and publishes `dist/`.
+1. **Settings → General:** repository name `resende-g.github.io`; default branch `main`.
+2. **Settings → Pages → Build and deployment → Source:** select **GitHub Actions**.
+3. Push to `main`. The "Deploy to GitHub Pages" workflow runs and publishes `dist/`.
 
 ### Base path
 
-This repository is named `resende.github.io` under the account `resende-g`. GitHub treats a repository as a *user site* only when it is named exactly `<account>.github.io` (here, that would be `resende-g.github.io`). As it stands, GitHub Pages serves this repository as a *project site* at:
+The repository is published as a *user site*: it must be named exactly `resende-g.github.io` (the GitHub account followed by `.github.io`), and GitHub then serves it at:
 
 ```
-https://resende-g.github.io/resende.github.io/
+https://resende-g.github.io/
 ```
 
-The workflow detects this and builds with `VITE_BASE_PATH=/resende.github.io/`. If the repository is renamed to `resende-g.github.io`, the site moves to `https://resende-g.github.io/` and the workflow automatically switches the base path to `/`. For a custom domain, add a `CNAME` file under `public/` and set `VITE_BASE_PATH=/`.
+The workflow detects that name and builds with the base path `/`. If the repository ever carries another name, GitHub serves it as a *project site* at `https://resende-g.github.io/<repo>/` and the workflow switches to `VITE_BASE_PATH=/<repo>/` automatically. For a custom domain, add a `CNAME` file under `public/`.
 
 To reproduce the production build locally:
 
 ```bash
-VITE_BASE_PATH=/resende.github.io/ npm run build && npm run preview
+npm run build && npm run preview
 ```
 
 ## Design notes (provisional)
