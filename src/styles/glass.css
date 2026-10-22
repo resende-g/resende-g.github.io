@@ -85,7 +85,16 @@
 }
 
 .button--secondary:hover {
-  background: var(--glass-bg-strong);
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.button--block {
+  width: 100%;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.9rem;
 }
 
 .link-list {

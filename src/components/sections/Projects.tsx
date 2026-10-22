@@ -1,20 +1,20 @@
 import { projects } from '../../content/projects';
 import { useI18n } from '../../i18n';
 import { ExternalLink } from '../ExternalLink';
-import { Section } from '../Section';
+import { Panel } from '../Panel';
 
 export function Projects() {
   const { t, tr } = useI18n();
   return (
-    <Section id="projects">
-      <div className="grid grid--2">
+    <Panel id="projects">
+      <div className="stack">
         {projects.map((project) => (
-          <article key={project.id} className="card glass" aria-labelledby={`project-${project.id}`}>
-            <div className="card__head">
+          <article key={project.id} className="item" aria-labelledby={`project-${project.id}`}>
+            <div className="item__head">
               <h3 id={`project-${project.id}`}>{project.name}</h3>
               <span className="status">{t.projects.statusValues[project.status]}</span>
             </div>
-            <p className="card__summary">{tr(project.description)}</p>
+            <p className="item__text">{tr(project.description)}</p>
             {project.contribution && (
               <dl className="kv">
                 <dt>{t.projects.role}</dt>
@@ -28,7 +28,7 @@ export function Projects() {
                 </li>
               ))}
             </ul>
-            <div className="card__actions">
+            <div className="item__actions">
               <ExternalLink className="link-pill" href={project.repositoryUrl}>
                 {t.projects.repository}
               </ExternalLink>
@@ -41,6 +41,6 @@ export function Projects() {
           </article>
         ))}
       </div>
-    </Section>
+    </Panel>
   );
 }

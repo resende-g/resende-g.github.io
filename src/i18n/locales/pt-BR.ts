@@ -8,14 +8,16 @@ export const ptBR: Dictionary = {
   },
   nav: {
     label: 'Navegação principal',
-    profile: 'Perfil',
-    experience: 'Experiência',
+    papers: 'Papers',
     projects: 'Projetos',
-    education: 'Formação',
-    research: 'Pesquisa',
-    skills: 'Competências',
+    curriculum: 'Currículo',
+    organizations: 'Organizações',
     contact: 'Contato',
     skipToContent: 'Ir para o conteúdo',
+  },
+  brand: {
+    shortName: 'Resende',
+    logoAlt: 'Marca Resende',
   },
   language: {
     label: 'Idioma',
@@ -29,13 +31,18 @@ export const ptBR: Dictionary = {
     downloadCv: 'Baixar currículo',
     linksLabel: 'Perfis profissionais',
   },
-  sections: {
-    experience: { title: 'Experiência Profissional', lead: 'Qualidade de dados jurídicos e avaliação de sistemas de IA, sobre uma base em infraestrutura de TI e segurança da informação.' },
-    projects: { title: 'Projetos Técnicos', lead: 'Repositórios públicos. As descrições seguem o README de cada projeto; a situação reflete o que está documentado ali.' },
-    education: { title: 'Formação Acadêmica', lead: 'Direito e segurança da informação, em paralelo.' },
-    research: { title: 'Pesquisa e Produção Acadêmica', lead: 'Interesses, grupos de estudo e identificadores acadêmicos. Publicações serão listadas aqui à medida que estiverem disponíveis.' },
-    skills: { title: 'Competências e Tecnologias', lead: 'Agrupadas por domínio; limitadas ao que o histórico profissional e os projetos sustentam.' },
+  panels: {
+    papers: { title: 'Papers recentes', lead: 'Publicações, interesses de pesquisa e identificadores acadêmicos.' },
+    projects: { title: 'Projetos', lead: 'Repositórios públicos. As descrições seguem o README de cada projeto; a situação reflete o que está documentado ali.' },
+    curriculum: { title: 'Currículo', lead: 'Experiência profissional, formação acadêmica e competências.' },
+    organizations: { title: 'Organizações', lead: 'Empregadores, universidades e grupos do histórico profissional e acadêmico.' },
     contact: { title: 'Contato', lead: 'Apenas canais profissionais.' },
+  },
+  curriculum: {
+    experience: 'Experiência profissional',
+    education: 'Formação acadêmica',
+    certifications: 'Certificações e cursos',
+    skills: 'Competências e tecnologias',
   },
   experience: {
     highlightsLabel: 'Destaques',
@@ -55,8 +62,6 @@ export const ptBR: Dictionary = {
     },
   },
   education: {
-    degrees: 'Cursos',
-    certifications: 'Certificações e cursos',
     statusValues: {
       completed: 'Concluído',
       inProgress: 'Em andamento',

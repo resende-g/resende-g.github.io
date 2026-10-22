@@ -23,13 +23,14 @@ No analytics, telemetry, fonts, or scripts are loaded from third parties. The si
 ├── .github/workflows/deploy.yml   # Build + publish to GitHub Pages
 ├── index.html                     # HTML shell, English meta tags, Open Graph
 ├── public/
-│   ├── favicon.svg                # Provisional "GR" monogram
+│   ├── favicon.png, apple-touch-icon.png   # Generated from the brand mark
 │   ├── images/                    # Put the profile photo here (see below)
 │   └── cv/                        # Put public CV PDFs here (see below)
 ├── src/
+│   ├── assets/                    # Bundled images: background photo (2 sizes), brand mark (white/black)
 │   ├── main.tsx                   # Entry point
-│   ├── App.tsx                    # Page composition (section order)
-│   ├── config/site.ts             # Section ids, CV files, repository URL, base-path helper
+│   ├── App.tsx                    # Page composition (panel order)
+│   ├── config/site.ts             # Panel ids, CV files, repository URL, base-path helper
 │   ├── i18n/
 │   │   ├── locales.ts             # Supported locales, default locale, `Localized` type
 │   │   ├── locales/en.ts          # English UI strings (defines the dictionary shape)
@@ -43,8 +44,9 @@ No analytics, telemetry, fonts, or scripts are loaded from third parties. The si
 │   │   ├── education.ts           # Degrees and certifications
 │   │   ├── research.ts            # Interests, groups, publications, identifiers
 │   │   ├── skills.ts
+│   │   ├── organizations.ts       # Employers, universities, groups (tiles)
 │   │   └── contact.ts
-│   ├── components/                # UI components (Header, Hero, Section, sections/*)
+│   ├── components/                # Header, ProfileCard, Panel, Logo, Backdrop, sections/*
 │   └── styles/                    # tokens.css, base.css, glass.css, layout.css
 └── tests/i18n.test.ts
 ```
@@ -130,6 +132,29 @@ A "Download CV" button appears for each language that has a file. Review every d
 3. Run `npm run typecheck`: it lists every `Localized` content field that still lacks the new language.
 4. Add a `CV_FILES` entry (may be `null`).
 
+## Layout
+
+The page follows a dashboard wireframe (desktop, ≥1024px):
+
+```
+┌──────────────┬───────────────────┬──────────────┐
+│ Recent papers│ Profile card      │ Projects     │
+├──────────────┴───────────────────┤              │
+│ Curriculum                       ├──────────────┤
+│ (experience, education, skills)  │ Organizations│
+├──────────────────────────────────┴──────────────┤
+│ Contact                                         │
+└─────────────────────────────────────────────────┘
+```
+
+Below 1024px the panels stack in one column with the profile card first. Areas are defined with CSS grid in `src/styles/layout.css`; panel order in navigation comes from `PANEL_IDS` in `src/config/site.ts`.
+
+### Background photograph and brand mark
+
+- `src/assets/background.jpg` (2000px) and `background-small.jpg` (1000px) are served through a `<picture>` element with a darkening overlay. Replace both files to change the scene; keep the same names or update `src/components/Backdrop.tsx`.
+- `src/assets/logo-white.png` / `logo-black.png` are the brand mark with transparent background; `public/favicon.png` and `apple-touch-icon.png` are derived from it. The mark appears in the header and in the profile card.
+- The theme is dark-first because the photograph is a night scene. A light token set is kept under `:root[data-theme="light"]` in `src/styles/tokens.css` for a future toggle; it is not active.
+
 ## Language behavior
 
 - English is always the initial render. A previously chosen language is restored right after mount from `localStorage` (`portfolio.locale`). No geolocation is used.
@@ -171,11 +196,15 @@ VITE_BASE_PATH=/resende.github.io/ npm run build && npm run preview
 ## Verification performed on the first version
 
 - `npm run check` (typecheck, 11 unit tests, production build) passes.
-- Headless Chromium checks (desktop 1280px light/dark, iPhone-sized 390px with reduced motion): English by default, `<html lang>` and metadata switch to `pt-BR`, preference persisted and restored, keyboard activation of the language switch, skip link as first tab stop, single `h1`, `rel="noopener noreferrer"` on every new-tab link, no horizontal overflow on mobile, photo placeholder horizontally centered, reading position preserved across the language switch.
+- Headless Chromium checks (desktop 1280px and 1440px, iPhone-sized 390px with reduced motion): English by default, `<html lang>` and metadata switch to `pt-BR`, preference persisted and restored, keyboard activation of the language switch, skip link as first tab stop, single `h1`, `rel="noopener noreferrer"` on every new-tab link, no horizontal overflow on mobile, profile card first on mobile, photo placeholder horizontally centered, reading position preserved across the language switch.
 
 ## Known limitations and pending tasks
 
+- **Background image license:** the night-dune photograph was supplied as a design reference. It closely resembles a desktop wallpaper distributed by Apple; confirm the right to publish it before the site goes live, or replace it with a licensed or original image (two files under `src/assets/`).
 - **Profile photo:** no authorized photo exists in the repository; the placeholder is shown. Add one as described above.
+- **Project metrics:** the wireframe labels the right panel "Projects and metrics". No metrics are shown because none are documented; repository statistics could be added later from the GitHub API without inventing figures.
+- **Organization links:** the organization tiles are not linked because their URLs were not verified from the build environment; add a `url` field in `src/content/organizations.ts` after checking each one.
+- **Light theme:** not active; the dark theme matches the background photograph.
 - **CV downloads:** no PDF is included. The bilingual CV used as the content source was not added because publication was not explicitly authorized; add approved files under `public/cv/` and reference them in `src/config/site.ts`.
 - **External links:** GitHub repository links were verified. LinkedIn, ORCID, Lattes, and the CARB demo URL are taken from the CV and the project READMEs; they could not be opened from the build environment and should be checked once in a browser.
 - **Open Graph in Portuguese:** OG tags are updated client-side when the language changes, but crawlers read the static English tags in `index.html`. Per-language share previews would require separate pre-rendered pages.

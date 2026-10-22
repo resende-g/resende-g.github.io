@@ -4,8 +4,10 @@ import type { Locale } from '../i18n/locales';
  * Site-level configuration (navigation, documents, repository).
  * Content about the person lives in src/content; UI strings in src/i18n.
  */
-export const SECTION_IDS = ['experience', 'projects', 'education', 'research', 'skills', 'contact'] as const;
-export type SectionId = (typeof SECTION_IDS)[number];
+
+/** Panels in navigation order. Each has a title/lead under `panels` in the dictionaries. */
+export const PANEL_IDS = ['papers', 'projects', 'curriculum', 'organizations', 'contact'] as const;
+export type PanelId = (typeof PANEL_IDS)[number];
 
 /**
  * CV files for download, relative to the `public/` folder (e.g. "cv/Gabriel_Resende_CV_EN.pdf").

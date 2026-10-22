@@ -1,6 +1,9 @@
-/* Provisional design tokens. The palette is a neutral starting point and may be revised later. */
+/*
+ * Provisional design tokens. The site is dark-first because the background photograph is a night scene;
+ * light values are kept under [data-theme="light"] for a future toggle and are not active by default.
+ */
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
 
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -19,27 +22,48 @@
   --radius-lg: 24px;
   --radius-pill: 999px;
 
-  --content-width: 68rem;
+  --content-width: 88rem;
   --header-height: 4rem;
 
   --motion-fast: 160ms;
   --motion-base: 240ms;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
-  /* Light theme */
-  --bg: #eef1f6;
-  --bg-glow-1: rgba(120, 150, 255, 0.35);
-  --bg-glow-2: rgba(170, 120, 255, 0.22);
-  --bg-glow-3: rgba(90, 200, 220, 0.22);
+  --bg: #090c14;
+  --overlay: linear-gradient(180deg, rgba(6, 9, 18, 0.35) 0%, rgba(6, 9, 18, 0.55) 55%, rgba(6, 9, 18, 0.8) 100%);
 
+  --text: #eef0f5;
+  --text-muted: #b7bcc9;
+  --text-subtle: #8d93a3;
+
+  --accent: #9db8ff;
+  --accent-contrast: #0b1430;
+  --accent-soft: rgba(157, 184, 255, 0.16);
+
+  --glass-bg: rgba(18, 22, 34, 0.48);
+  --glass-bg-strong: rgba(18, 22, 34, 0.66);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-edge: rgba(0, 0, 0, 0.35);
+  --glass-highlight: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+  --glass-fallback: rgba(16, 20, 30, 0.96);
+
+  --surface: rgba(255, 255, 255, 0.05);
+  --divider: rgba(255, 255, 255, 0.1);
+  --focus: #bcd0ff;
+  --chip-bg: rgba(255, 255, 255, 0.08);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #eef1f6;
+  --overlay: linear-gradient(180deg, rgba(238, 241, 246, 0.6), rgba(238, 241, 246, 0.9));
   --text: #15171c;
   --text-muted: #4d5361;
   --text-subtle: #717888;
-
   --accent: #2f5fd6;
   --accent-contrast: #ffffff;
   --accent-soft: rgba(47, 95, 214, 0.12);
-
   --glass-bg: rgba(255, 255, 255, 0.55);
   --glass-bg-strong: rgba(255, 255, 255, 0.72);
   --glass-border: rgba(255, 255, 255, 0.65);
@@ -47,39 +71,8 @@
   --glass-highlight: rgba(255, 255, 255, 0.85);
   --glass-shadow: 0 10px 30px rgba(20, 30, 60, 0.08);
   --glass-fallback: rgba(248, 249, 252, 0.96);
-
   --surface: rgba(255, 255, 255, 0.4);
   --divider: rgba(20, 30, 60, 0.1);
   --focus: #1d4fd8;
   --chip-bg: rgba(20, 30, 60, 0.06);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0d1017;
-    --bg-glow-1: rgba(70, 100, 230, 0.28);
-    --bg-glow-2: rgba(130, 80, 220, 0.2);
-    --bg-glow-3: rgba(40, 150, 180, 0.18);
-
-    --text: #eef0f5;
-    --text-muted: #b4b9c6;
-    --text-subtle: #8a90a0;
-
-    --accent: #8fb0ff;
-    --accent-contrast: #0b1430;
-    --accent-soft: rgba(143, 176, 255, 0.16);
-
-    --glass-bg: rgba(22, 26, 36, 0.55);
-    --glass-bg-strong: rgba(22, 26, 36, 0.78);
-    --glass-border: rgba(255, 255, 255, 0.12);
-    --glass-edge: rgba(0, 0, 0, 0.35);
-    --glass-highlight: rgba(255, 255, 255, 0.18);
-    --glass-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
-    --glass-fallback: rgba(20, 24, 33, 0.97);
-
-    --surface: rgba(255, 255, 255, 0.04);
-    --divider: rgba(255, 255, 255, 0.1);
-    --focus: #a9c2ff;
-    --chip-bg: rgba(255, 255, 255, 0.08);
-  }
 }

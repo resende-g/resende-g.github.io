@@ -10,14 +10,16 @@ export const en = {
   },
   nav: {
     label: 'Main navigation',
-    profile: 'Profile',
-    experience: 'Experience',
+    papers: 'Papers',
     projects: 'Projects',
-    education: 'Education',
-    research: 'Research',
-    skills: 'Skills',
+    curriculum: 'Curriculum',
+    organizations: 'Organizations',
     contact: 'Contact',
     skipToContent: 'Skip to content',
+  },
+  brand: {
+    shortName: 'Resende',
+    logoAlt: 'Resende mark',
   },
   language: {
     label: 'Language',
@@ -31,13 +33,18 @@ export const en = {
     downloadCv: 'Download CV',
     linksLabel: 'Professional profiles',
   },
-  sections: {
-    experience: { title: 'Professional Experience', lead: 'Legal data quality and evaluation of AI systems, built on a background in IT infrastructure and information security.' },
-    projects: { title: 'Technical Projects', lead: 'Public repositories. Descriptions follow each project’s own README; status reflects what is documented there.' },
-    education: { title: 'Academic Background', lead: 'Law and information security, in parallel.' },
-    research: { title: 'Research & Publications', lead: 'Interests, study groups, and academic identifiers. Publications will be listed here as they become available.' },
-    skills: { title: 'Skills & Technologies', lead: 'Grouped by domain; limited to what the professional record and the projects support.' },
+  panels: {
+    papers: { title: 'Recent papers', lead: 'Publications, research interests, and academic identifiers.' },
+    projects: { title: 'Projects', lead: 'Public repositories. Descriptions follow each project’s README; status reflects what is documented there.' },
+    curriculum: { title: 'Curriculum', lead: 'Professional experience, academic background, and skills.' },
+    organizations: { title: 'Organizations', lead: 'Employers, universities, and groups from the professional and academic record.' },
     contact: { title: 'Contact', lead: 'Professional channels only.' },
+  },
+  curriculum: {
+    experience: 'Professional experience',
+    education: 'Academic background',
+    certifications: 'Certifications & courses',
+    skills: 'Skills & technologies',
   },
   experience: {
     highlightsLabel: 'Highlights',
@@ -57,8 +64,6 @@ export const en = {
     },
   },
   education: {
-    degrees: 'Degrees',
-    certifications: 'Certifications & courses',
     statusValues: {
       completed: 'Completed',
       inProgress: 'In progress',
