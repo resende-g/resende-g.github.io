@@ -372,9 +372,6 @@
   font-size: 0.85rem;
 }
 
-.note {
-  margin-top: var(--space-3);
-}
 
 .bullets {
   margin-top: var(--space-3);
@@ -425,10 +422,6 @@
   font-size: 0.9rem;
 }
 
-.kv--top {
-  margin-top: 0;
-  margin-bottom: var(--space-4);
-}
 
 .kv dt {
   color: var(--text-subtle);

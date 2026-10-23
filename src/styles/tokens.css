@@ -32,7 +32,8 @@
   --bg: #090c14;
   /* Blur applied to the background photograph itself so the glass panels read as distinct surfaces. */
   --backdrop-blur: 4px;
-  --backdrop-brightness: 1.15;
+  /* The photo file is pre-darkened (mean luminance ≈ 22/255); brightness lifts it so the rotors remain recognizable. */
+  --backdrop-brightness: 1.9;
   --overlay: linear-gradient(180deg, rgba(6, 9, 18, 0.06) 0%, rgba(6, 9, 18, 0.16) 55%, rgba(6, 9, 18, 0.38) 100%);
 
   --text: #eef0f5;
