@@ -6,8 +6,8 @@ import { BRAZIL_ASPECT, STATIC_STRIKES, createSimulation, lonLatToPoint, outline
 
 const MAX_PIXEL_RATIO = 2;
 const FRAME_INTERVAL = 1000 / 30;
-const SILVER = '#aeb4bf';
-const SILVER_DARK = '#8b919c';
+const SILVER = '#8d9199';
+const SILVER_DARK = '#4f535b';
 
 function tracePath(ctx: CanvasRenderingContext2D, points: Point[]): void {
   ctx.beginPath();
@@ -18,7 +18,7 @@ function tracePath(ctx: CanvasRenderingContext2D, points: Point[]): void {
 /** The glass slab: a soft shadow, a white-to-silver fill, an inner highlight and a diagonal sheen. */
 function drawGlass(ctx: CanvasRenderingContext2D, points: Point[], width: number, height: number): void {
   ctx.save();
-  ctx.shadowColor = 'rgba(30, 40, 60, 0.18)';
+  ctx.shadowColor = 'rgba(30, 32, 36, 0.22)';
   ctx.shadowBlur = Math.max(12, width * 0.05);
   ctx.shadowOffsetY = Math.max(6, width * 0.02);
   const fill = ctx.createLinearGradient(0, 0, width, height);
@@ -61,8 +61,8 @@ function drawStrike(ctx: CanvasRenderingContext2D, target: Point, progress: numb
 
   if (fall < 1 || alpha > 0.05) {
     const gradient = ctx.createLinearGradient(target.x, headY - trail, target.x, headY);
-    gradient.addColorStop(0, 'rgba(174, 180, 191, 0)');
-    gradient.addColorStop(1, `rgba(139, 145, 156, ${0.95 * alpha})`);
+    gradient.addColorStop(0, 'rgba(141, 145, 153, 0)');
+    gradient.addColorStop(1, `rgba(79, 83, 91, ${0.95 * alpha})`);
     ctx.beginPath();
     ctx.moveTo(target.x, headY - trail);
     ctx.lineTo(target.x, headY);
@@ -76,7 +76,7 @@ function drawStrike(ctx: CanvasRenderingContext2D, target: Point, progress: numb
     ctx.fill();
     ctx.beginPath();
     ctx.arc(target.x, headY, 1.4, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(139, 145, 156, ${alpha})`;
+    ctx.fillStyle = `rgba(79, 83, 91, ${alpha})`;
     ctx.fill();
   }
 
@@ -84,12 +84,12 @@ function drawStrike(ctx: CanvasRenderingContext2D, target: Point, progress: numb
     const k = (progress - 0.6) / 0.4;
     ctx.beginPath();
     ctx.arc(target.x, target.y, 2 + k * 11, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(139, 145, 156, ${0.7 * (1 - k)})`;
+    ctx.strokeStyle = `rgba(79, 83, 91, ${0.7 * (1 - k)})`;
     ctx.lineWidth = 1;
     ctx.stroke();
     ctx.beginPath();
     ctx.arc(target.x, target.y, 1.8, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(139, 145, 156, ${0.9 * (1 - k)})`;
+    ctx.fillStyle = `rgba(79, 83, 91, ${0.9 * (1 - k)})`;
     ctx.fill();
   }
 }

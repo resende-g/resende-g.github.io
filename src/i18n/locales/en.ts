@@ -6,7 +6,7 @@ export const en = {
   meta: {
     title: 'Gabriel Almeida Resende — Legal Quality Analyst | AI Evaluation | Law & Technology',
     description:
-      'Portfolio of Gabriel Almeida Resende: legal data quality, evaluation of AI systems and legal search, information security, and academic research at the intersection of law and technology.',
+      'Portfolio of Gabriel Almeida Resende: quality of legal data, evaluation of AI systems and legal search, information security, and academic research at the intersection of law and technology.',
   },
   nav: {
     label: 'Main navigation',
@@ -29,7 +29,8 @@ export const en = {
     primaryCta: 'View projects',
     secondaryCta: 'Get in touch',
     downloadCv: 'Download CV',
-    linksLabel: 'Professional profiles',
+    linksLabel: 'Code and professional profiles',
+    academicLabel: 'Academic profiles and contact',
   },
   panels: {
     papers: { title: 'Recent papers', lead: 'Publications, research interests, and academic identifiers.' },
@@ -80,7 +81,7 @@ export const en = {
   },
   impact: {
     title: 'Two fields, one requirement: data that can be trusted',
-    lead: 'A glimpse of the two fields I work in. Both come down to correct data, traceability and governance — the core of my work on legal data quality and in information security.',
+    lead: 'A glimpse of the two fields I work in. Both come down to correct data, traceability and governance — the core of my work in legal data quality and information security.',
     brazil: 'Brazil',
     eu: 'European Union',
     sources: 'Sources',

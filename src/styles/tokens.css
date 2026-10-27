@@ -1,9 +1,10 @@
 /*
- * Design tokens. The site is dark-first: a space-gray page with the silver bust rendered behind translucent panels.
- * A light set is kept under [data-theme="light"] for a future toggle; it is not active.
+ * Design tokens. Light-first, after the silver finish of a MacBook: a neutral light-silver page, graphite text and
+ * blood-red accents, with the polished graphite bust rendered behind translucent panels.
+ * A dark set is kept under [data-theme="dark"] for a future toggle; it is not active.
  */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -29,18 +30,45 @@
   --motion-base: 240ms;
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
 
-  /* Space gray; the bust backdrop clears to the same color. */
-  --bg: #24272d;
+  /* Light silver; the bust backdrop clears to the same color. */
+  --bg: #e2e3e6;
 
+  --text: #26282c;
+  --text-muted: #4b4e55;
+  --text-subtle: #676b73;
+
+  /* Blood red accent, dark enough for white text and for text on the silver ground. */
+  --accent: #8f0f1c;
+  --accent-contrast: #ffffff;
+  --accent-soft: rgba(143, 15, 28, 0.1);
+
+  --glass-bg: rgba(255, 255, 255, 0.52);
+  --glass-bg-strong: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --glass-edge: rgba(30, 32, 36, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.95);
+  --glass-shadow: 0 12px 36px rgba(30, 32, 36, 0.1);
+  --glass-fallback: rgba(246, 246, 248, 0.97);
+
+  --surface: rgba(255, 255, 255, 0.55);
+  --divider: rgba(30, 32, 36, 0.12);
+  --focus: #b3101f;
+  --chip-bg: rgba(30, 32, 36, 0.06);
+
+  /* Graphite silver used by the Brazil map and the statue */
+  --silver: #8d9199;
+  --silver-light: #d9dbdf;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #24272d;
   --text: #eef0f4;
   --text-muted: #b9bec8;
   --text-subtle: #8f95a1;
-
-  --accent: #a9bfff;
-  --accent-contrast: #101420;
-  --accent-soft: rgba(169, 191, 255, 0.14);
-
-  /* Space-gray tinted glass, opaque enough to keep text readable over the bright bust. */
+  --accent: #e06b76;
+  --accent-contrast: #1a0a0c;
+  --accent-soft: rgba(224, 107, 118, 0.16);
   --glass-bg: rgba(38, 41, 48, 0.78);
   --glass-bg-strong: rgba(38, 41, 48, 0.88);
   --glass-border: rgba(255, 255, 255, 0.14);
@@ -48,35 +76,10 @@
   --glass-highlight: rgba(255, 255, 255, 0.22);
   --glass-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
   --glass-fallback: rgba(40, 44, 52, 0.97);
-
   --surface: rgba(255, 255, 255, 0.05);
   --divider: rgba(255, 255, 255, 0.1);
-  --focus: #c9d6ff;
+  --focus: #f0a3ab;
   --chip-bg: rgba(255, 255, 255, 0.08);
-
-  /* Silver used by the Brazil map and the statue */
   --silver: #b4bac5;
   --silver-light: #e6e9ef;
-}
-
-:root[data-theme="light"] {
-  color-scheme: light;
-  --bg: #f3f5f9;
-  --text: #15171c;
-  --text-muted: #4a5060;
-  --text-subtle: #6f7686;
-  --accent: #2f5fd6;
-  --accent-contrast: #ffffff;
-  --accent-soft: rgba(47, 95, 214, 0.1);
-  --glass-bg: rgba(255, 255, 255, 0.5);
-  --glass-bg-strong: rgba(255, 255, 255, 0.68);
-  --glass-border: rgba(255, 255, 255, 0.85);
-  --glass-edge: rgba(20, 30, 60, 0.08);
-  --glass-highlight: rgba(255, 255, 255, 0.95);
-  --glass-shadow: 0 12px 36px rgba(20, 30, 60, 0.08);
-  --glass-fallback: rgba(250, 251, 253, 0.97);
-  --surface: rgba(255, 255, 255, 0.5);
-  --divider: rgba(20, 30, 60, 0.1);
-  --focus: #1d4fd8;
-  --chip-bg: rgba(20, 30, 60, 0.05);
 }

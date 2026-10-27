@@ -27,7 +27,8 @@ export const ptBR: Dictionary = {
     primaryCta: 'Ver projetos',
     secondaryCta: 'Entrar em contato',
     downloadCv: 'Baixar currículo',
-    linksLabel: 'Perfis profissionais',
+    linksLabel: 'Código e perfis profissionais',
+    academicLabel: 'Perfis acadêmicos e contato',
   },
   panels: {
     papers: { title: 'Papers recentes', lead: 'Publicações, interesses de pesquisa e identificadores acadêmicos.' },

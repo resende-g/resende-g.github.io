@@ -1,6 +1,6 @@
 # Gabriel Almeida Resende — Portfolio
 
-Bilingual (English / Português-BR) professional portfolio: digital CV, technical projects, and academic presentation at the intersection of law, information security, AI evaluation, data quality, and research. Space-gray page with a silver bust of the owner rendered behind translucent panels.
+Bilingual (English / Português-BR) professional portfolio: digital CV, technical projects, and academic presentation at the intersection of law, information security, AI evaluation, data quality, and research. Light-silver page (after the silver finish of a laptop lid) with a polished graphite bust of the owner rendered behind translucent panels; blood-red accents.
 
 Static site, hosted for free on GitHub Pages, designed for incremental evolution.
 
@@ -11,7 +11,7 @@ Static site, hosted for free on GitHub Pages, designed for incremental evolution
 | Build | [Vite](https://vite.dev) 8 | Static output, fast dev server, trivial base-path configuration for GitHub Pages. |
 | UI | React 19 + TypeScript 5.9 | Typed dictionaries and content: the compiler reports any missing translation or field. |
 | Styling | Plain CSS with custom properties | No CSS framework; the glass effect is a few rules with a `@supports` fallback. |
-| 3D | three.js (loaded on demand) | Renders the silver bust that fills the page background; the library ships in its own chunk, fetched after the page is interactive. |
+| 3D | three.js (loaded on demand) | Renders the graphite bust that fills the page background; the library ships in its own chunk, fetched after the page is interactive. |
 | Tests | Vitest | Checks translation parity, non-empty strings, and link hygiene. |
 | Deploy | GitHub Actions → GitHub Pages | Free static hosting; no backend, database, tracking, or external runtime services. |
 
@@ -25,7 +25,7 @@ No analytics, telemetry, fonts, or scripts are loaded from third parties. The si
 ├── index.html                     # HTML shell, English meta tags, Open Graph
 ├── public/
 │   ├── favicon.png, apple-touch-icon.png   # Generated from the brand mark
-│   ├── images/bust-backdrop.png   # Static render of the silver bust (no-WebGL fallback)
+│   ├── images/bust-backdrop.png   # Static render of the bust (no-WebGL fallback)
 │   ├── models/bust.glb            # Simplified, texture-free 3D scan used by the bust
 │   └── cv/                        # Put public CV PDFs here (see below)
 ├── src/
@@ -92,7 +92,7 @@ Every user-facing text in `src/content/*.ts` is a `Localized` object:
 { en: 'Legal Quality Analyst', 'pt-BR': 'Analista de Qualidade Jurídica' }
 ```
 
-Names of organizations, technologies, and URLs are plain strings. Keep content aligned with verifiable sources (CV, repositories); do not add metrics, titles, or results that are not documented.
+Names of organizations, technologies, and URLs are plain strings. Keep content aligned with verifiable sources (CV, repositories); do not add metrics, titles, or results that are not documented. Employer-related text stays generic: role, employer and period only where already public, activities described as transferable skills, no internal team or system names, metrics, volumes or process details.
 
 ### Adding a project
 
@@ -119,13 +119,13 @@ Append to `publications` in `src/content/research.ts` (title, venue, year, optio
 
 ### Presentation without a portrait
 
-The site deliberately shows no photograph of the owner: identity comes from the name, the typography, the content and the silver bust. `src/content/profile.ts` has no photo field; do not add one back.
+The site deliberately shows no photograph of the owner: identity comes from the name, the typography, the content and the bust. `src/content/profile.ts` has no photo field; do not add one back.
 
-### Silver bust as the page background (`src/components/BustBackdrop.tsx`, `src/components/bustScene.ts`)
+### Graphite bust as the page background (`src/components/BustBackdrop.tsx`, `src/components/bustScene.ts`)
 
-- **Placement:** a fixed, full-viewport canvas behind every panel (z-index −1), clearing to the page color. The bust is centered, slightly above the middle of the viewport, and the hero text starts below it (the top of the first screen belongs to the bust).
-- **Model:** `public/models/bust.glb` (≈160 KB) is derived from the owner's photogrammetry scan with `scripts/optimize-bust.mjs`: the photographic texture, UVs and baked normals are dropped, positions are welded, the mesh is simplified to ~16k triangles and quantized. Normals are recomputed at load time. The original scan is not in the repository.
-- **Material:** brushed silver — `MeshPhysicalMaterial` with full metalness, moderate roughness and a light clear coat, lit by an image-based environment (`RoomEnvironment` through `PMREMGenerator`) plus key, rim and fill lights; a soft halo behind the figure separates it from the space-gray ground.
+- **Placement:** a fixed, full-viewport canvas behind every panel (z-index −1), clearing to the page color. The bust is centered in the upper part of the first screen, between the two columns of hero buttons on wide screens; the name and presentation follow below it.
+- **Model:** `public/models/bust.glb` (≈530 KB) is derived from the owner's second photogrammetry scan (head and shoulders, 117k triangles) with `scripts/optimize-bust.mjs`: the photographic texture, UVs and baked normals are dropped, positions are welded, the mesh is simplified to ~53k triangles (ratio 0.45, keeping facial detail) and quantized. Normals are recomputed at load time. The original scan is not in the repository.
+- **Material:** polished graphite — `MeshPhysicalMaterial` with full metalness, very low roughness and a clear coat, so the room environment (`RoomEnvironment` through `PMREMGenerator`) shows as mirror-like reflections; key, rim and fill lights; a soft shadow behind the figure separates it from the silver ground.
 - **Motion:** the bust turns slightly toward the pointer (hover-capable devices only) and, as the page is scrolled, turns a little further and drifts down behind the content. Nothing moves on its own: frames are rendered only while the bust is settling after an input. With `prefers-reduced-motion` a single frame is rendered. The loop is paused while the tab is hidden; pixel ratio is capped at 1.5.
 - **Fallback:** `public/images/bust-backdrop.png` (a render of the same scene, central part of a 1440×900 viewport) is used as the background image when WebGL is unavailable or the model fails to load. three.js is imported dynamically, so it is not part of the initial bundle.
 - **Cleanup:** geometry, materials, textures, the environment map and the renderer are disposed and the canvas removed on unmount; listeners and observers are detached; a load that resolves after unmount is discarded.
@@ -147,20 +147,23 @@ A "Download CV" button appears for each language that has a file. Review every d
 
 ## Layout
 
-Page order (all widths): hero (name, identification, summary, links, centered under the bust) → impact section (two short data modules: law on the left, cybersecurity on the right) → dashboard of panels. The bust is behind all of it.
+Page order (all widths): hero (two columns of buttons beside the bust, then name, identification and summary) → impact section (two data cards of equal height: law on the left, cybersecurity on the right) → curriculum (full width) → projects (left) and papers (right) → organizations (full width). The bust is behind all of it.
 
 Dashboard on desktop (≥1024px):
 
 ```
-┌───────────────────┬──────────────────────────────────┐
-│ Projects          │ Curriculum                       │
-│ Organizations     │ (experience, education, skills)  │
-├───────────────────┤                                  │
-│ Recent papers     │                                  │
-└───────────────────┴──────────────────────────────────┘
+┌───────────────────────────┬───────────────────────────┐
+│ Justice (BR vs. EU)       │ Cybersecurity in Brazil   │
+├───────────────────────────┴───────────────────────────┤
+│ Curriculum (experience, education, skills)            │
+├───────────────────────────┬───────────────────────────┤
+│ Projects                  │ Recent papers             │
+├───────────────────────────┴───────────────────────────┤
+│ Organizations                                         │
+└───────────────────────────────────────────────────────┘
 ```
 
-Below 1024px the panels stack in one column: projects, curriculum, papers, organizations. Areas are defined with CSS grid in `src/styles/layout.css`; the header navigation order comes from `NAV_IDS` in `src/config/site.ts`.
+Below 1024px every row stacks in one column in the same order. Grids are defined in `src/styles/layout.css` and `src/styles/impact.css`; the header navigation order comes from `NAV_IDS` in `src/config/site.ts`.
 
 ## Impact modules (`src/components/impact`)
 
@@ -190,9 +193,9 @@ The packages are used only by the script and are not project dependencies. Data:
 
 ### Brand mark and icons
 
-- `src/assets/logo-white.png` / `logo-black.png` are the brand mark with transparent background; `public/favicon.png` and `apple-touch-icon.png` are derived from it. The white mark appears in the header.
+- `src/assets/logo-white.png` / `logo-black.png` are the brand mark with transparent background; `public/favicon.png` and `apple-touch-icon.png` are derived from it. The black mark appears in the header.
 - Profile links are icon pills in the hero (`src/components/Icons.tsx`). GitHub and ORCID paths come from simple-icons (CC0, inline SVG); the Lattes button uses the supplied mark (`src/assets/lattes-mask.png`) as a CSS mask so it takes the current color; the LinkedIn and e-mail glyphs are simplified in-house drawings. Swap any of them by editing its small component.
-- The theme is dark-first (space-gray page, translucent panels over the silver bust). A light token set is kept under `:root[data-theme="light"]` in `src/styles/tokens.css` for a future toggle; it is not active.
+- The theme is light-first (light-silver page, graphite text, blood-red accent, translucent panels over the graphite bust). A dark token set is kept under `:root[data-theme="dark"]` in `src/styles/tokens.css` for a future toggle; it is not active.
 
 ## Language behavior
 
@@ -228,7 +231,7 @@ npm run build && npm run preview
 
 ## Design notes (provisional)
 
-- Visual direction: translucent, layered "liquid glass" over a space-gray ground, applied with restraint: glass on the header and the section cards, the silver bust behind them; `backdrop-filter` with a near-opaque fallback when unsupported.
+- Visual direction: translucent, layered "liquid glass" over a light-silver ground, applied with restraint: glass on the header and the section cards, the graphite bust behind them; `backdrop-filter` with a near-opaque fallback when unsupported.
 - `prefers-reduced-motion` disables transitions, smooth scrolling, the bust's motion and the map animation.
 - Colors are defined as tokens in `src/styles/tokens.css`.
 - System font stack (SF Pro on Apple devices, Segoe UI / Inter / Roboto elsewhere).
@@ -244,7 +247,7 @@ npm run build && npm run preview
 - **Impact figures were verified through search-engine excerpts** of the primary pages (CNJ, Brasscom) and the ConJur report, because those hosts were not reachable from the build environment; the reference year of the European (CEPEJ) figures inside the CNJ comparison is not stated in the module, and the third-party studies behind Brasscom's summary could not be read. Open the CNJ executive summary and the Brasscom report once and confirm the values in `src/content/impact/*.ts`.
 - **The Brazil map has no data source by design.** Connecting it to a real feed would require a public, licensed, documented API (Kaspersky's map does not offer one) and a static-site-compatible way to fetch it; keep the simulation labelling until then.
 - **Organization links:** the organization tiles are not linked because their URLs were not verified from the build environment; add a `url` field in `src/content/organizations.ts` after checking each one.
-- **Light theme:** not active; tokens are kept for a future toggle.
+- **Dark theme:** not active; tokens are kept for a future toggle.
 - **CV downloads:** no PDF is included. The bilingual CV used as the content source was not added because publication was not explicitly authorized; add approved files under `public/cv/` and reference them in `src/config/site.ts`.
 - **External links:** GitHub repository links were verified. LinkedIn, ORCID, Lattes, and the CARB demo URL are taken from the CV and the project READMEs; they could not be opened from the build environment and should be checked once in a browser.
 - **Open Graph in Portuguese:** OG tags are updated client-side when the language changes, but crawlers read the static English tags in `index.html`. Per-language share previews would require separate pre-rendered pages.

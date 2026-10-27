@@ -1,5 +1,5 @@
 /**
- * Three.js scene for the silver bust that fills the page background. Loaded on demand (dynamic import) so
+ * Three.js scene for the polished graphite bust that fills the page background. Loaded on demand (dynamic import) so
  * three.js stays out of the initial bundle. Everything created here is released by `dispose()`.
  */
 import {
@@ -42,8 +42,8 @@ export interface BustScene {
 
 const MAX_PIXEL_RATIO = 1.5;
 const MODEL_HEIGHT = 1.6;
-/** The scan faces -Z in the export; the camera looks down -Z, so the bust is turned to face it. */
-const MODEL_YAW = Math.PI;
+/** The current scan already faces the camera (+Z) after the exporter's X rotation; no extra turn is needed. */
+const MODEL_YAW = 0;
 const POINTER_YAW = 0.22;
 const POINTER_PITCH = 0.08;
 /** Extra turn and drift accumulated over the full page scroll. */
@@ -67,9 +67,9 @@ function makeShadowTexture(): CanvasTexture {
   const ctx = canvas.getContext('2d');
   if (ctx) {
     const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-    gradient.addColorStop(0, 'rgba(120, 128, 142, 0.35)');
-    gradient.addColorStop(0.5, 'rgba(120, 128, 142, 0.12)');
-    gradient.addColorStop(1, 'rgba(120, 128, 142, 0)');
+    gradient.addColorStop(0, 'rgba(60, 63, 70, 0.3)');
+    gradient.addColorStop(0.5, 'rgba(60, 63, 70, 0.1)');
+    gradient.addColorStop(1, 'rgba(60, 63, 70, 0)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, size, size);
   }
@@ -98,27 +98,27 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
   scene.environment = environment;
   pmrem.dispose();
 
-  const key = new DirectionalLight(0xffffff, 1.6);
+  const key = new DirectionalLight(0xffffff, 2.2);
   key.position.set(-2.4, 3, 2.2);
-  const rim = new DirectionalLight(new Color('#dfe6f5'), 2.2);
+  const rim = new DirectionalLight(0xffffff, 2.6);
   rim.position.set(2.6, 1.4, -2.4);
-  const fill = new DirectionalLight(new Color('#9aa3b5'), 0.5);
+  const fill = new DirectionalLight(new Color('#d6d8dc'), 0.8);
   fill.position.set(2, -1.5, 2.5);
   scene.add(key, rim, fill);
 
-  // Soft halo behind the figure so the silver reads against the space-gray ground.
+  // Soft shadow behind the figure so its edge separates from the silver ground.
   const shadowTexture = makeShadowTexture();
   const shadow = new Mesh(new CircleGeometry(1.25, 48), new MeshBasicMaterial({ map: shadowTexture, transparent: true, depthWrite: false }));
   shadow.position.set(0, -0.1, -1.1);
 
-  // Brushed silver: fully metallic, slightly rough, with a clear coat for sharp highlights.
+  // Polished graphite (the dark gray of a laptop logo on a silver lid): fully metallic, mirror-like, with a clear coat.
   const material = new MeshPhysicalMaterial({
-    color: new Color('#b7bcc6'),
+    color: new Color('#2a2c30'),
     metalness: 1,
-    roughness: 0.36,
-    clearcoat: 0.5,
-    clearcoatRoughness: 0.3,
-    envMapIntensity: 0.8,
+    roughness: 0.08,
+    clearcoat: 1,
+    clearcoatRoughness: 0.05,
+    envMapIntensity: 1.3,
   });
 
   /** Positioned by `layout()`; carries the shadow and the turning pivot. */
@@ -159,10 +159,10 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
     renderer.setSize(width, height, false);
     const wide = camera.aspect >= 1;
     const visibleHeight = 2 * camera.position.z * Math.tan((camera.fov * Math.PI) / 360);
-    // The bust occupies roughly the upper 60% of the first screen; the hero text starts below it.
-    anchor.scale.setScalar(wide ? 0.72 : 0.52);
+    // The bust occupies roughly the upper 45% of the first screen; the hero text starts below it.
+    anchor.scale.setScalar(wide ? 0.52 : 0.44);
     anchor.position.x = 0;
-    anchor.position.y = wide ? visibleHeight * 0.17 : visibleHeight * 0.16;
+    anchor.position.y = wide ? visibleHeight * 0.2 : visibleHeight * 0.17;
     render();
   };
 
@@ -243,7 +243,7 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
     pivot.rotation.set(current.pitch, current.yaw, 0);
     pivot.position.y += (driftTarget - pivot.position.y) * k;
     // Dim the bust as the reader moves into the content so the panels stay quiet.
-    renderer.domElement.style.opacity = String(1 - 0.5 * Math.min(1, scrollFraction / 0.3));
+    renderer.domElement.style.opacity = String(1 - 0.45 * Math.min(1, scrollFraction / 0.3));
     render();
     frame = requestAnimationFrame(loop);
   };
