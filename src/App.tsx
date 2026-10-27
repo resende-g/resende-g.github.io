@@ -24,9 +24,11 @@ export function App() {
         <Curriculum />
         <div className="dashboard">
           <Projects />
-          <Papers />
+          <div className="dashboard__aside">
+            <Papers />
+            <Organizations />
+          </div>
         </div>
-        <Organizations />
       </main>
       <Footer />
     </>

@@ -25,11 +25,9 @@ No analytics, telemetry, fonts, or scripts are loaded from third parties. The si
 ├── index.html                     # HTML shell, English meta tags, Open Graph
 ├── public/
 │   ├── favicon.png, apple-touch-icon.png   # Generated from the brand mark
-│   ├── images/bust-backdrop.png   # Static render of the bust (no-WebGL fallback)
-│   ├── models/bust.glb            # Simplified, texture-free 3D scan used by the bust
 │   └── cv/                        # Put public CV PDFs here (see below)
 ├── src/
-│   ├── assets/                    # Bundled images: brand mark (white/black), Lattes mask
+│   ├── assets/                    # Bundled: brand mark (white/black), Lattes mask, bust.glb (3D scan), bust-backdrop.png (fallback)
 │   ├── main.tsx                   # Entry point
 │   ├── App.tsx                    # Page composition (panel order)
 │   ├── config/site.ts             # Panel ids, navigation order, CV files, repository URL, base-path helper
@@ -124,10 +122,10 @@ The site deliberately shows no photograph of the owner: identity comes from the 
 ### Graphite bust as the page background (`src/components/BustBackdrop.tsx`, `src/components/bustScene.ts`)
 
 - **Placement:** a fixed, full-viewport canvas behind every panel (z-index −1), clearing to the page color. The bust is centered in the upper part of the first screen, between the two columns of hero buttons on wide screens; the name and presentation follow below it.
-- **Model:** `public/models/bust.glb` (≈530 KB) is derived from the owner's second photogrammetry scan (head and shoulders, 117k triangles) with `scripts/optimize-bust.mjs`: the photographic texture, UVs and baked normals are dropped, positions are welded, the mesh is simplified to ~53k triangles (ratio 0.45, keeping facial detail) and quantized. Normals are recomputed at load time. The original scan is not in the repository.
+- **Model:** `src/assets/bust.glb` (≈530 KB, imported through Vite so the published URL carries a content hash and a new scan is never served from a cache of the old one) is derived from the owner's second photogrammetry scan (head and shoulders, 117k triangles) with `scripts/optimize-bust.mjs`: the photographic texture, UVs and baked normals are dropped, positions are welded, the mesh is simplified to ~53k triangles (ratio 0.45, keeping facial detail) and quantized. Normals are recomputed at load time. The original scan is not in the repository.
 - **Material:** polished graphite — `MeshPhysicalMaterial` with full metalness, very low roughness and a clear coat, so the room environment (`RoomEnvironment` through `PMREMGenerator`) shows as mirror-like reflections; key, rim and fill lights; a soft shadow behind the figure separates it from the silver ground.
 - **Motion:** the bust turns slightly toward the pointer (hover-capable devices only) and, as the page is scrolled, turns a little further and drifts down behind the content. Nothing moves on its own: frames are rendered only while the bust is settling after an input. With `prefers-reduced-motion` a single frame is rendered. The loop is paused while the tab is hidden; pixel ratio is capped at 1.5.
-- **Fallback:** `public/images/bust-backdrop.png` (a render of the same scene, central part of a 1440×900 viewport) is used as the background image when WebGL is unavailable or the model fails to load. three.js is imported dynamically, so it is not part of the initial bundle.
+- **Fallback:** `src/assets/bust-backdrop.png` (a render of the same scene, central part of a 1440×900 viewport) is used as the background image when WebGL is unavailable or the model fails to load. three.js is imported dynamically, so it is not part of the initial bundle.
 - **Cleanup:** geometry, materials, textures, the environment map and the renderer are disposed and the canvas removed on unmount; listeners and observers are detached; a load that resolves after unmount is discarded.
 - To regenerate the static image, open the page in a browser with WebGL at 1440×900, capture the viewport before scrolling and keep the central 720 px.
 
@@ -147,7 +145,7 @@ A "Download CV" button appears for each language that has a file. Review every d
 
 ## Layout
 
-Page order (all widths): hero (two columns of buttons beside the bust, then name, identification and summary) → impact section (two data cards of equal height: law on the left, cybersecurity on the right) → curriculum (full width) → projects (left) and papers (right) → organizations (full width). The bust is behind all of it.
+Page order (all widths): hero (two columns of buttons beside the bust, then name, identification and summary) → impact section (two data cards of equal height: law on the left, cybersecurity on the right) → curriculum (full width) → projects (left) with papers and organizations stacked on the right. The bust is behind all of it.
 
 Dashboard on desktop (≥1024px):
 
@@ -158,9 +156,9 @@ Dashboard on desktop (≥1024px):
 │ Curriculum (experience, education, skills)            │
 ├───────────────────────────┬───────────────────────────┤
 │ Projects                  │ Recent papers             │
-├───────────────────────────┴───────────────────────────┤
-│ Organizations                                         │
-└───────────────────────────────────────────────────────┘
+│                           ├───────────────────────────┤
+│                           │ Organizations             │
+└───────────────────────────┴───────────────────────────┘
 ```
 
 Below 1024px every row stacks in one column in the same order. Grids are defined in `src/styles/layout.css` and `src/styles/impact.css`; the header navigation order comes from `NAV_IDS` in `src/config/site.ts`.

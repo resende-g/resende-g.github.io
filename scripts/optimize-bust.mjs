@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 /**
- * Prepares public/models/bust.glb from the owner's photogrammetry scan (a glTF binary).
+ * Prepares src/assets/bust.glb from the owner's photogrammetry scan (a glTF binary). The file is imported through
+ * Vite, so its published name carries a content hash and a new scan is never served from a cache of the old one.
  * The bust is rendered as glass, so the photographic texture, UVs and baked normals are dropped;
  * positions are welded, the mesh is simplified (meshoptimizer) and quantized (KHR_mesh_quantization,
  * decoded natively by three.js). Normals are recomputed at load time.
  *
  * The packages are NOT project dependencies; install them ad hoc in a temporary folder:
  *   mkdir /tmp/gltf && cd /tmp/gltf && npm i @gltf-transform/core @gltf-transform/functions @gltf-transform/extensions meshoptimizer
- *   NODE_PATH=/tmp/gltf/node_modules node scripts/optimize-bust.mjs <source.glb> public/models/bust.glb 0.6
+ *   NODE_PATH=/tmp/gltf/node_modules node scripts/optimize-bust.mjs <source.glb> src/assets/bust.glb 0.45
  */
 import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';

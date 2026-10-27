@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 describe('glass bust assets', () => {
   it('ships a small, texture-free glTF binary', () => {
-    const glb = readFileSync('public/models/bust.glb');
+    const glb = readFileSync('src/assets/bust.glb');
     expect(glb.toString('ascii', 0, 4)).toBe('glTF');
     const jsonLength = glb.readUInt32LE(12);
     const json = JSON.parse(glb.toString('utf8', 20, 20 + jsonLength)) as { images?: unknown[]; meshes: { primitives: { attributes: Record<string, number> }[] }[] };
@@ -13,6 +13,6 @@ describe('glass bust assets', () => {
   });
 
   it('ships the static render used when WebGL is unavailable', () => {
-    expect(statSync('public/images/bust-backdrop.png').size).toBeGreaterThan(10_000);
+    expect(statSync('src/assets/bust-backdrop.png').size).toBeGreaterThan(10_000);
   });
 });

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { publicPath } from '../config/site';
+import bustBackdropUrl from '../assets/bust-backdrop.png';
+import bustModelUrl from '../assets/bust.glb?url';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import type { BustScene } from './bustScene';
 
@@ -9,6 +10,8 @@ type Status = 'loading' | 'ready' | 'fallback';
  * Page background: the polished graphite bust (3D scan rendered with three.js) on the silver ground, behind every panel.
  * It turns slightly toward the pointer and with the scroll position. A static render takes its place when WebGL is
  * unavailable or the model fails to load. The scene is paused while the tab is hidden.
+ * Both files are imported through Vite so their URLs carry a content hash: a new scan is never served from a
+ * browser or CDN cache of the previous one.
  */
 export function BustBackdrop() {
   const reduced = useReducedMotion();
@@ -30,7 +33,7 @@ export function BustBackdrop() {
           return;
         }
         sceneRef.current = module.createBustScene(host, {
-          modelUrl: publicPath('models/bust.glb'),
+          modelUrl: bustModelUrl,
           background,
           reducedMotion: reduced,
           onReady: () => {
@@ -59,7 +62,7 @@ export function BustBackdrop() {
     return () => document.removeEventListener('visibilitychange', sync);
   }, [status]);
 
-  const fallbackStyle = status === 'fallback' ? { backgroundImage: `url(${publicPath('images/bust-backdrop.png')})` } : undefined;
+  const fallbackStyle = status === 'fallback' ? { backgroundImage: `url(${bustBackdropUrl})` } : undefined;
 
   return <div className="backdrop" ref={hostRef} data-status={status} style={fallbackStyle} aria-hidden="true" />;
 }
