@@ -169,7 +169,7 @@ Two short modules sit right after the hero. They give context for the CV; they a
 ### Justice: Brazil and the European Union (`justice.ts`)
 
 - Reference year **2024**, from CNJ's *Justiça em Números 2025* and its international comparison built on CEPEJ data; starting point was the ConJur report of 25 Sep 2025. Rates are **per 100 inhabitants** (the report prints "per 100 thousand", which the arithmetic rules out: 39.4 M new cases over ~212 M inhabitants ≈ 18.5 per 100).
-- Two indicators are charted: new cases per 100 inhabitants and new cases per judge. The statue is an original geometric SVG illustration of Ceschiatti's *A Justiça* in front of the STF (`JusticeStatue.tsx`): the head, torso and arms follow the statue's silhouette; seat, legs and sword are simple planes.
+- Two indicators are charted: new cases per 100 inhabitants and new cases per judge. The statue (`JusticeStatue.tsx`) is a geometric SVG illustration of Ceschiatti's *A Justiça* in front of the STF: its silhouette and shade planes are traced from a cut-out photograph with `scripts/trace-statue.py` (numpy + Pillow; the photograph is not in the repository), and the blindfold and sword are drawn on top.
 - Bars reveal and the values count up when the chart enters the viewport; with `prefers-reduced-motion` they render complete immediately.
 - A newer edition exists (*Justiça em Números 2026*, base year 2025). The module keeps 2024 on purpose; migrate figures and sources together.
 
