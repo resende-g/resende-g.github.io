@@ -2,60 +2,65 @@ import type { Localized } from '../../i18n/locales';
 import type { SourceLink } from './justice';
 
 /**
- * Cyber-threat figures for 2025, each with its own scope and method; they measure different things and are not
- * comparable with each other or with the simulated map.
+ * Cybersecurity in Brazil: figures from the executive summary of Brasscom's "Relatório de Cibersegurança 2025:
+ * Panorama e Insights" (São Paulo, July 2025), as supplied by the site owner (screenshot of the summary page).
  *
- * Verification notes (2026-10-27; kaspersky.com and securelist.com were not reachable from the build environment,
- * figures were checked against search-engine excerpts of the primary pages):
- * - Brazil 15.48% of users who encountered phishing (6th among countries) and 554,002,207 phishing link attempts
- *   blocked globally in 2025: Securelist, "Spam and phishing in 2025".
- * - 500,000 malicious files per day, +7% vs 2024 (global): Kaspersky press release "The number of the year",
- *   2 Dec 2025 (Kaspersky Security Bulletin 2025).
+ * Verification notes (2026-10-27): brasscom.org.br was not reachable from the build environment; the figures were
+ * checked against search-engine excerpts of Brasscom's release and press coverage (Febraban Tech, WeLiveSecurity,
+ * Teletime), which match the summary: R$ 104.6 billion projected investment 2025–2028 (+43.8%); 12th position in the
+ * global cybersecurity market; ~60 billion attack attempts in 2023; average data-breach cost in Brazil of
+ * US$ 1.36 million in 2024; 16.1% annual growth of information-security professionals (2015–2024); phishing as the
+ * most common attack. The report compiles third-party data (e.g. the breach cost is in US dollars, from an industry
+ * study); the underlying sources could not be read in the PDF from here.
  */
 
-export const CYBER_REFERENCE_YEAR = 2025;
+export const CYBER_REFERENCE_NOTE: Localized = {
+  en: 'Figures compiled by Brasscom in its 2025 cybersecurity report; each refers to the period shown.',
+  'pt-BR': 'Números compilados pela Brasscom no Relatório de Cibersegurança 2025; cada um se refere ao período indicado.',
+};
 
 export interface CyberStat {
   id: string;
   value: Localized;
   label: Localized;
-  /** Scope and what is counted, in one short line. */
-  note: Localized;
-  sourceId: string;
+  /** Period or scope, in a few words. */
+  period: Localized;
 }
 
 export const cyberStats: CyberStat[] = [
   {
-    id: 'brazil-phishing-share',
-    value: { en: '15.48%', 'pt-BR': '15,48%' },
-    label: { en: 'of Kaspersky users in Brazil encountered phishing in 2025', 'pt-BR': 'dos usuários da Kaspersky no Brasil encontraram phishing em 2025' },
-    note: {
-      en: 'Share of the vendor’s users in the country, not of the population; 6th among countries.',
-      'pt-BR': 'Proporção dos usuários do fornecedor no país, não da população; 6º entre os países.',
-    },
-    sourceId: 'securelist-phishing-2025',
+    id: 'attack-attempts',
+    value: { en: '60 bn', 'pt-BR': '60 bi' },
+    label: { en: 'attack attempts against Brazil', 'pt-BR': 'tentativas de ataque contra o Brasil' },
+    period: { en: 'in 2023', 'pt-BR': 'em 2023' },
   },
   {
-    id: 'malicious-files-per-day',
-    value: { en: '500,000', 'pt-BR': '500 mil' },
-    label: { en: 'new malicious files detected per day in 2025, worldwide', 'pt-BR': 'novos arquivos maliciosos detectados por dia em 2025, no mundo' },
-    note: {
-      en: 'Daily average on Kaspersky detection systems, +7% vs. 2024; files, not attacks or victims.',
-      'pt-BR': 'Média diária nos sistemas de detecção da Kaspersky, +7% vs. 2024; arquivos, não ataques nem vítimas.',
-    },
-    sourceId: 'ksb-2025',
+    id: 'breach-cost',
+    value: { en: 'US$ 1.36 M', 'pt-BR': 'US$ 1,36 mi' },
+    label: { en: 'average cost of a data breach in Brazil', 'pt-BR': 'custo médio de uma violação de dados no Brasil' },
+    period: { en: '2024', 'pt-BR': '2024' },
+  },
+  {
+    id: 'investment',
+    value: { en: 'R$ 104.6 bn', 'pt-BR': 'R$ 104,6 bi' },
+    label: { en: 'projected cybersecurity investment', 'pt-BR': 'investimento projetado em cibersegurança' },
+    period: { en: '2025–2028, +43.8%', 'pt-BR': '2025–2028, +43,8%' },
+  },
+  {
+    id: 'phishing',
+    value: { en: 'Phishing', 'pt-BR': 'Phishing' },
+    label: { en: 'the most common attack', 'pt-BR': 'o ataque mais comum' },
+    period: { en: 'Brazil, 2025 report', 'pt-BR': 'Brasil, relatório de 2025' },
   },
 ];
 
 export const cyberSources: SourceLink[] = [
   {
-    id: 'securelist-phishing-2025',
-    label: { en: 'Securelist (Kaspersky), “Spam and phishing in 2025”', 'pt-BR': 'Securelist (Kaspersky), “Spam and phishing in 2025”' },
-    url: 'https://securelist.com/spam-and-phishing-report-2025/118785/',
-  },
-  {
-    id: 'ksb-2025',
-    label: { en: 'Kaspersky Security Bulletin 2025, “The number of the year”', 'pt-BR': 'Kaspersky Security Bulletin 2025, “The number of the year”' },
-    url: 'https://www.kaspersky.com/about/press-releases/the-number-of-the-year-kaspersky-detected-half-a-million-malicious-files-daily-in-2025',
+    id: 'brasscom-2025',
+    label: {
+      en: 'Brasscom, Relatório de Cibersegurança 2025: Panorama e Insights (July 2025), executive summary',
+      'pt-BR': 'Brasscom, Relatório de Cibersegurança 2025: Panorama e Insights (julho de 2025), resumo executivo',
+    },
+    url: 'https://brasscom.org.br/wp-content/uploads/2025/07/BRI2-2025-008-Relatorio-de-Ciberseguranca-v13-3.pdf',
   },
 ];

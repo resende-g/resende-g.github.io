@@ -14,8 +14,8 @@ const LINK_ICONS: Record<ProfileLink['id'], (props: { className?: string }) => R
 };
 
 /**
- * Opening presentation: name, professional identification, short summary and professional links, set directly on
- * the page so the glass bust behind it stays visible. There is deliberately no photograph.
+ * Opening presentation: name, professional identification, short summary and professional links, centered under
+ * the silver bust that fills the background. There is deliberately no photograph.
  */
 export function Hero() {
   const { t, tr, locale } = useI18n();

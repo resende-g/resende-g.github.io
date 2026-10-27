@@ -91,10 +91,10 @@ export const ptBR: Dictionary = {
       periodNote: 'Ano de referência 2024, divulgado com os relatórios de 2025. Comparação apenas com a UE; não é um ranking mundial.',
     },
     cyber: {
-      title: 'Ciberameaças e o Brasil',
-      lead: 'Um mapa demonstrativo e dois números verificados de 2025.',
+      title: 'Cibersegurança no Brasil',
+      lead: 'Um mapa demonstrativo e números do relatório de 2025 da Brasscom.',
       simulationBadge: 'Simulação',
-      simulationNotice: 'Eventos sintéticos desenhados no seu navegador; não são ataques reais nem dados em tempo real.',
+      simulationNotice: 'O mapa mostra eventos sintéticos desenhados no seu navegador, não ataques reais nem dados em tempo real.',
       mapLabel: 'Mapa de vidro do Brasil com rastros prateados animados representando eventos cibernéticos simulados',
       staticMapLabel: 'Mapa de vidro do Brasil com rastros prateados de exemplo representando eventos cibernéticos simulados (versão estática)',
       pause: 'Pausar',

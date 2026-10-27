@@ -93,10 +93,10 @@ export const en = {
       periodNote: 'Reference year 2024, released with the 2025 reports. Comparison with the EU only; not a world ranking.',
     },
     cyber: {
-      title: 'Cyber threats and Brazil',
-      lead: 'A demonstrative map and two verified 2025 figures.',
+      title: 'Cybersecurity in Brazil',
+      lead: 'A demonstrative map and figures from Brasscom’s 2025 report.',
       simulationBadge: 'Simulation',
-      simulationNotice: 'Synthetic events drawn in your browser; not real attacks, not real-time data.',
+      simulationNotice: 'The map shows synthetic events drawn in your browser, not real attacks or real-time data.',
       mapLabel: 'Glass map of Brazil with animated silver streaks representing simulated cyber events',
       staticMapLabel: 'Glass map of Brazil with example silver streaks representing simulated cyber events (static version)',
       pause: 'Pause',

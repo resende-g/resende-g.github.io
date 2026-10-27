@@ -1,4 +1,4 @@
-import { cyberSources, cyberStats } from '../../content/impact/cyber';
+import { CYBER_REFERENCE_NOTE, cyberSources, cyberStats } from '../../content/impact/cyber';
 import { useI18n } from '../../i18n';
 import { BrazilMap } from './BrazilMap';
 import { SourceList } from './SourceList';
@@ -20,18 +20,20 @@ export function CyberModule() {
         <div className="cyber__map">
           <span className="map-badge">{copy.simulationBadge}</span>
           <BrazilMap />
-          <p className="module__note">{copy.simulationNotice}</p>
         </div>
         <ul className="stats">
           {cyberStats.map((stat) => (
             <li key={stat.id} className="stat">
               <span className="stat__value">{tr(stat.value)}</span>
               <span className="stat__label">{tr(stat.label)}</span>
-              <span className="stat__note">{tr(stat.note)}</span>
+              <span className="stat__note">{tr(stat.period)}</span>
             </li>
           ))}
         </ul>
       </div>
+      <p className="module__note">
+        {copy.simulationNotice} {tr(CYBER_REFERENCE_NOTE)}
+      </p>
 
       <SourceList sources={cyberSources} />
     </article>

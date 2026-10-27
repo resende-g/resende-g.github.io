@@ -88,7 +88,7 @@
 .statue {
   width: min(100%, 9.5rem);
   height: auto;
-  filter: drop-shadow(0 14px 20px rgba(30, 40, 60, 0.18));
+  filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.4));
 }
 
 @media (max-width: 559.98px) {
@@ -233,7 +233,7 @@
 
 @media (min-width: 560px) {
   .cyber {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(9rem, 13rem) minmax(0, 1fr);
     align-items: start;
   }
 }
@@ -298,28 +298,29 @@
 
 .stats {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-2);
   align-content: start;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
 }
 
 .stat {
   display: grid;
-  gap: 0.2rem;
-  padding: var(--space-4);
+  gap: 0.15rem;
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
   background: var(--surface);
   border: 1px solid var(--divider);
 }
 
 .stat__value {
-  font-size: clamp(1.5rem, 1vw + 1.1rem, 2rem);
+  font-size: clamp(1.25rem, 0.8vw + 1rem, 1.6rem);
   font-weight: 650;
   letter-spacing: -0.02em;
   line-height: 1.1;
 }
 
 .stat__label {
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
 }
 

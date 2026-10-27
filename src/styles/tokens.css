@@ -1,9 +1,9 @@
 /*
- * Design tokens. The site is light-first: an ice-white page with the glass bust rendered behind translucent panels.
- * A dark set is kept under [data-theme="dark"] for a future toggle; it is not active.
+ * Design tokens. The site is dark-first: a space-gray page with the silver bust rendered behind translucent panels.
+ * A light set is kept under [data-theme="light"] for a future toggle; it is not active.
  */
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -29,17 +29,45 @@
   --motion-base: 240ms;
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
 
-  /* Ice white; the bust backdrop clears to the same color. */
-  --bg: #f3f5f9;
+  /* Space gray; the bust backdrop clears to the same color. */
+  --bg: #24272d;
 
+  --text: #eef0f4;
+  --text-muted: #b9bec8;
+  --text-subtle: #8f95a1;
+
+  --accent: #a9bfff;
+  --accent-contrast: #101420;
+  --accent-soft: rgba(169, 191, 255, 0.14);
+
+  /* Space-gray tinted glass, opaque enough to keep text readable over the bright bust. */
+  --glass-bg: rgba(38, 41, 48, 0.78);
+  --glass-bg-strong: rgba(38, 41, 48, 0.88);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-edge: rgba(0, 0, 0, 0.35);
+  --glass-highlight: rgba(255, 255, 255, 0.22);
+  --glass-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+  --glass-fallback: rgba(40, 44, 52, 0.97);
+
+  --surface: rgba(255, 255, 255, 0.05);
+  --divider: rgba(255, 255, 255, 0.1);
+  --focus: #c9d6ff;
+  --chip-bg: rgba(255, 255, 255, 0.08);
+
+  /* Silver used by the Brazil map and the statue */
+  --silver: #b4bac5;
+  --silver-light: #e6e9ef;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f3f5f9;
   --text: #15171c;
   --text-muted: #4a5060;
   --text-subtle: #6f7686;
-
   --accent: #2f5fd6;
   --accent-contrast: #ffffff;
   --accent-soft: rgba(47, 95, 214, 0.1);
-
   --glass-bg: rgba(255, 255, 255, 0.5);
   --glass-bg-strong: rgba(255, 255, 255, 0.68);
   --glass-border: rgba(255, 255, 255, 0.85);
@@ -47,37 +75,8 @@
   --glass-highlight: rgba(255, 255, 255, 0.95);
   --glass-shadow: 0 12px 36px rgba(20, 30, 60, 0.08);
   --glass-fallback: rgba(250, 251, 253, 0.97);
-
   --surface: rgba(255, 255, 255, 0.5);
   --divider: rgba(20, 30, 60, 0.1);
   --focus: #1d4fd8;
   --chip-bg: rgba(20, 30, 60, 0.05);
-
-  /* Silver used by the Brazil map */
-  --silver: #b4bac5;
-  --silver-light: #e6e9ef;
-}
-
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #090c14;
-  --text: #eef0f5;
-  --text-muted: #b7bcc9;
-  --text-subtle: #8d93a3;
-  --accent: #9db8ff;
-  --accent-contrast: #0b1430;
-  --accent-soft: rgba(157, 184, 255, 0.16);
-  --glass-bg: rgba(18, 22, 34, 0.42);
-  --glass-bg-strong: rgba(18, 22, 34, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --glass-edge: rgba(0, 0, 0, 0.4);
-  --glass-highlight: rgba(255, 255, 255, 0.28);
-  --glass-shadow: 0 18px 48px rgba(0, 0, 0, 0.42);
-  --glass-fallback: rgba(16, 20, 30, 0.96);
-  --surface: rgba(255, 255, 255, 0.05);
-  --divider: rgba(255, 255, 255, 0.1);
-  --focus: #bcd0ff;
-  --chip-bg: rgba(255, 255, 255, 0.08);
-  --silver: #8d93a3;
-  --silver-light: #c3c8d2;
 }

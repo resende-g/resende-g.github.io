@@ -1,5 +1,5 @@
 /**
- * Three.js scene for the glass bust that fills the page background. Loaded on demand (dynamic import) so
+ * Three.js scene for the silver bust that fills the page background. Loaded on demand (dynamic import) so
  * three.js stays out of the initial bundle. Everything created here is released by `dispose()`.
  */
 import {
@@ -26,7 +26,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 export interface BustSceneOptions {
   modelUrl: string;
-  /** Page background color; the canvas clears to it so the glass has it to refract. */
+  /** Page background color; the canvas clears to it. */
   background: string;
   /** No idle sway, no pointer or scroll response; a single frame is rendered after load and on resize. */
   reducedMotion: boolean;
@@ -67,9 +67,9 @@ function makeShadowTexture(): CanvasTexture {
   const ctx = canvas.getContext('2d');
   if (ctx) {
     const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-    gradient.addColorStop(0, 'rgba(60, 72, 96, 0.42)');
-    gradient.addColorStop(0.5, 'rgba(60, 72, 96, 0.16)');
-    gradient.addColorStop(1, 'rgba(60, 72, 96, 0)');
+    gradient.addColorStop(0, 'rgba(120, 128, 142, 0.35)');
+    gradient.addColorStop(0.5, 'rgba(120, 128, 142, 0.12)');
+    gradient.addColorStop(1, 'rgba(120, 128, 142, 0)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, size, size);
   }
@@ -98,29 +98,27 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
   scene.environment = environment;
   pmrem.dispose();
 
-  const key = new DirectionalLight(0xffffff, 1.2);
+  const key = new DirectionalLight(0xffffff, 1.6);
   key.position.set(-2.4, 3, 2.2);
-  const rim = new DirectionalLight(new Color('#c9d6ff'), 2.4);
-  rim.position.set(2.6, 1.2, -2.4);
-  scene.add(key, rim);
+  const rim = new DirectionalLight(new Color('#dfe6f5'), 2.2);
+  rim.position.set(2.6, 1.4, -2.4);
+  const fill = new DirectionalLight(new Color('#9aa3b5'), 0.5);
+  fill.position.set(2, -1.5, 2.5);
+  scene.add(key, rim, fill);
 
+  // Soft halo behind the figure so the silver reads against the space-gray ground.
   const shadowTexture = makeShadowTexture();
-  const shadow = new Mesh(new CircleGeometry(1.15, 48), new MeshBasicMaterial({ map: shadowTexture, transparent: true, depthWrite: false }));
-  shadow.position.set(0.05, -0.15, -1.1);
+  const shadow = new Mesh(new CircleGeometry(1.25, 48), new MeshBasicMaterial({ map: shadowTexture, transparent: true, depthWrite: false }));
+  shadow.position.set(0, -0.1, -1.1);
 
+  // Brushed silver: fully metallic, slightly rough, with a clear coat for sharp highlights.
   const material = new MeshPhysicalMaterial({
-    color: new Color('#e2e7f0'),
-    metalness: 0,
-    roughness: 0.14,
-    transmission: 0.96,
-    thickness: 0.9,
-    ior: 1.5,
-    attenuationColor: new Color('#aeb9cc'),
-    attenuationDistance: 1.2,
-    clearcoat: 1,
-    clearcoatRoughness: 0.1,
-    specularIntensity: 0.9,
-    envMapIntensity: 0.9,
+    color: new Color('#b7bcc6'),
+    metalness: 1,
+    roughness: 0.36,
+    clearcoat: 0.5,
+    clearcoatRoughness: 0.3,
+    envMapIntensity: 0.8,
   });
 
   /** Positioned by `layout()`; carries the shadow and the turning pivot. */
@@ -151,7 +149,7 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
     scrollFraction = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
   };
 
-  /** Places the bust to the right on wide viewports and smaller, centered, on narrow ones. */
+  /** Centers the bust; smaller and higher on narrow viewports so the hero text fits below it. */
   const layout = () => {
     const width = host.clientWidth;
     const height = host.clientHeight;
@@ -161,9 +159,10 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
     renderer.setSize(width, height, false);
     const wide = camera.aspect >= 1;
     const visibleHeight = 2 * camera.position.z * Math.tan((camera.fov * Math.PI) / 360);
-    anchor.scale.setScalar(wide ? 1 : 0.56);
-    anchor.position.x = wide ? visibleHeight * camera.aspect * 0.26 : visibleHeight * camera.aspect * 0.1;
-    anchor.position.y = wide ? 0 : visibleHeight * 0.1;
+    // The bust occupies roughly the upper 60% of the first screen; the hero text starts below it.
+    anchor.scale.setScalar(wide ? 0.72 : 0.52);
+    anchor.position.x = 0;
+    anchor.position.y = wide ? visibleHeight * 0.17 : visibleHeight * 0.16;
     render();
   };
 
@@ -243,6 +242,8 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
     current.pitch += (pitchTarget - current.pitch) * k;
     pivot.rotation.set(current.pitch, current.yaw, 0);
     pivot.position.y += (driftTarget - pivot.position.y) * k;
+    // Dim the bust as the reader moves into the content so the panels stay quiet.
+    renderer.domElement.style.opacity = String(1 - 0.5 * Math.min(1, scrollFraction / 0.3));
     render();
     frame = requestAnimationFrame(loop);
   };

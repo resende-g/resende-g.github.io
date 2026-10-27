@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { SUPPORTED_LOCALES } from '../src/i18n';
 import { JUSTICE_REFERENCE_YEAR, justiceIndicators, justiceSources } from '../src/content/impact/justice';
-import { CYBER_REFERENCE_YEAR, cyberSources, cyberStats } from '../src/content/impact/cyber';
+import { cyberSources, cyberStats } from '../src/content/impact/cyber';
 import { BRAZIL_OUTLINE } from '../src/content/impact/brazilOutline';
 import { profile } from '../src/content/profile';
 import { BRAZIL_ASPECT, createSimulation, lonLatToPoint, mulberry32, outlinePoints, pointInPolygon } from '../src/components/impact/brazilMap';
@@ -39,24 +39,25 @@ describe('justice module data', () => {
 });
 
 describe('cyber module data', () => {
-  it('gives every figure a scope note, the 2025 period and an existing source', () => {
-    const sourceIds = new Set(cyberSources.map((source) => source.id));
-    expect(cyberStats.length).toBeLessThanOrEqual(2);
+  it('gives every figure a label and a period, and links the Brasscom report over https', () => {
+    expect(cyberStats.length).toBeLessThanOrEqual(6);
     for (const stat of cyberStats) {
       expect(nonEmpty(stat.value)).toBe(true);
       expect(nonEmpty(stat.label)).toBe(true);
-      expect(nonEmpty(stat.note)).toBe(true);
-      expect(stat.label.en).toContain(String(CYBER_REFERENCE_YEAR));
-      expect(sourceIds.has(stat.sourceId)).toBe(true);
+      expect(nonEmpty(stat.period)).toBe(true);
     }
-    for (const source of cyberSources) expect(source.url.startsWith('https://')).toBe(true);
+    expect(cyberSources.length).toBeGreaterThan(0);
+    for (const source of cyberSources) expect(source.url.startsWith('https://brasscom.org.br/')).toBe(true);
   });
 
-  it('keeps the verified Brazil figure and its scope', () => {
-    const brazil = cyberStats.find((stat) => stat.id === 'brazil-phishing-share')!;
-    expect(brazil.value['pt-BR']).toBe('15,48%');
-    expect(brazil.label.en).toMatch(/Brazil/);
-    expect(brazil.note.en).toMatch(/not of the population/);
+  it('keeps the figures of the Brasscom 2025 executive summary', () => {
+    const byId = Object.fromEntries(cyberStats.map((stat) => [stat.id, stat]));
+    expect(byId['investment']!.value['pt-BR']).toBe('R$ 104,6 bi');
+    expect(byId['investment']!.period['pt-BR']).toContain('2025–2028');
+    expect(byId['attack-attempts']!.value['pt-BR']).toBe('60 bi');
+    expect(byId['attack-attempts']!.period.en).toContain('2023');
+    expect(byId['breach-cost']!.value['pt-BR']).toBe('US$ 1,36 mi');
+    expect(byId['breach-cost']!.period.en).toContain('2024');
   });
 });
 
