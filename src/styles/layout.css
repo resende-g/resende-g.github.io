@@ -113,7 +113,7 @@
   padding: var(--space-3) 0 var(--space-7);
 }
 
-/* Dashboard: projects on the left, papers on the right; stacked on narrow screens */
+/* Dashboard: projects on the left; papers with organizations under them on the right; stacked on narrow screens */
 .dashboard {
   display: grid;
   gap: var(--space-4);
@@ -125,10 +125,21 @@
   min-width: 0;
 }
 
+.dashboard__aside {
+  display: contents;
+}
+
 @media (min-width: 1024px) {
   .dashboard {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
     align-items: start;
+  }
+
+  .dashboard__aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
   }
 }
 
@@ -450,10 +461,10 @@
   gap: var(--space-3);
 }
 
-/* Organizations: full-width panel, tiles flow across the available width */
+/* Organizations: tiles flow across the panel width (two columns in the right-hand column) */
 .org-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
   gap: var(--space-2);
 }
 
