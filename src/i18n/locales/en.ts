@@ -26,6 +26,7 @@ export const en = {
     switchTo: 'Switch to {name}',
   },
   hero: {
+    bustAlt: 'Translucent glass bust of Gabriel Almeida Resende, rendered from a 3D scan',
     primaryCta: 'View projects',
     secondaryCta: 'Get in touch',
     downloadCv: 'Download CV',

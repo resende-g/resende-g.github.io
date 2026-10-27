@@ -24,6 +24,7 @@ export const ptBR: Dictionary = {
     switchTo: 'Mudar para {name}',
   },
   hero: {
+    bustAlt: 'Busto de vidro translúcido de Gabriel Almeida Resende, renderizado a partir de uma digitalização 3D',
     primaryCta: 'Ver projetos',
     secondaryCta: 'Entrar em contato',
     downloadCv: 'Baixar currículo',

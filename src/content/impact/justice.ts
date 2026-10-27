@@ -5,26 +5,27 @@ import type { Localized } from '../../i18n/locales';
  *
  * Primary source: CNJ, Justiça em Números 2025 (ano-base 2024), published 23 Sep 2025, including its
  * international comparison built on CEPEJ data (Commission européenne pour l'efficacité de la justice).
- * Starting point for this module: ConJur, "Brasileiros acionam o Poder Judiciário quatro vezes mais do que
- * europeus" (25 Sep 2025), which reports the same figures.
+ * Starting point for this module: ConJur, Danilo Vital, "Brasileiros acionam o Poder Judiciário quatro vezes mais
+ * do que europeus" (25 Sep 2025), which reports the same figures.
  *
- * Verification notes (2026-10-27, build environment without direct access to cnj.jus.br / conjur.com.br;
- * checks were made through search-engine excerpts of the CNJ press release, the CNJ executive summary and
- * press coverage — see README "Impact modules"):
- * - Unit of the per-inhabitant rates: the CNJ executive summary states "por cem habitantes". Part of the press
- *   coverage printed "por cem mil habitantes", which the arithmetic rules out: 39.4 million new cases in 2024
- *   over ~212 million inhabitants ≈ 18.5 per 100 inhabitants, and 80.6 million pending ≈ 37.9 per 100.
- *   The rates below are therefore labelled per 100 inhabitants.
- * - 18.55 / 4.44 (ratio 4.18) and 2,103 / 249 confirmed in excerpts of the executive summary and press coverage.
- * - 80.6 million pending at the end of 2024 (previous stock 84.1 million) confirmed in the CNJ press release.
- * - 21.07 / 4.48, 37.93 / 2.58 and 2,389 / 252 are taken from the ConJur report; they could not be read
- *   directly from the CNJ PDF in this environment (the CNJ press release gives a different per-magistrate
- *   productivity figure, 2,569, computed on another base — the comparative figures are kept as reported in
- *   the CEPEJ comparison).
- * - The reference year of the European figures inside the CEPEJ comparison was not verified; they are the data
- *   the CNJ used for its comparison in the 2025 edition.
- * - A newer edition exists (Justiça em Números 2026, base year 2025: 75.5 million pending). This module keeps
- *   the 2024 reference year on purpose; update the figures together with the sources when migrating.
+ * Verification notes (2026-10-27):
+ * - The ConJur report (PDF supplied by the site owner, 3 pages) carries two tables: "Indicadores gerais" (casos novos
+ *   4,44 vs 18,55 = 4,18 vezes; baixados 4,48 vs 21,07 = 4,7; pendentes 2,58 vs 37,93 = 14,7) and "Indicadores por
+ *   magistrado" (magistrados por cem mil habitantes 18 vs 9; casos novos 249 vs 2.103 = 8,4; pendentes 145 vs 4.300
+ *   = 29,7; baixados 252 vs 2.389 = 9,5). It also states the stock fell from 84,1 to 80,6 million at the end of 2024
+ *   and that the European figures come from a CEPEJ report.
+ * - Unit of the per-inhabitant rates: the report prints "por cem mil habitantes", but the CNJ executive summary says
+ *   "por cem habitantes" and the arithmetic only works per 100 inhabitants (39.4 million new cases in 2024 over
+ *   ~212 million inhabitants ≈ 18.5 per 100; 80.6 million pending ≈ 37.9 per 100). The rates below are therefore
+ *   labelled per 100 inhabitants. Judges are per 100 thousand inhabitants, as printed.
+ * - cnj.jus.br and conjur.com.br were not reachable from the build environment; 18.55 / 4.44, 2,103 / 249, 9 / 18
+ *   and 80.6 / 84.1 million were also confirmed in search-engine excerpts of the CNJ executive summary and press
+ *   release. The per-magistrate figures are the ones of the CEPEJ comparison (the CNJ release quotes 2,569 resolved
+ *   cases per magistrate, computed on another base).
+ * - The reference year of the European figures inside the comparison was not verified; they are the data the CNJ
+ *   used for its comparison in the 2025 edition.
+ * - A newer edition exists (Justiça em Números 2026, base year 2025: 75.5 million pending). This module keeps the
+ *   2024 reference year on purpose; update the figures together with the sources when migrating.
  */
 
 export interface JusticeIndicator {
@@ -86,6 +87,15 @@ export const justiceIndicators: JusticeIndicator[] = [
     unit: { en: 'cases per judge', 'pt-BR': 'casos por magistrado' },
     brazil: 2389,
     eu: 252,
+    tier: 'secondary',
+    decimals: 0,
+  },
+  {
+    id: 'pending-cases-per-judge',
+    label: { en: 'Pending cases per judge', 'pt-BR': 'Casos pendentes por magistrado' },
+    unit: { en: 'cases per judge', 'pt-BR': 'casos por magistrado' },
+    brazil: 4300,
+    eu: 145,
     tier: 'secondary',
     decimals: 0,
   },

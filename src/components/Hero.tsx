@@ -5,6 +5,7 @@ import { profile, type ProfileLink } from '../content/profile';
 import { useI18n } from '../i18n';
 import { ExternalLink } from './ExternalLink';
 import { GitHubIcon, LattesIcon, LinkedInIcon, MailIcon, OrcidIcon } from './Icons';
+import { Bust } from './Bust';
 import { Logo } from './Logo';
 
 const LINK_ICONS: Record<ProfileLink['id'], (props: { className?: string }) => ReactElement> = {
@@ -15,8 +16,8 @@ const LINK_ICONS: Record<ProfileLink['id'], (props: { className?: string }) => R
 };
 
 /**
- * Opening presentation: name, professional identification, short summary and professional links.
- * Identity comes from typography and composition; there is deliberately no portrait.
+ * Opening presentation: name, professional identification, short summary, professional links and the
+ * glass bust. There is deliberately no photograph.
  */
 export function Hero() {
   const { t, tr, locale } = useI18n();
@@ -24,18 +25,23 @@ export function Hero() {
 
   return (
     <section className="hero glass glass--strong" id="profile" aria-labelledby="profile-name">
-      <div className="hero__main">
+      <div className="hero__mark" aria-hidden="true">
+        <Logo height={28} />
+      </div>
+      <div className="hero__head">
         <h1 id="profile-name" className="hero__name">
           {profile.name}
         </h1>
         <p className="hero__tagline">{tr(profile.tagline)}</p>
-        <p className="hero__summary">{tr(profile.summary)}</p>
       </div>
 
+      <div className="hero__figure">
+        <Bust />
+      </div>
+
+      <p className="hero__summary">{tr(profile.summary)}</p>
+
       <div className="hero__side">
-        <div className="hero__mark" aria-hidden="true">
-          <Logo height={28} />
-        </div>
         <p className="hero__location">{tr(profile.location)}</p>
         <ul className="hero__links" aria-label={t.hero.linksLabel}>
           {profile.links.map((link) => {

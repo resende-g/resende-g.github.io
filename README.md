@@ -11,6 +11,7 @@ Static site, hosted for free on GitHub Pages, designed for incremental evolution
 | Build | [Vite](https://vite.dev) 8 | Static output, fast dev server, trivial base-path configuration for GitHub Pages. |
 | UI | React 19 + TypeScript 5.9 | Typed dictionaries and content: the compiler reports any missing translation or field. |
 | Styling | Plain CSS with custom properties | No CSS framework; the glass effect is a few rules with a `@supports` fallback. |
+| 3D | three.js (loaded on demand) | Renders the glass bust in the hero; the library ships in its own chunk, fetched after the page is interactive. |
 | Tests | Vitest | Checks translation parity, non-empty strings, and link hygiene. |
 | Deploy | GitHub Actions → GitHub Pages | Free static hosting; no backend, database, tracking, or external runtime services. |
 
@@ -24,7 +25,8 @@ No analytics, telemetry, fonts, or scripts are loaded from third parties. The si
 ├── index.html                     # HTML shell, English meta tags, Open Graph
 ├── public/
 │   ├── favicon.png, apple-touch-icon.png   # Generated from the brand mark
-│   ├── images/                    # (empty) public images, if any
+│   ├── images/bust-static.png     # Static render of the glass bust (placeholder + no-WebGL fallback)
+│   ├── models/bust.glb            # Simplified, texture-free 3D scan used by the glass bust
 │   └── cv/                        # Put public CV PDFs here (see below)
 ├── src/
 │   ├── assets/                    # Bundled images: background photo (2 sizes), brand mark (white/black)
@@ -48,9 +50,10 @@ No analytics, telemetry, fonts, or scripts are loaded from third parties. The si
 │   │   ├── contact.ts
 │   │   └── impact/                # Data modules: justice.ts, cyber.ts (figures + sources), worldGrid.ts (generated)
 │   ├── hooks/                     # useReducedMotion, useInView, useCountUp
-│   ├── components/                # Header, Hero, Panel, Logo, Backdrop, impact/*, sections/*
+│   ├── components/                # Header, Hero, Bust (+ bustScene.ts, three.js), Panel, Logo, Backdrop, impact/*, sections/*
 │   └── styles/                    # tokens.css, base.css, glass.css, layout.css, impact.css
 ├── scripts/build-world-grid.mjs   # Regenerates src/content/impact/worldGrid.ts from Natural Earth land polygons
+├── scripts/optimize-bust.mjs      # Prepares public/models/bust.glb from the owner's 3D scan
 └── tests/                         # i18n.test.ts, impact.test.ts
 ```
 
@@ -116,7 +119,16 @@ Append to `publications` in `src/content/research.ts` (title, venue, year, optio
 
 ### Presentation without a portrait
 
-The site deliberately shows no photograph of the owner: identity comes from the name, the typography and the content. `src/content/profile.ts` has no photo field; do not add one back.
+The site deliberately shows no photograph of the owner: identity comes from the name, the typography, the content and the glass bust. `src/content/profile.ts` has no photo field; do not add one back.
+
+### Glass bust (`src/components/Bust.tsx`, `src/components/bustScene.ts`)
+
+- **Model:** `public/models/bust.glb` (≈160 KB) is derived from the owner's photogrammetry scan with `scripts/optimize-bust.mjs`: the photographic texture, UVs and baked normals are dropped, positions are welded, the mesh is simplified to ~16k triangles and quantized. Normals are recomputed at load time. The original scan is not in the repository.
+- **Material:** `MeshPhysicalMaterial` with transmission, thickness, IOR, attenuation color, clearcoat and an image-based environment (`RoomEnvironment` through `PMREMGenerator`), plus a key, a rim and a fill light. A soft dark disc sits behind the bust so the glass has something to refract on a transparent canvas; it reads as a faint shadow on the page.
+- **Motion:** the bust turns slightly toward the pointer (hover-capable devices only, smoothed per frame) with a slow idle sway. With `prefers-reduced-motion` a single frame is rendered and nothing moves. The frame loop runs only while the bust is on screen and the tab is visible; pixel ratio is capped at 2 and the transmission pass renders at half resolution.
+- **Fallback and loading:** `public/images/bust-static.png` (a render of the same scene) is shown immediately and stays when WebGL is unavailable or the model fails to load; the live canvas fades in over it once ready. three.js is imported dynamically, so it is not part of the initial bundle.
+- **Cleanup:** geometry, materials, textures, the environment map and the renderer are disposed and the canvas removed on unmount; listeners and observers are detached; a load that resolves after unmount is discarded.
+- To regenerate the static image, render the page in a browser with WebGL, capture the `.bust` element with a transparent background and save it at 600×690.
 
 ### CV downloads
 
@@ -225,6 +237,7 @@ npm run build && npm run preview
 ## Verification performed
 
 - `npm run check` (typecheck, 23 unit tests, production build) passes.
+- Glass bust (headless Chromium with SwiftShader WebGL): model loads and the canvas reports `ready`; pointer movement turns the bust; no animation frames while the hero is scrolled off screen; with `prefers-reduced-motion` the bust renders once and issues no frames; with WebGL disabled the static image remains with its alt text and no canvas is created; no console errors. Frame rate on real GPUs could not be measured in this environment.
 - Headless Chromium checks (desktop 1440px and 1280px, tablet 820px, iPhone-sized 390px, in both languages): no horizontal overflow; single `h1`; every `<img>` has `alt`; no reference to a profile photo; `rel="noopener noreferrer"` on every new-tab link; the five profile links point to the expected URLs; the map canvas has an accessible name; the pause button works by keyboard and announces its state; the indicator table opens by keyboard; the animation loop issues no frames while the map is off screen; with `prefers-reduced-motion` and when `getContext('2d')` is unavailable the static SVG map is rendered with its explanation.
 
 ## Known limitations and pending tasks
@@ -240,5 +253,6 @@ npm run build && npm run preview
 - **Publications:** the list is empty by design until there are published works to cite.
 - **Mobile navigation:** section links scroll horizontally in the header on narrow screens; a collapsible menu was not built in this version.
 - **Statue illustration:** a simplified geometric SVG; a modelled or photographed version would need a licensed source.
+- **Bust performance on low-end GPUs:** transmission is the most expensive part of the material; if it proves heavy on phones, lower `transmission`/`thickness` or render the static image below a viewport width. Measured only with software rendering here.
 - **Pages setup:** the GitHub Pages source must be set to "GitHub Actions" manually before the first deployment works.
 - **Palette, iconography, animations:** provisional; to be refined in later iterations.
