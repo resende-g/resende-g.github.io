@@ -2,7 +2,7 @@ import { useI18n } from '../../i18n';
 import { CyberModule } from './CyberModule';
 import { JusticeModule } from './JusticeModule';
 
-/** Two complementary data modules (Justice, Cybersecurity) placed right after the presentation. */
+/** Two short data modules (Justice, Cybersecurity) right after the presentation: context for the CV, not a dashboard. */
 export function ImpactSection() {
   const { t } = useI18n();
   return (
@@ -17,7 +17,6 @@ export function ImpactSection() {
         <JusticeModule />
         <CyberModule />
       </div>
-      <p className="impact__bridge">{t.impact.bridge}</p>
     </section>
   );
 }

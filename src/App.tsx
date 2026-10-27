@@ -1,4 +1,4 @@
-import { Backdrop } from './components/Backdrop';
+import { BustBackdrop } from './components/BustBackdrop';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -13,7 +13,7 @@ export function App() {
   const { t } = useI18n();
   return (
     <>
-      <Backdrop />
+      <BustBackdrop />
       <a className="skip-link" href="#main">
         {t.nav.skipToContent}
       </a>

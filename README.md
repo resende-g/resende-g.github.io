@@ -1,6 +1,6 @@
 # Gabriel Almeida Resende — Portfolio
 
-Bilingual (English / Português-BR) professional portfolio: digital CV, technical projects, and academic presentation at the intersection of law, information security, AI evaluation, data quality, and research.
+Bilingual (English / Português-BR) professional portfolio: digital CV, technical projects, and academic presentation at the intersection of law, information security, AI evaluation, data quality, and research. Ice-white page with a glass bust of the owner rendered behind translucent panels.
 
 Static site, hosted for free on GitHub Pages, designed for incremental evolution.
 
@@ -11,7 +11,7 @@ Static site, hosted for free on GitHub Pages, designed for incremental evolution
 | Build | [Vite](https://vite.dev) 8 | Static output, fast dev server, trivial base-path configuration for GitHub Pages. |
 | UI | React 19 + TypeScript 5.9 | Typed dictionaries and content: the compiler reports any missing translation or field. |
 | Styling | Plain CSS with custom properties | No CSS framework; the glass effect is a few rules with a `@supports` fallback. |
-| 3D | three.js (loaded on demand) | Renders the glass bust in the hero; the library ships in its own chunk, fetched after the page is interactive. |
+| 3D | three.js (loaded on demand) | Renders the glass bust that fills the page background; the library ships in its own chunk, fetched after the page is interactive. |
 | Tests | Vitest | Checks translation parity, non-empty strings, and link hygiene. |
 | Deploy | GitHub Actions → GitHub Pages | Free static hosting; no backend, database, tracking, or external runtime services. |
 
@@ -25,11 +25,11 @@ No analytics, telemetry, fonts, or scripts are loaded from third parties. The si
 ├── index.html                     # HTML shell, English meta tags, Open Graph
 ├── public/
 │   ├── favicon.png, apple-touch-icon.png   # Generated from the brand mark
-│   ├── images/bust-static.png     # Static render of the glass bust (placeholder + no-WebGL fallback)
+│   ├── images/bust-backdrop.png   # Static render of the glass bust (no-WebGL fallback)
 │   ├── models/bust.glb            # Simplified, texture-free 3D scan used by the glass bust
 │   └── cv/                        # Put public CV PDFs here (see below)
 ├── src/
-│   ├── assets/                    # Bundled images: background photo (2 sizes), brand mark (white/black)
+│   ├── assets/                    # Bundled images: brand mark, Lattes mask
 │   ├── main.tsx                   # Entry point
 │   ├── App.tsx                    # Page composition (panel order)
 │   ├── config/site.ts             # Panel ids, navigation order, CV files, repository URL, base-path helper
@@ -48,11 +48,11 @@ No analytics, telemetry, fonts, or scripts are loaded from third parties. The si
 │   │   ├── skills.ts
 │   │   ├── organizations.ts       # Employers, universities, groups (tiles)
 │   │   ├── contact.ts
-│   │   └── impact/                # Data modules: justice.ts, cyber.ts (figures + sources), worldGrid.ts (generated)
+│   │   └── impact/                # Data modules: justice.ts, cyber.ts (figures + sources), brazilOutline.ts (generated)
 │   ├── hooks/                     # useReducedMotion, useInView, useCountUp
-│   ├── components/                # Header, Hero, Bust (+ bustScene.ts, three.js), Panel, Logo, Backdrop, impact/*, sections/*
+│   ├── components/                # Header, Hero, BustBackdrop (+ bustScene.ts, three.js), Panel, Logo, impact/*, sections/*
 │   └── styles/                    # tokens.css, base.css, glass.css, layout.css, impact.css
-├── scripts/build-world-grid.mjs   # Regenerates src/content/impact/worldGrid.ts from Natural Earth land polygons
+├── scripts/build-brazil-outline.mjs # Regenerates src/content/impact/brazilOutline.ts from Natural Earth polygons
 ├── scripts/optimize-bust.mjs      # Prepares public/models/bust.glb from the owner's 3D scan
 └── tests/                         # i18n.test.ts, impact.test.ts
 ```
@@ -121,14 +121,15 @@ Append to `publications` in `src/content/research.ts` (title, venue, year, optio
 
 The site deliberately shows no photograph of the owner: identity comes from the name, the typography, the content and the glass bust. `src/content/profile.ts` has no photo field; do not add one back.
 
-### Glass bust (`src/components/Bust.tsx`, `src/components/bustScene.ts`)
+### Glass bust as the page background (`src/components/BustBackdrop.tsx`, `src/components/bustScene.ts`)
 
+- **Placement:** a fixed, full-viewport canvas behind every panel (z-index −1), clearing to the page color. The bust sits in the right part of the viewport on wide screens and smaller, near the top, on narrow ones, where the hero keeps the top of the screen free for it.
 - **Model:** `public/models/bust.glb` (≈160 KB) is derived from the owner's photogrammetry scan with `scripts/optimize-bust.mjs`: the photographic texture, UVs and baked normals are dropped, positions are welded, the mesh is simplified to ~16k triangles and quantized. Normals are recomputed at load time. The original scan is not in the repository.
-- **Material:** `MeshPhysicalMaterial` with transmission, thickness, IOR, attenuation color, clearcoat and an image-based environment (`RoomEnvironment` through `PMREMGenerator`), plus a key, a rim and a fill light. A soft dark disc sits behind the bust so the glass has something to refract on a transparent canvas; it reads as a faint shadow on the page.
-- **Motion:** the bust turns slightly toward the pointer (hover-capable devices only, smoothed per frame) with a slow idle sway. With `prefers-reduced-motion` a single frame is rendered and nothing moves. The frame loop runs only while the bust is on screen and the tab is visible; pixel ratio is capped at 2 and the transmission pass renders at half resolution.
-- **Fallback and loading:** `public/images/bust-static.png` (a render of the same scene) is shown immediately and stays when WebGL is unavailable or the model fails to load; the live canvas fades in over it once ready. three.js is imported dynamically, so it is not part of the initial bundle.
+- **Material:** `MeshPhysicalMaterial` with transmission, thickness, IOR, attenuation color, clearcoat and an image-based environment (`RoomEnvironment` through `PMREMGenerator`), a key and a rim light, and a soft gray disc behind the figure that reads as its shadow and gives the refraction some contrast on the white ground.
+- **Motion:** the bust turns slightly toward the pointer (hover-capable devices only) and, as the page is scrolled, turns a little further and drifts down behind the content. With `prefers-reduced-motion` a single frame is rendered and nothing moves. The loop is paused while the tab is hidden; pixel ratio is capped at 1.5 and the transmission pass renders at half resolution.
+- **Fallback:** `public/images/bust-backdrop.png` (a render of the same scene, right half of a 1440×900 viewport) is used as the background image when WebGL is unavailable or the model fails to load. three.js is imported dynamically, so it is not part of the initial bundle.
 - **Cleanup:** geometry, materials, textures, the environment map and the renderer are disposed and the canvas removed on unmount; listeners and observers are detached; a load that resolves after unmount is discarded.
-- To regenerate the static image, render the page in a browser with WebGL, capture the `.bust` element with a transparent background and save it at 600×690.
+- To regenerate the static image, open the page in a browser with WebGL at 1440×900, capture the viewport before scrolling and keep the right half.
 
 ### CV downloads
 
@@ -146,7 +147,7 @@ A "Download CV" button appears for each language that has a file. Review every d
 
 ## Layout
 
-Page order (all widths): hero (name, identification, summary, links) → impact section (two data modules) → dashboard of panels.
+Page order (all widths): hero (name, identification, summary, links, set directly on the page) → impact section (two short data modules) → dashboard of panels. The glass bust is behind all of it.
 
 Dashboard on desktop (≥1024px):
 
@@ -163,37 +164,35 @@ Below 1024px the panels stack in one column: projects, curriculum, papers, organ
 
 ## Impact modules (`src/components/impact`)
 
-Two modules sit right after the hero. Their figures live in `src/content/impact/*.ts`, each with unit, period, scope and source, and are covered by `tests/impact.test.ts`. The comments at the top of those files record how each number was verified and what could not be verified.
+Two short modules sit right after the hero. They give context for the CV; they are not a dashboard. Their figures live in `src/content/impact/*.ts`, each with unit, period, scope and source, and are covered by `tests/impact.test.ts`. The comments at the top of those files record how each number was verified and what could not be verified.
 
 ### Justice: Brazil and the European Union (`justice.ts`)
 
-- Reference year **2024**, from CNJ's *Justiça em Números 2025* and its international comparison built on CEPEJ data; starting point was the ConJur report of 25 Sep 2025. Rates are **per 100 inhabitants** (part of the press coverage printed "per 100 thousand", which the arithmetic rules out: 39.4 M new cases over ~212 M inhabitants ≈ 18.5 per 100).
-- Three primary indicators are charted (new cases per 100 inhabitants, pending cases per 100 inhabitants, new cases per judge); the rest (resolved cases, resolved cases per judge, judges per 100 thousand inhabitants) are in the expandable table. The 80.6 million stock is shown as an absolute national total.
-- The statue is an original SVG illustration inspired by Ceschiatti's *A Justiça* (`JusticeStatue.tsx`), not a photograph.
+- Reference year **2024**, from CNJ's *Justiça em Números 2025* and its international comparison built on CEPEJ data; starting point was the ConJur report of 25 Sep 2025. Rates are **per 100 inhabitants** (the report prints "per 100 thousand", which the arithmetic rules out: 39.4 M new cases over ~212 M inhabitants ≈ 18.5 per 100).
+- Two indicators are charted: new cases per 100 inhabitants and new cases per judge. The statue is an original SVG illustration inspired by Ceschiatti's *A Justiça* (`JusticeStatue.tsx`).
 - Bars reveal and the values count up when the chart enters the viewport; with `prefers-reduced-motion` they render complete immediately.
-- A newer edition exists (*Justiça em Números 2026*, base year 2025, 75.5 million pending). The module keeps 2024 on purpose; migrate figures and sources together.
+- A newer edition exists (*Justiça em Números 2026*, base year 2025). The module keeps 2024 on purpose; migrate figures and sources together.
 
-### Cyber threats (`cyber.ts`)
+### Cyber threats (`cyber.ts`, `BrazilMap.tsx`)
 
-- **The map is a simulation.** `ThreatMap.tsx` draws a dotted world (land mask in `worldGrid.ts`) on a 2D canvas and animates synthetic arcs between a fixed list of cities, generated by a seeded PRNG in `threatSim.ts`. Nothing is fetched; no telemetry, no real-time data. The badge, the legend and the notice say so in the interface. Do not present it as monitoring.
-- The animation runs only while the map is on screen, the tab is visible and the user has not paused it (button, keyboard-accessible); frames are capped at ~30/s and the pixel ratio at 2; the canvas, observers and listeners are released on unmount. With `prefers-reduced-motion`, or when a 2D context is unavailable, `StaticThreatMap.tsx` renders the same map as a static SVG with a few fixed arcs and a one-line explanation.
-- Figures for **2025** (global and Brazil) come from Kaspersky's Security Bulletin 2025 press release, Securelist's "Spam and phishing in 2025" and Kaspersky Latin America's release; each tile states scope, period and what is counted. They measure different things (files detected, link clicks blocked, share of users affected, change in detections) and must not be summed or compared with each other.
+- **The map is a simulation.** `BrazilMap.tsx` draws Brazil's outline (`brazilOutline.ts`, Natural Earth 1:50m, simplified) as a glass slab on a 2D canvas and animates synthetic silver streaks "falling" onto random points inside it, generated by a seeded PRNG in `brazilMap.ts`. Nothing is fetched; no telemetry, no real-time data. The badge and the notice say so in the interface. Do not present it as monitoring.
+- The animation runs only while the map is on screen, the tab is visible and the user has not paused it (button, keyboard-accessible); frames are capped at ~30/s and the pixel ratio at 2. With `prefers-reduced-motion`, or when a 2D context is unavailable, a static SVG version with a few fixed streaks is rendered with a one-line explanation.
+- Two figures for **2025**: the share of Kaspersky users in Brazil who encountered phishing (Securelist, "Spam and phishing in 2025") and the global daily average of new malicious files (Kaspersky Security Bulletin 2025). Each states scope and what is counted; they measure different things and must not be compared with each other or with the map.
 
-### Regenerating the land mask
+### Regenerating the Brazil outline
 
 ```bash
-mkdir /tmp/geo && cd /tmp/geo && npm i world-atlas@2 topojson-client@3 d3-geo@3 && cd -
-NODE_PATH=/tmp/geo/node_modules node scripts/build-world-grid.mjs > src/content/impact/worldGrid.ts
+mkdir /tmp/geo && cd /tmp/geo && npm i world-atlas@2 topojson-client@3 && cd -
+NODE_PATH=/tmp/geo/node_modules node scripts/build-brazil-outline.mjs > src/content/impact/brazilOutline.ts
 ```
 
-The packages are used only by the script and are not project dependencies. Data: Natural Earth 1:50m land (public domain) via `world-atlas`.
+The packages are used only by the script and are not project dependencies. Data: Natural Earth 1:50m countries (public domain) via `world-atlas`.
 
-### Background photograph and brand mark
+### Brand mark and icons
 
-- `src/assets/background.jpg` (1440×810, 16:9 crop) and `background-small.jpg` (900×800, for narrow screens) are served through a `<picture>` element. The photograph itself is lightly blurred (`--backdrop-blur`, default 4px, so the Bombe rotors stay recognizable), brightened (`--backdrop-brightness`, since the files themselves are pre-darkened) and covered by a light darkening gradient (`--overlay`), all in `src/styles/tokens.css`, so the glass panels read as distinct surfaces over it. Replace both files to change the scene; keep the same names or update `src/components/Backdrop.tsx`.
-- `src/assets/logo-white.png` / `logo-black.png` are the brand mark with transparent background; `public/favicon.png` and `apple-touch-icon.png` are derived from it. The mark appears in the header and in the hero.
+- `src/assets/logo-black.png` is the brand mark with transparent background; `public/favicon.png` and `apple-touch-icon.png` are derived from it. The mark appears in the header.
 - Profile links are icon pills in the hero (`src/components/Icons.tsx`). GitHub and ORCID paths come from simple-icons (CC0, inline SVG); the Lattes button uses the supplied mark (`src/assets/lattes-mask.png`) as a CSS mask so it takes the current color; the LinkedIn and e-mail glyphs are simplified in-house drawings. Swap any of them by editing its small component.
-- The theme is dark-first because the photograph (a black-and-white picture of a Bombe codebreaking machine) is toned down in the files themselves so the glass panels stay legible over it. A light token set is kept under `:root[data-theme="light"]` in `src/styles/tokens.css` for a future toggle; it is not active.
+- The theme is light-first (ice-white page, white translucent panels over the glass bust). A dark token set is kept under `:root[data-theme="dark"]` in `src/styles/tokens.css` for a future toggle; it is not active.
 
 ## Language behavior
 
@@ -229,24 +228,23 @@ npm run build && npm run preview
 
 ## Design notes (provisional)
 
-- Visual direction inspired by translucent, layered "liquid glass" interfaces, applied with restraint: glass on the header, hero, and section cards only; `backdrop-filter` with a near-opaque fallback when unsupported.
-- Light and dark themes follow `prefers-color-scheme`; `prefers-reduced-motion` disables transitions and smooth scrolling.
-- Colors are defined as tokens in `src/styles/tokens.css` and are an initial base, not a final identity.
+- Visual direction: translucent, layered "liquid glass" over an ice-white ground, applied with restraint: glass on the header and the section cards, the bust behind them; `backdrop-filter` with a near-opaque fallback when unsupported.
+- `prefers-reduced-motion` disables transitions, smooth scrolling, the bust's motion and the map animation.
+- Colors are defined as tokens in `src/styles/tokens.css`.
 - System font stack (SF Pro on Apple devices, Segoe UI / Inter / Roboto elsewhere).
 
 ## Verification performed
 
-- `npm run check` (typecheck, 23 unit tests, production build) passes.
-- Glass bust (headless Chromium with SwiftShader WebGL): model loads and the canvas reports `ready`; pointer movement turns the bust; no animation frames while the hero is scrolled off screen; with `prefers-reduced-motion` the bust renders once and issues no frames; with WebGL disabled the static image remains with its alt text and no canvas is created; no console errors. Frame rate on real GPUs could not be measured in this environment.
-- Headless Chromium checks (desktop 1440px and 1280px, tablet 820px, iPhone-sized 390px, in both languages): no horizontal overflow; single `h1`; every `<img>` has `alt`; no reference to a profile photo; `rel="noopener noreferrer"` on every new-tab link; the five profile links point to the expected URLs; the map canvas has an accessible name; the pause button works by keyboard and announces its state; the indicator table opens by keyboard; the animation loop issues no frames while the map is off screen; with `prefers-reduced-motion` and when `getContext('2d')` is unavailable the static SVG map is rendered with its explanation.
+- `npm run check` (typecheck, 22 unit tests, production build) passes.
+- Glass bust (headless Chromium with SwiftShader WebGL): model loads and the backdrop reports `ready`; pointer movement and scrolling turn the bust; frames are only issued while it is still settling; with `prefers-reduced-motion` it renders once and issues no frames; with WebGL disabled no canvas is created and the static image is set as the background; no console errors. Frame rate on real GPUs could not be measured in this environment.
+- Headless Chromium checks (desktop 1440px and 1280px, iPhone-sized 390px, in both languages): no horizontal overflow; single `h1`; every `<img>` has `alt`; no reference to a profile photo; `rel="noopener noreferrer"` on every new-tab link; the five profile links point to the expected URLs; the Brazil map canvas has an accessible name and the simulation notice is present; the pause button works by keyboard and announces its state; the map loop issues no frames while it is off screen; with `prefers-reduced-motion` and when the 2D context is unavailable the static SVG map is rendered with its explanation.
 
 ## Known limitations and pending tasks
 
-- **Background image license:** the Bombe photograph was supplied by the site owner. Its source and license have not been recorded here; confirm them (and add a credit line if the license requires one) or replace it with a licensed or original image (two files under `src/assets/`).
-- **Impact figures were verified through search-engine excerpts** of the primary pages (CNJ, Securelist, Kaspersky), because those hosts were not reachable from the build environment. In the justice module, 21.07 / 4.48, 37.93 / 2.58 and 2,389 / 252 rest on the ConJur report; the reference year of the European (CEPEJ) figures inside the CNJ comparison is not stated in the module. Open the CNJ executive summary and the Securelist report once and confirm the values in `src/content/impact/*.ts`.
-- **The threat map has no data source by design.** Connecting it to a real feed would require a public, licensed, documented API (Kaspersky's map does not offer one) and a static-site-compatible way to fetch it; keep the simulation labelling until then.
+- **Impact figures were verified through search-engine excerpts** of the primary pages (CNJ, Securelist, Kaspersky) and the ConJur report, because those hosts were not reachable from the build environment; the reference year of the European (CEPEJ) figures inside the CNJ comparison is not stated in the module. Open the CNJ executive summary and the Securelist report once and confirm the values in `src/content/impact/*.ts`.
+- **The Brazil map has no data source by design.** Connecting it to a real feed would require a public, licensed, documented API (Kaspersky's map does not offer one) and a static-site-compatible way to fetch it; keep the simulation labelling until then.
 - **Organization links:** the organization tiles are not linked because their URLs were not verified from the build environment; add a `url` field in `src/content/organizations.ts` after checking each one.
-- **Light theme:** not active; the dark theme matches the background photograph.
+- **Dark theme:** not active; tokens are kept for a future toggle.
 - **CV downloads:** no PDF is included. The bilingual CV used as the content source was not added because publication was not explicitly authorized; add approved files under `public/cv/` and reference them in `src/config/site.ts`.
 - **External links:** GitHub repository links were verified. LinkedIn, ORCID, Lattes, and the CARB demo URL are taken from the CV and the project READMEs; they could not be opened from the build environment and should be checked once in a browser.
 - **Open Graph in Portuguese:** OG tags are updated client-side when the language changes, but crawlers read the static English tags in `index.html`. Per-language share previews would require separate pre-rendered pages.

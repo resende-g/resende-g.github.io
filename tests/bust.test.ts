@@ -12,7 +12,7 @@ describe('glass bust assets', () => {
     expect(glb.length).toBeLessThan(400_000);
   });
 
-  it('ships the static render used as placeholder and fallback', () => {
-    expect(statSync('public/images/bust-static.png').size).toBeGreaterThan(10_000);
+  it('ships the static render used when WebGL is unavailable', () => {
+    expect(statSync('public/images/bust-backdrop.png').size).toBeGreaterThan(10_000);
   });
 });

@@ -1,30 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
 import { publicPath } from '../config/site';
-import { useInView } from '../hooks/useInView';
 import { useReducedMotion } from '../hooks/useReducedMotion';
-import { useI18n } from '../i18n';
 import type { BustScene } from './bustScene';
 
 type Status = 'loading' | 'ready' | 'fallback';
 
 /**
- * Glass bust of the site owner (3D scan rendered with three.js). The static render is shown first and
- * stays as the fallback when WebGL is unavailable or the model fails to load; the live canvas fades in
- * over it once ready. The scene only animates while on screen and in a visible tab.
+ * Page background: the glass bust (3D scan rendered with three.js) on the ice-white ground, behind every panel.
+ * It turns slightly toward the pointer and with the scroll position. A static render takes its place when WebGL is
+ * unavailable or the model fails to load. The scene is paused while the tab is hidden.
  */
-export function Bust() {
-  const { t } = useI18n();
+export function BustBackdrop() {
   const reduced = useReducedMotion();
   const hostRef = useRef<HTMLDivElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<BustScene | null>(null);
   const [status, setStatus] = useState<Status>('loading');
-  const visible = useInView(hostRef, { once: false, threshold: 0.05 });
 
   useEffect(() => {
-    const stage = stageRef.current;
-    if (!stage) return;
+    const host = hostRef.current;
+    if (!host) return;
     let cancelled = false;
+    const background = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#f3f5f9';
 
     import('./bustScene')
       .then((module) => {
@@ -33,11 +29,15 @@ export function Bust() {
           setStatus('fallback');
           return;
         }
-        sceneRef.current = module.createBustScene(stage, {
+        sceneRef.current = module.createBustScene(host, {
           modelUrl: publicPath('models/bust.glb'),
+          background,
           reducedMotion: reduced,
           onReady: () => {
             if (!cancelled) setStatus('ready');
+          },
+          onError: () => {
+            if (!cancelled) setStatus('fallback');
           },
         });
       })
@@ -53,24 +53,13 @@ export function Bust() {
   }, [reduced]);
 
   useEffect(() => {
-    const sync = () => sceneRef.current?.setActive(visible && document.visibilityState === 'visible');
+    const sync = () => sceneRef.current?.setActive(document.visibilityState === 'visible');
     sync();
     document.addEventListener('visibilitychange', sync);
     return () => document.removeEventListener('visibilitychange', sync);
-  }, [visible, status]);
+  }, [status]);
 
-  return (
-    <div className="bust" ref={hostRef} data-status={status}>
-      <img
-        className="bust__static"
-        src={publicPath('images/bust-static.png')}
-        alt={t.hero.bustAlt}
-        width={600}
-        height={690}
-        decoding="async"
-        fetchPriority="high"
-      />
-      <div className="bust__stage" ref={stageRef} aria-hidden="true" />
-    </div>
-  );
+  const fallbackStyle = status === 'fallback' ? { backgroundImage: `url(${publicPath('images/bust-backdrop.png')})` } : undefined;
+
+  return <div className="backdrop" ref={hostRef} data-status={status} style={fallbackStyle} aria-hidden="true" />;
 }
