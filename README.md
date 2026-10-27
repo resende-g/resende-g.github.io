@@ -24,13 +24,13 @@ No analytics, telemetry, fonts, or scripts are loaded from third parties. The si
 ├── index.html                     # HTML shell, English meta tags, Open Graph
 ├── public/
 │   ├── favicon.png, apple-touch-icon.png   # Generated from the brand mark
-│   ├── images/                    # Put the profile photo here (see below)
+│   ├── images/                    # (empty) public images, if any
 │   └── cv/                        # Put public CV PDFs here (see below)
 ├── src/
 │   ├── assets/                    # Bundled images: background photo (2 sizes), brand mark (white/black)
 │   ├── main.tsx                   # Entry point
 │   ├── App.tsx                    # Page composition (panel order)
-│   ├── config/site.ts             # Panel ids, CV files, repository URL, base-path helper
+│   ├── config/site.ts             # Panel ids, navigation order, CV files, repository URL, base-path helper
 │   ├── i18n/
 │   │   ├── locales.ts             # Supported locales, default locale, `Localized` type
 │   │   ├── locales/en.ts          # English UI strings (defines the dictionary shape)
@@ -38,17 +38,20 @@ No analytics, telemetry, fonts, or scripts are loaded from third parties. The si
 │   │   ├── LanguageProvider.tsx   # Context, persistence, <html lang>, title/meta updates
 │   │   └── index.ts               # Public i18n API
 │   ├── content/                   # Professional content (no UI logic)
-│   │   ├── profile.ts             # Name, tagline, summary, photo, profile links
+│   │   ├── profile.ts             # Name, tagline, summary, profile links
 │   │   ├── experience.ts
 │   │   ├── projects.ts
 │   │   ├── education.ts           # Degrees and certifications
 │   │   ├── research.ts            # Interests, groups, publications, identifiers
 │   │   ├── skills.ts
 │   │   ├── organizations.ts       # Employers, universities, groups (tiles)
-│   │   └── contact.ts
-│   ├── components/                # Header, ProfileCard, Panel, Logo, Backdrop, sections/*
-│   └── styles/                    # tokens.css, base.css, glass.css, layout.css
-└── tests/i18n.test.ts
+│   │   ├── contact.ts
+│   │   └── impact/                # Data modules: justice.ts, cyber.ts (figures + sources), worldGrid.ts (generated)
+│   ├── hooks/                     # useReducedMotion, useInView, useCountUp
+│   ├── components/                # Header, Hero, Panel, Logo, Backdrop, impact/*, sections/*
+│   └── styles/                    # tokens.css, base.css, glass.css, layout.css, impact.css
+├── scripts/build-world-grid.mjs   # Regenerates src/content/impact/worldGrid.ts from Natural Earth land polygons
+└── tests/                         # i18n.test.ts, impact.test.ts
 ```
 
 Content, translations, and components are deliberately separated: edit `src/content` to change what is said, `src/i18n/locales` to change interface labels, and `src/components` only to change how things are rendered.
@@ -111,9 +114,9 @@ To add a status value, extend `ProjectStatus` and add its label under `projects.
 
 Append to `publications` in `src/content/research.ts` (title, venue, year, optional `url` and `identifier` such as a DOI). The section shows a placeholder message while the list is empty.
 
-### Profile photo
+### Presentation without a portrait
 
-The current photo is `public/images/profile.jpg` (512×512, supplied by the site owner) and is referenced from `src/content/profile.ts` (`photo: 'images/profile.jpg'`). To replace it, overwrite the file with a square crop (at least 400×400 px); set `photo: null` to show the initials placeholder instead. If the file fails to load, the placeholder is shown automatically.
+The site deliberately shows no photograph of the owner: identity comes from the name, the typography and the content. `src/content/profile.ts` has no photo field; do not add one back.
 
 ### CV downloads
 
@@ -131,24 +134,53 @@ A "Download CV" button appears for each language that has a file. Review every d
 
 ## Layout
 
-The page follows a dashboard wireframe (desktop, ≥1024px):
+Page order (all widths): hero (name, identification, summary, links) → impact section (two data modules) → dashboard of panels.
+
+Dashboard on desktop (≥1024px):
 
 ```
-┌──────────────┬───────────────────┬──────────────┐
-│ Recent papers│ Profile card      │ Projects     │
-├──────────────┴───────────────────┤              │
-│ Curriculum                       ├──────────────┤
-│ (experience, education, skills)  │ Organizations│
-└──────────────────────────────────┴──────────────┘
+┌───────────────────┬──────────────────────────────────┐
+│ Projects          │ Curriculum                       │
+│ Organizations     │ (experience, education, skills)  │
+├───────────────────┤                                  │
+│ Recent papers     │                                  │
+└───────────────────┴──────────────────────────────────┘
 ```
 
-Below 1024px the panels stack in one column with the profile card first. Areas are defined with CSS grid in `src/styles/layout.css`; panel order in navigation comes from `PANEL_IDS` in `src/config/site.ts`.
+Below 1024px the panels stack in one column: projects, curriculum, papers, organizations. Areas are defined with CSS grid in `src/styles/layout.css`; the header navigation order comes from `NAV_IDS` in `src/config/site.ts`.
+
+## Impact modules (`src/components/impact`)
+
+Two modules sit right after the hero. Their figures live in `src/content/impact/*.ts`, each with unit, period, scope and source, and are covered by `tests/impact.test.ts`. The comments at the top of those files record how each number was verified and what could not be verified.
+
+### Justice: Brazil and the European Union (`justice.ts`)
+
+- Reference year **2024**, from CNJ's *Justiça em Números 2025* and its international comparison built on CEPEJ data; starting point was the ConJur report of 25 Sep 2025. Rates are **per 100 inhabitants** (part of the press coverage printed "per 100 thousand", which the arithmetic rules out: 39.4 M new cases over ~212 M inhabitants ≈ 18.5 per 100).
+- Three primary indicators are charted (new cases per 100 inhabitants, pending cases per 100 inhabitants, new cases per judge); the rest (resolved cases, resolved cases per judge, judges per 100 thousand inhabitants) are in the expandable table. The 80.6 million stock is shown as an absolute national total.
+- The statue is an original SVG illustration inspired by Ceschiatti's *A Justiça* (`JusticeStatue.tsx`), not a photograph.
+- Bars reveal and the values count up when the chart enters the viewport; with `prefers-reduced-motion` they render complete immediately.
+- A newer edition exists (*Justiça em Números 2026*, base year 2025, 75.5 million pending). The module keeps 2024 on purpose; migrate figures and sources together.
+
+### Cyber threats (`cyber.ts`)
+
+- **The map is a simulation.** `ThreatMap.tsx` draws a dotted world (land mask in `worldGrid.ts`) on a 2D canvas and animates synthetic arcs between a fixed list of cities, generated by a seeded PRNG in `threatSim.ts`. Nothing is fetched; no telemetry, no real-time data. The badge, the legend and the notice say so in the interface. Do not present it as monitoring.
+- The animation runs only while the map is on screen, the tab is visible and the user has not paused it (button, keyboard-accessible); frames are capped at ~30/s and the pixel ratio at 2; the canvas, observers and listeners are released on unmount. With `prefers-reduced-motion`, or when a 2D context is unavailable, `StaticThreatMap.tsx` renders the same map as a static SVG with a few fixed arcs and a one-line explanation.
+- Figures for **2025** (global and Brazil) come from Kaspersky's Security Bulletin 2025 press release, Securelist's "Spam and phishing in 2025" and Kaspersky Latin America's release; each tile states scope, period and what is counted. They measure different things (files detected, link clicks blocked, share of users affected, change in detections) and must not be summed or compared with each other.
+
+### Regenerating the land mask
+
+```bash
+mkdir /tmp/geo && cd /tmp/geo && npm i world-atlas@2 topojson-client@3 d3-geo@3 && cd -
+NODE_PATH=/tmp/geo/node_modules node scripts/build-world-grid.mjs > src/content/impact/worldGrid.ts
+```
+
+The packages are used only by the script and are not project dependencies. Data: Natural Earth 1:50m land (public domain) via `world-atlas`.
 
 ### Background photograph and brand mark
 
 - `src/assets/background.jpg` (1440×810, 16:9 crop) and `background-small.jpg` (900×800, for narrow screens) are served through a `<picture>` element. The photograph itself is lightly blurred (`--backdrop-blur`, default 4px, so the Bombe rotors stay recognizable), brightened (`--backdrop-brightness`, since the files themselves are pre-darkened) and covered by a light darkening gradient (`--overlay`), all in `src/styles/tokens.css`, so the glass panels read as distinct surfaces over it. Replace both files to change the scene; keep the same names or update `src/components/Backdrop.tsx`.
-- `src/assets/logo-white.png` / `logo-black.png` are the brand mark with transparent background; `public/favicon.png` and `apple-touch-icon.png` are derived from it. The mark appears in the header and in the profile card.
-- Profile links are icon buttons (`src/components/Icons.tsx`). GitHub and ORCID paths come from simple-icons (CC0, inline SVG); the Lattes button uses the supplied mark (`src/assets/lattes-mask.png`) as a CSS mask so it takes the current color; the LinkedIn and e-mail glyphs are simplified in-house drawings. Swap any of them by editing its small component.
+- `src/assets/logo-white.png` / `logo-black.png` are the brand mark with transparent background; `public/favicon.png` and `apple-touch-icon.png` are derived from it. The mark appears in the header and in the hero.
+- Profile links are icon pills in the hero (`src/components/Icons.tsx`). GitHub and ORCID paths come from simple-icons (CC0, inline SVG); the Lattes button uses the supplied mark (`src/assets/lattes-mask.png`) as a CSS mask so it takes the current color; the LinkedIn and e-mail glyphs are simplified in-house drawings. Swap any of them by editing its small component.
 - The theme is dark-first because the photograph (a black-and-white picture of a Bombe codebreaking machine) is toned down in the files themselves so the glass panels stay legible over it. A light token set is kept under `:root[data-theme="light"]` in `src/styles/tokens.css` for a future toggle; it is not active.
 
 ## Language behavior
@@ -190,15 +222,16 @@ npm run build && npm run preview
 - Colors are defined as tokens in `src/styles/tokens.css` and are an initial base, not a final identity.
 - System font stack (SF Pro on Apple devices, Segoe UI / Inter / Roboto elsewhere).
 
-## Verification performed on the first version
+## Verification performed
 
-- `npm run check` (typecheck, 11 unit tests, production build) passes.
-- Headless Chromium checks (desktop 1280px and 1440px, iPhone-sized 390px with reduced motion): English by default, `<html lang>` and metadata switch to `pt-BR`, preference persisted and restored, keyboard activation of the language switch, skip link as first tab stop, single `h1`, `rel="noopener noreferrer"` on every new-tab link, no horizontal overflow on mobile, profile card first on mobile, photo placeholder horizontally centered, reading position preserved across the language switch.
+- `npm run check` (typecheck, 23 unit tests, production build) passes.
+- Headless Chromium checks (desktop 1440px and 1280px, tablet 820px, iPhone-sized 390px, in both languages): no horizontal overflow; single `h1`; every `<img>` has `alt`; no reference to a profile photo; `rel="noopener noreferrer"` on every new-tab link; the five profile links point to the expected URLs; the map canvas has an accessible name; the pause button works by keyboard and announces its state; the indicator table opens by keyboard; the animation loop issues no frames while the map is off screen; with `prefers-reduced-motion` and when `getContext('2d')` is unavailable the static SVG map is rendered with its explanation.
 
 ## Known limitations and pending tasks
 
 - **Background image license:** the Bombe photograph was supplied by the site owner. Its source and license have not been recorded here; confirm them (and add a credit line if the license requires one) or replace it with a licensed or original image (two files under `src/assets/`).
-- **Project metrics:** the wireframe labels the right panel "Projects and metrics". No metrics are shown because none are documented; repository statistics could be added later from the GitHub API without inventing figures.
+- **Impact figures were verified through search-engine excerpts** of the primary pages (CNJ, Securelist, Kaspersky), because those hosts were not reachable from the build environment. In the justice module, 21.07 / 4.48, 37.93 / 2.58 and 2,389 / 252 rest on the ConJur report; the reference year of the European (CEPEJ) figures inside the CNJ comparison is not stated in the module. Open the CNJ executive summary and the Securelist report once and confirm the values in `src/content/impact/*.ts`.
+- **The threat map has no data source by design.** Connecting it to a real feed would require a public, licensed, documented API (Kaspersky's map does not offer one) and a static-site-compatible way to fetch it; keep the simulation labelling until then.
 - **Organization links:** the organization tiles are not linked because their URLs were not verified from the build environment; add a `url` field in `src/content/organizations.ts` after checking each one.
 - **Light theme:** not active; the dark theme matches the background photograph.
 - **CV downloads:** no PDF is included. The bilingual CV used as the content source was not added because publication was not explicitly authorized; add approved files under `public/cv/` and reference them in `src/config/site.ts`.
@@ -206,5 +239,6 @@ npm run build && npm run preview
 - **Open Graph in Portuguese:** OG tags are updated client-side when the language changes, but crawlers read the static English tags in `index.html`. Per-language share previews would require separate pre-rendered pages.
 - **Publications:** the list is empty by design until there are published works to cite.
 - **Mobile navigation:** section links scroll horizontally in the header on narrow screens; a collapsible menu was not built in this version.
+- **Statue illustration:** a simplified geometric SVG; a modelled or photographed version would need a licensed source.
 - **Pages setup:** the GitHub Pages source must be set to "GitHub Actions" manually before the first deployment works.
 - **Palette, iconography, animations:** provisional; to be refined in later iterations.
