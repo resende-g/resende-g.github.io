@@ -2,7 +2,7 @@ import { useI18n } from '../../i18n';
 import { CyberModule } from './CyberModule';
 import { JusticeModule } from './JusticeModule';
 
-/** Two short data modules (Justice, Cybersecurity) right after the presentation: context for the CV, not a dashboard. */
+/** Two short data modules (Justice, Cybersecurity) at the end of the page: context for the CV, not a dashboard. */
 export function ImpactSection() {
   const { t } = useI18n();
   return (

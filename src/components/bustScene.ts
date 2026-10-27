@@ -1,6 +1,8 @@
 /**
- * Three.js scene for the polished graphite bust that fills the page background. Loaded on demand (dynamic import) so
- * three.js stays out of the initial bundle. Everything created here is released by `dispose()`.
+ * Three.js scene for the polished graphite bust shown in the hero. Loaded on demand (dynamic import) so three.js
+ * stays out of the initial bundle. The canvas is transparent and fills the host element; the host's size and
+ * position come from CSS, so the scene only fits the bust inside it. Everything created here is released by
+ * `dispose()`.
  */
 import {
   ACESFilmicToneMapping,
@@ -26,16 +28,14 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 export interface BustSceneOptions {
   modelUrl: string;
-  /** Page background color; the canvas clears to it. */
-  background: string;
-  /** No idle sway, no pointer or scroll response; a single frame is rendered after load and on resize. */
+  /** No pointer or scroll response; a single frame is rendered after load and on resize. */
   reducedMotion: boolean;
   onReady: () => void;
   onError: () => void;
 }
 
 export interface BustScene {
-  /** Start or stop the frame loop (tab visibility). */
+  /** Start or stop the frame loop (host on screen and tab visible). */
   setActive: (active: boolean) => void;
   dispose: () => void;
 }
@@ -46,9 +46,13 @@ const MODEL_HEIGHT = 1.6;
 const MODEL_YAW = 0;
 const POINTER_YAW = 0.22;
 const POINTER_PITCH = 0.08;
-/** Extra turn and drift accumulated over the full page scroll. */
-const SCROLL_YAW = 0.55;
-const SCROLL_DRIFT = 0.45;
+/** Extra turn accumulated while the hero scrolls out of view. */
+const SCROLL_YAW = 0.35;
+/** Share of the host's height and width the bust may fill; the bottom of the host is faded out by CSS. */
+const FILL_HEIGHT = 0.94;
+const FILL_WIDTH = 0.84;
+/** How far below the host's bottom edge the base of the scan sits, as a share of the host's height. */
+const BASE_DROP = 0.01;
 
 export function hasWebGL(): boolean {
   try {
@@ -79,17 +83,15 @@ function makeShadowTexture(): CanvasTexture {
 }
 
 export function createBustScene(host: HTMLElement, options: BustSceneOptions): BustScene {
-  const renderer = new WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'low-power' });
+  const renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO));
-  renderer.setClearColor(new Color(options.background), 1);
+  renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = SRGBColorSpace;
   renderer.toneMapping = ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1;
-  renderer.transmissionResolutionScale = 0.5;
   host.appendChild(renderer.domElement);
 
   const scene = new Scene();
-  scene.background = new Color(options.background);
   const camera = new PerspectiveCamera(24, 1, 0.1, 20);
   camera.position.set(0, 0, 4.6);
 
@@ -129,12 +131,14 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
 
   let disposed = false;
   let frame = 0;
-  /** Tab visible and motion allowed. */
+  /** Host on screen, tab visible and motion allowed. */
   let active = false;
   /** A frame is scheduled; the loop stops by itself once the bust has settled. */
   let running = false;
   let lastTime = 0;
   let loaded = false;
+  /** Width of the normalized model (its height is MODEL_HEIGHT); refined once the scan has loaded. */
+  let modelWidth = 1.2;
   const target = { yaw: 0, pitch: 0 };
   const current = { yaw: 0, pitch: 0 };
   let scrollFraction = 0;
@@ -144,12 +148,14 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
     renderer.render(scene, camera);
   };
 
+  /** 0 while the host is at or below the top of the viewport, 1 once it has scrolled completely out above it. */
   const readScroll = () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    scrollFraction = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    const rect = host.getBoundingClientRect();
+    scrollFraction = rect.height > 0 ? Math.min(1, Math.max(0, -rect.top / rect.height)) : 0;
   };
 
-  /** Centers the bust; smaller and higher on narrow viewports so the hero text fits below it. */
+  /** Fits the bust inside the host: as large as the host allows, bottom-aligned so the flat cut of the scan always
+   *  falls in the host's fully faded base (any spare height becomes headroom). */
   const layout = () => {
     const width = host.clientWidth;
     const height = host.clientHeight;
@@ -157,12 +163,12 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height, false);
-    const wide = camera.aspect >= 1;
     const visibleHeight = 2 * camera.position.z * Math.tan((camera.fov * Math.PI) / 360);
-    // The bust occupies roughly the upper 45% of the first screen; the hero text starts below it.
-    anchor.scale.setScalar(wide ? 0.52 : 0.44);
+    const visibleWidth = visibleHeight * camera.aspect;
+    const scale = Math.min((FILL_HEIGHT * visibleHeight) / MODEL_HEIGHT, (FILL_WIDTH * visibleWidth) / modelWidth);
+    anchor.scale.setScalar(scale);
     anchor.position.x = 0;
-    anchor.position.y = wide ? visibleHeight * 0.2 : visibleHeight * 0.17;
+    anchor.position.y = (MODEL_HEIGHT * scale - visibleHeight) / 2 - BASE_DROP * visibleHeight;
     render();
   };
 
@@ -188,13 +194,14 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
       const scale = MODEL_HEIGHT / (size.y || 1);
       gltf.scene.position.sub(center).multiplyScalar(scale);
       gltf.scene.scale.setScalar(scale);
+      modelWidth = size.x * scale || modelWidth;
       const model = new Group();
       model.rotation.y = MODEL_YAW;
       model.add(gltf.scene);
       pivot.add(model);
       loaded = true;
       options.onReady();
-      render();
+      layout();
       requestFrame();
     },
     undefined,
@@ -232,8 +239,7 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
     const k = 1 - Math.exp(-dt * 4);
     const yawTarget = target.yaw + scrollFraction * SCROLL_YAW;
     const pitchTarget = target.pitch + scrollFraction * 0.06;
-    const driftTarget = -scrollFraction * SCROLL_DRIFT;
-    const delta = Math.abs(yawTarget - current.yaw) + Math.abs(pitchTarget - current.pitch) + Math.abs(driftTarget - pivot.position.y);
+    const delta = Math.abs(yawTarget - current.yaw) + Math.abs(pitchTarget - current.pitch);
     if (delta < 0.0005) {
       running = false;
       return;
@@ -241,9 +247,6 @@ export function createBustScene(host: HTMLElement, options: BustSceneOptions): B
     current.yaw += (yawTarget - current.yaw) * k;
     current.pitch += (pitchTarget - current.pitch) * k;
     pivot.rotation.set(current.pitch, current.yaw, 0);
-    pivot.position.y += (driftTarget - pivot.position.y) * k;
-    // Dim the bust as the reader moves into the content so the panels stay quiet.
-    renderer.domElement.style.opacity = String(1 - 0.45 * Math.min(1, scrollFraction / 0.3));
     render();
     frame = requestAnimationFrame(loop);
   };

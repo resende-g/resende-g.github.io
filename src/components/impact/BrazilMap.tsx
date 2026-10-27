@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useInView } from '../../hooks/useInView';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { useI18n } from '../../i18n';
+import { PauseIcon, PlayIcon } from '../Icons';
 import { BRAZIL_ASPECT, STATIC_STRIKES, createSimulation, lonLatToPoint, outlinePoints, type Point, type Strike } from './brazilMap';
 
 const MAX_PIXEL_RATIO = 2;
@@ -133,8 +134,8 @@ function StaticBrazilMap({ reason }: { reason?: string }) {
 
 /**
  * Brazil as a glass slab with synthetic silver "strikes" falling onto it (demonstration only).
- * 2D canvas; animates only while on screen, in a visible tab and not paused; static SVG under reduced motion or
- * without canvas support.
+ * 2D canvas; always animating while on screen and in a visible tab, unless the visitor pauses it with the small
+ * control; static SVG under reduced motion or without canvas support.
  */
 export function BrazilMap() {
   const { t } = useI18n();
@@ -225,11 +226,20 @@ export function BrazilMap() {
 
   if (useStatic) return <StaticBrazilMap reason={reduced ? t.impact.cyber.reducedMotion : t.impact.cyber.noCanvas} />;
 
+  const controlLabel = paused ? t.impact.cyber.resume : t.impact.cyber.pause;
+
   return (
     <div className="brmap" ref={hostRef}>
       <canvas ref={canvasRef} className="brmap__canvas" role="img" aria-label={t.impact.cyber.mapLabel} />
-      <button type="button" className="brmap__control" aria-pressed={paused} onClick={() => setPaused((value) => !value)}>
-        {paused ? t.impact.cyber.resume : t.impact.cyber.pause}
+      {/* Always running by default; this small control keeps the animation pausable (WCAG 2.2.2). */}
+      <button
+        type="button"
+        className="brmap__control"
+        aria-label={controlLabel}
+        title={controlLabel}
+        onClick={() => setPaused((value) => !value)}
+      >
+        {paused ? <PlayIcon /> : <PauseIcon />}
       </button>
     </div>
   );

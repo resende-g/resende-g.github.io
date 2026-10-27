@@ -8,11 +8,10 @@ export const ptBR: Dictionary = {
   },
   nav: {
     label: 'Navegação principal',
-    impact: 'Dados',
-    papers: 'Papers',
-    projects: 'Projetos',
     curriculum: 'Currículo',
-    organizations: 'Organizações',
+    projects: 'Projetos',
+    research: 'Pesquisa',
+    impact: 'Dados',
     skipToContent: 'Ir para o conteúdo',
   },
   brand: {
@@ -21,20 +20,17 @@ export const ptBR: Dictionary = {
   },
   language: {
     label: 'Idioma',
-    switchTo: 'Mudar para {name}',
   },
   hero: {
     primaryCta: 'Ver projetos',
     secondaryCta: 'Entrar em contato',
     downloadCv: 'Baixar currículo',
-    linksLabel: 'Código e perfis profissionais',
-    academicLabel: 'Perfis acadêmicos e contato',
+    profilesLabel: 'Perfis profissionais e acadêmicos',
   },
   panels: {
-    papers: { title: 'Papers recentes', lead: 'Publicações, interesses de pesquisa e identificadores acadêmicos.' },
     projects: { title: 'Projetos', lead: 'Repositórios públicos. As descrições seguem o README de cada projeto; a situação reflete o que está documentado ali.' },
     curriculum: { title: 'Currículo', lead: 'Experiência profissional, formação acadêmica e competências.' },
-    organizations: { title: 'Organizações', lead: 'Empregadores, universidades e grupos do histórico profissional e acadêmico.' },
+    research: { title: 'Pesquisa', lead: 'Atividades acadêmicas, interesses de pesquisa e identificadores.' },
   },
   curriculum: {
     experience: 'Experiência profissional',
@@ -71,7 +67,6 @@ export const ptBR: Dictionary = {
     interests: 'Interesses de pesquisa',
     groups: 'Grupos e atividades acadêmicas',
     publications: 'Publicações',
-    publicationsEmpty: 'Nenhuma publicação listada ainda. Referências e links serão adicionados aqui.',
     identifiers: 'Identificadores acadêmicos',
   },
   contact: {
@@ -94,12 +89,11 @@ export const ptBR: Dictionary = {
     cyber: {
       title: 'Cibersegurança no Brasil',
       lead: 'Um mapa demonstrativo e números do relatório de 2025 da Brasscom.',
-      simulationBadge: 'Simulação',
       simulationNotice: 'O mapa mostra eventos sintéticos desenhados no seu navegador, não ataques reais nem dados em tempo real.',
       mapLabel: 'Mapa de vidro do Brasil com rastros prateados animados representando eventos cibernéticos simulados',
       staticMapLabel: 'Mapa de vidro do Brasil com rastros prateados de exemplo representando eventos cibernéticos simulados (versão estática)',
-      pause: 'Pausar',
-      resume: 'Retomar',
+      pause: 'Pausar animação',
+      resume: 'Retomar animação',
       reducedMotion: 'Versão estática: seu sistema prefere movimento reduzido.',
       noCanvas: 'Versão estática: o navegador não conseguiu desenhar a animação.',
     },

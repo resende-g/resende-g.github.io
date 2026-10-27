@@ -11,21 +11,23 @@ function Experience() {
       <h3 className="subheading">{t.curriculum.experience}</h3>
       <div className="stack">
         {experience.map((entry) => (
-          <article key={entry.id} className="item" aria-labelledby={`exp-${entry.id}`}>
-            <div className="item__head">
+          <article key={entry.id} className="item exp" aria-labelledby={`exp-${entry.id}`}>
+            <div className="exp__meta">
               <h4 id={`exp-${entry.id}`}>{tr(entry.role)}</h4>
-              <span className="meta">{tr(entry.period)}</span>
+              <p className="item__org">
+                {entry.organization}
+                {entry.unit ? ` · ${tr(entry.unit)}` : ''} · {tr(entry.location)}
+              </p>
+              <p className="meta">{tr(entry.period)}</p>
             </div>
-            <p className="item__org">
-              {entry.organization}
-              {entry.unit ? ` · ${tr(entry.unit)}` : ''} · {tr(entry.location)}
-            </p>
-            {entry.summary && <p className="item__text">{tr(entry.summary)}</p>}
-            <ul className="bullets" aria-label={t.experience.highlightsLabel}>
-              {entry.highlights.map((item, index) => (
-                <li key={index}>{tr(item)}</li>
-              ))}
-            </ul>
+            <div className="exp__body">
+              {entry.summary && <p className="item__text">{tr(entry.summary)}</p>}
+              <ul className="bullets" aria-label={t.experience.highlightsLabel}>
+                {entry.highlights.map((item, index) => (
+                  <li key={index}>{tr(item)}</li>
+                ))}
+              </ul>
+            </div>
           </article>
         ))}
       </div>

@@ -60,7 +60,7 @@ describe('UI dictionaries', () => {
 
 describe('localized content', () => {
   const samples = [
-    profile.tagline,
+    ...profile.tagline,
     profile.summary,
     ...experience.flatMap((entry) => [entry.role, entry.period, ...entry.highlights]),
     ...projects.map((project) => project.description),

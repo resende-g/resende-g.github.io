@@ -1,12 +1,11 @@
 /*
- * Impact section: two short modules (Justice, Cybersecurity) after the hero.
+ * Impact section: two short modules (Justice, Cybersecurity) at the end of the page, after Research.
  * Chart colors are fixed per entity: Brazil in the blood-red accent, the EU in graphite; validated for
  * color-vision deficiency on the light surface (they also differ in lightness).
  */
 .impact {
   --series-brazil: #8f0f1c;
   --series-eu: #7a7e86;
-  scroll-margin-top: calc(var(--header-height) + var(--space-3));
 }
 
 .impact__header {
@@ -14,8 +13,10 @@
   padding: 0 clamp(0.5rem, 2vw, 1.5rem);
 }
 
+/* Same scale as .panel__title. */
 .impact__title {
-  font-size: clamp(1.3rem, 1vw + 1rem, 1.75rem);
+  font-size: clamp(1.3rem, 0.8vw + 1.05rem, 1.6rem);
+  font-weight: 650;
   letter-spacing: -0.02em;
 }
 
@@ -256,21 +257,6 @@
   position: relative;
 }
 
-.map-badge {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  padding: 0.12rem 0.55rem;
-  border-radius: var(--radius-pill);
-  background: var(--glass-bg-strong);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 0 0 1px var(--glass-edge);
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
 .brmap {
   position: relative;
   width: 100%;
@@ -283,24 +269,33 @@
   height: auto;
 }
 
+/* Small icon-only pause/resume control: discreet, but still a 28px target with a visible icon (≥3:1). */
 .brmap__control {
   position: absolute;
   top: 0;
   right: 0;
-  min-height: 1.9rem;
-  padding: 0.15rem 0.65rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg-strong);
-  box-shadow: 0 0 0 1px var(--glass-edge);
-  color: var(--text-muted);
-  font-size: 0.75rem;
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-subtle);
   cursor: pointer;
-  transition: background-color var(--motion-fast) var(--ease), color var(--motion-fast) var(--ease);
+  transition: background-color var(--motion-fast) var(--ease), color var(--motion-fast) var(--ease), border-color var(--motion-fast) var(--ease);
+}
+
+.brmap__control svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  fill: currentColor;
 }
 
 .brmap__control:hover {
-  background: var(--accent-soft);
+  background: var(--glass-bg-strong);
+  border-color: var(--divider);
   color: var(--text);
 }
 

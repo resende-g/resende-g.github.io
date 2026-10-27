@@ -10,11 +10,10 @@ export const en = {
   },
   nav: {
     label: 'Main navigation',
-    impact: 'Data',
-    papers: 'Papers',
-    projects: 'Projects',
     curriculum: 'Curriculum',
-    organizations: 'Organizations',
+    projects: 'Projects',
+    research: 'Research',
+    impact: 'Data',
     skipToContent: 'Skip to content',
   },
   brand: {
@@ -23,20 +22,17 @@ export const en = {
   },
   language: {
     label: 'Language',
-    switchTo: 'Switch to {name}',
   },
   hero: {
     primaryCta: 'View projects',
     secondaryCta: 'Get in touch',
     downloadCv: 'Download CV',
-    linksLabel: 'Code and professional profiles',
-    academicLabel: 'Academic profiles and contact',
+    profilesLabel: 'Professional and academic profiles',
   },
   panels: {
-    papers: { title: 'Recent papers', lead: 'Publications, research interests, and academic identifiers.' },
     projects: { title: 'Projects', lead: 'Public repositories. Descriptions follow each project’s README; status reflects what is documented there.' },
     curriculum: { title: 'Curriculum', lead: 'Professional experience, academic background, and skills.' },
-    organizations: { title: 'Organizations', lead: 'Employers, universities, and groups from the professional and academic record.' },
+    research: { title: 'Research', lead: 'Academic activities, research interests, and identifiers.' },
   },
   curriculum: {
     experience: 'Professional experience',
@@ -73,7 +69,6 @@ export const en = {
     interests: 'Research interests',
     groups: 'Groups & academic activities',
     publications: 'Publications',
-    publicationsEmpty: 'No publications listed yet. References and links will be added here.',
     identifiers: 'Academic identifiers',
   },
   contact: {
@@ -96,12 +91,11 @@ export const en = {
     cyber: {
       title: 'Cybersecurity in Brazil',
       lead: 'A demonstrative map and figures from Brasscom’s 2025 report.',
-      simulationBadge: 'Simulation',
       simulationNotice: 'The map shows synthetic events drawn in your browser, not real attacks or real-time data.',
       mapLabel: 'Glass map of Brazil with animated silver streaks representing simulated cyber events',
       staticMapLabel: 'Glass map of Brazil with example silver streaks representing simulated cyber events (static version)',
-      pause: 'Pause',
-      resume: 'Resume',
+      pause: 'Pause animation',
+      resume: 'Resume animation',
       reducedMotion: 'Static version: your system prefers reduced motion.',
       noCanvas: 'Static version: the browser could not draw the animation.',
     },
