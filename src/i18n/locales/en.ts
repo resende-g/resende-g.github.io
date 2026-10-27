@@ -10,6 +10,7 @@ export const en = {
   },
   nav: {
     label: 'Main navigation',
+    impact: 'Data',
     papers: 'Papers',
     projects: 'Projects',
     curriculum: 'Curriculum',
@@ -25,8 +26,6 @@ export const en = {
     switchTo: 'Switch to {name}',
   },
   hero: {
-    photoAlt: 'Portrait of Gabriel Almeida Resende',
-    photoPlaceholder: 'Profile photo placeholder',
     primaryCta: 'View projects',
     secondaryCta: 'Get in touch',
     downloadCv: 'Download CV',
@@ -78,6 +77,33 @@ export const en = {
   },
   contact: {
     email: 'Email',
+  },
+  impact: {
+    title: 'Two fields, one requirement: data that can be trusted',
+    lead: 'A glimpse of the two fields I work in. Both come down to correct data, traceability and governance — the core of my work on legal data quality and in information security.',
+    brazil: 'Brazil',
+    eu: 'European Union',
+    sources: 'Sources',
+    justice: {
+      title: 'Justice in Brazil, compared with the European Union',
+      lead: 'Judicial demand in 2024, from CNJ data compared with CEPEJ data.',
+      statueAlt: 'Stylized illustration of the statue “A Justiça” by Alfredo Ceschiatti, in front of the Supreme Federal Court in Brasília: a seated, blindfolded figure with a sword across her lap.',
+      ratio: '{n}× in Brazil',
+      chartLabel: 'Comparison of judicial indicators between Brazil and the European Union, 2024',
+      periodNote: 'Reference year 2024, released with the 2025 reports. Comparison with the EU only; not a world ranking.',
+    },
+    cyber: {
+      title: 'Cybersecurity in Brazil',
+      lead: 'A demonstrative map and figures from Brasscom’s 2025 report.',
+      simulationBadge: 'Simulation',
+      simulationNotice: 'The map shows synthetic events drawn in your browser, not real attacks or real-time data.',
+      mapLabel: 'Glass map of Brazil with animated silver streaks representing simulated cyber events',
+      staticMapLabel: 'Glass map of Brazil with example silver streaks representing simulated cyber events (static version)',
+      pause: 'Pause',
+      resume: 'Resume',
+      reducedMotion: 'Static version: your system prefers reduced motion.',
+      noCanvas: 'Static version: the browser could not draw the animation.',
+    },
   },
   footer: {
     builtWith: 'Static site hosted on GitHub Pages. No tracking or analytics.',

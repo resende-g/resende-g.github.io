@@ -1,0 +1,334 @@
+/*
+ * Impact section: two short modules (Justice, Cybersecurity) after the hero.
+ * Chart colors are fixed per entity and validated for color-vision deficiency on the light surface.
+ */
+.impact {
+  --series-brazil: #2a78d6;
+  --series-eu: #8d93a3;
+  scroll-margin-top: calc(var(--header-height) + var(--space-3));
+}
+
+.impact__header {
+  max-width: 68ch;
+  padding: 0 clamp(0.5rem, 2vw, 1.5rem);
+}
+
+.impact__title {
+  font-size: clamp(1.3rem, 1vw + 1rem, 1.75rem);
+  letter-spacing: -0.02em;
+}
+
+.impact__lead {
+  margin-top: var(--space-2);
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  max-width: 62ch;
+}
+
+.impact__grid {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1100px) {
+  .impact__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+/* Module shell */
+.module {
+  padding: clamp(1.1rem, 2vw, 1.6rem);
+  min-width: 0;
+}
+
+.module__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.module__lead {
+  margin-top: var(--space-2);
+  color: var(--text-subtle);
+  font-size: 0.875rem;
+  max-width: 56ch;
+}
+
+.module__note {
+  margin-top: var(--space-3);
+  color: var(--text-subtle);
+  font-size: 0.8125rem;
+  max-width: 60ch;
+}
+
+/* Justice: figure beside the chart */
+.justice {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 560px) {
+  .justice {
+    grid-template-columns: minmax(7rem, 11rem) minmax(0, 1fr);
+    align-items: end;
+  }
+}
+
+.justice__figure {
+  display: flex;
+  justify-content: center;
+}
+
+.statue {
+  width: min(100%, 11rem);
+  height: auto;
+  filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.4));
+}
+
+@media (max-width: 559.98px) {
+  .statue { width: 7rem; }
+}
+
+/* Comparison bars */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.legend__swatch {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 3px;
+}
+
+.legend__swatch--brazil { background: var(--series-brazil); }
+.legend__swatch--eu { background: var(--series-eu); }
+
+.cmp + .cmp {
+  margin-top: var(--space-4);
+}
+
+.cmp__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.cmp__label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.cmp__unit {
+  font-size: 0.78rem;
+  color: var(--text-subtle);
+}
+
+.cmp__ratio {
+  margin-left: auto;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--chip-bg);
+  font-variant-numeric: tabular-nums;
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr) 4.5rem;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.8125rem;
+}
+
+.bar + .bar {
+  margin-top: 0.35rem;
+}
+
+.bar__name {
+  color: var(--text-muted);
+}
+
+.bar__track {
+  display: block;
+  height: 0.8rem;
+  border-radius: 0 4px 4px 0;
+  overflow: hidden;
+  box-shadow: inset 1px 0 0 var(--divider);
+}
+
+.bar__fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  border-radius: 0 4px 4px 0;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 700ms var(--ease);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+.is-visible .bar__fill {
+  transform: scaleX(var(--p, 0));
+}
+
+.bar__fill--brazil { background: var(--series-brazil); }
+.bar__fill--eu { background: var(--series-eu); }
+
+.bar__value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .bar {
+    grid-template-columns: 6.6rem minmax(0, 1fr) 4rem;
+    font-size: 0.78rem;
+  }
+
+  .bar__name { line-height: 1.2; }
+}
+
+/* Sources: one line */
+.sources {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--divider);
+  font-size: 0.8125rem;
+  color: var(--text-subtle);
+}
+
+.sources__title {
+  font-weight: 600;
+}
+
+/* Cyber: glass map of Brazil beside two figures */
+.cyber {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 560px) {
+  .cyber {
+    grid-template-columns: minmax(9rem, 13rem) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.cyber__map {
+  position: relative;
+}
+
+.map-badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  padding: 0.12rem 0.55rem;
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 0 0 1px var(--glass-edge);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.brmap {
+  position: relative;
+  width: 100%;
+}
+
+.brmap__canvas,
+.brmap__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.brmap__control {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-height: 1.9rem;
+  padding: 0.15rem 0.65rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-strong);
+  box-shadow: 0 0 0 1px var(--glass-edge);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color var(--motion-fast) var(--ease), color var(--motion-fast) var(--ease);
+}
+
+.brmap__control:hover {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.brmap__status {
+  margin: var(--space-2) 0 0;
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+}
+
+.stats {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+}
+
+.stat {
+  display: grid;
+  gap: 0.15rem;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--divider);
+}
+
+.stat__value {
+  font-size: clamp(1.25rem, 0.8vw + 1rem, 1.6rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.stat__label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.stat__note {
+  font-size: 0.78rem;
+  color: var(--text-subtle);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar__fill { transition: none; }
+}

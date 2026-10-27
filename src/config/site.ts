@@ -9,6 +9,10 @@ import type { Locale } from '../i18n/locales';
 export const PANEL_IDS = ['papers', 'projects', 'curriculum', 'organizations'] as const;
 export type PanelId = (typeof PANEL_IDS)[number];
 
+/** Header navigation order: the impact section (data modules) first, then the panels. */
+export const NAV_IDS = ['impact', 'projects', 'curriculum', 'papers', 'organizations'] as const;
+export type NavId = (typeof NAV_IDS)[number];
+
 /**
  * CV files for download, relative to the `public/` folder (e.g. "cv/Gabriel_Resende_CV_EN.pdf").
  * `null` hides the button for that language. Only place files here that are approved for public release.

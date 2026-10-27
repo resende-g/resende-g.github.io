@@ -1,4 +1,4 @@
-import { PANEL_IDS } from '../config/site';
+import { NAV_IDS } from '../config/site';
 import { useI18n } from '../i18n';
 import { LanguageSwitch } from './LanguageSwitch';
 import { Logo } from './Logo';
@@ -15,7 +15,7 @@ export function Header() {
             <span>{t.brand.shortName}</span>
           </a>
           <nav className="nav" aria-label={t.nav.label}>
-            {PANEL_IDS.map((id) => (
+            {NAV_IDS.map((id) => (
               <a key={id} className="nav__link" href={`#${id}`}>
                 {t.nav[id]}
               </a>

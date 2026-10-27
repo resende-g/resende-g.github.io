@@ -8,6 +8,7 @@ export const ptBR: Dictionary = {
   },
   nav: {
     label: 'Navegação principal',
+    impact: 'Dados',
     papers: 'Papers',
     projects: 'Projetos',
     curriculum: 'Currículo',
@@ -23,8 +24,6 @@ export const ptBR: Dictionary = {
     switchTo: 'Mudar para {name}',
   },
   hero: {
-    photoAlt: 'Retrato de Gabriel Almeida Resende',
-    photoPlaceholder: 'Espaço reservado para a fotografia de perfil',
     primaryCta: 'Ver projetos',
     secondaryCta: 'Entrar em contato',
     downloadCv: 'Baixar currículo',
@@ -76,6 +75,33 @@ export const ptBR: Dictionary = {
   },
   contact: {
     email: 'E-mail',
+  },
+  impact: {
+    title: 'Dois campos, uma exigência: dados em que se possa confiar',
+    lead: 'Um recorte dos dois campos em que atuo. Ambos se resolvem em dados corretos, rastreabilidade e governança — o núcleo do meu trabalho em qualidade de dados jurídicos e em segurança da informação.',
+    brazil: 'Brasil',
+    eu: 'União Europeia',
+    sources: 'Fontes',
+    justice: {
+      title: 'Justiça no Brasil, comparada com a União Europeia',
+      lead: 'Demanda judicial em 2024, com dados do CNJ comparados a dados da CEPEJ.',
+      statueAlt: 'Ilustração estilizada da estátua “A Justiça”, de Alfredo Ceschiatti, em frente ao Supremo Tribunal Federal, em Brasília: figura sentada, com os olhos vendados e uma espada sobre o colo.',
+      ratio: '{n}× no Brasil',
+      chartLabel: 'Comparação de indicadores judiciais entre Brasil e União Europeia, 2024',
+      periodNote: 'Ano de referência 2024, divulgado com os relatórios de 2025. Comparação apenas com a UE; não é um ranking mundial.',
+    },
+    cyber: {
+      title: 'Cibersegurança no Brasil',
+      lead: 'Um mapa demonstrativo e números do relatório de 2025 da Brasscom.',
+      simulationBadge: 'Simulação',
+      simulationNotice: 'O mapa mostra eventos sintéticos desenhados no seu navegador, não ataques reais nem dados em tempo real.',
+      mapLabel: 'Mapa de vidro do Brasil com rastros prateados animados representando eventos cibernéticos simulados',
+      staticMapLabel: 'Mapa de vidro do Brasil com rastros prateados de exemplo representando eventos cibernéticos simulados (versão estática)',
+      pause: 'Pausar',
+      resume: 'Retomar',
+      reducedMotion: 'Versão estática: seu sistema prefere movimento reduzido.',
+      noCanvas: 'Versão estática: o navegador não conseguiu desenhar a animação.',
+    },
   },
   footer: {
     builtWith: 'Site estático hospedado no GitHub Pages. Sem rastreamento ou analytics.',
