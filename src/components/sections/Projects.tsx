@@ -7,7 +7,7 @@ export function Projects() {
   const { t, tr } = useI18n();
   return (
     <Panel id="projects">
-      <div className="stack">
+      <div className="stack stack--grid">
         {projects.map((project) => (
           <article key={project.id} className="item" aria-labelledby={`project-${project.id}`}>
             <div className="item__head">

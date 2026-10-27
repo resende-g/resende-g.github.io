@@ -45,8 +45,8 @@ export function JusticeModule() {
                   <span className="cmp__unit">{tr(indicator.unit)}</span>
                   <span className="cmp__ratio">{format(copy.ratio, { n: formatRatio(indicator.brazil, indicator.eu, locale) })}</span>
                 </div>
-                <BarRow name={t.impact.brazil} value={indicator.brazil} max={max} tone="brazil" decimals={indicator.decimals} active={active} reduced={reduced} index={index * 2} />
-                <BarRow name={t.impact.eu} value={indicator.eu} max={max} tone="eu" decimals={indicator.decimals} active={active} reduced={reduced} index={index * 2 + 1} />
+                <BarRow name={t.impact.brazil} value={indicator.brazil} max={max} tone="brazil" decimals={indicator.decimals} index={index * 2} />
+                <BarRow name={t.impact.eu} value={indicator.eu} max={max} tone="eu" decimals={indicator.decimals} index={index * 2 + 1} />
               </div>
             );
           })}

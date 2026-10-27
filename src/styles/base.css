@@ -6,6 +6,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Anchors and focused elements land below the sticky header. */
+  scroll-padding-top: calc(var(--header-offset) + var(--space-3));
   -webkit-text-size-adjust: 100%;
 }
 
@@ -20,27 +22,19 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Fixed full-viewport layer behind the page: the glass bust (WebGL) or its static render. */
-.backdrop {
+/*
+ * Fixed ambient light behind the page so the glass panels still read as glass. It only lightens --bg, so text on the
+ * page background never has less contrast than on --bg itself.
+ */
+body::before {
+  content: '';
   position: fixed;
   inset: 0;
   z-index: -1;
-  overflow: hidden;
   pointer-events: none;
-  background: var(--bg);
-}
-
-.backdrop canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  transition: opacity 320ms var(--ease);
-}
-
-.backdrop[data-status='fallback'] {
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: auto 100%;
+  background:
+    radial-gradient(60rem 40rem at 10% -10%, rgba(255, 255, 255, 0.7), transparent 70%),
+    radial-gradient(48rem 36rem at 100% 40%, rgba(255, 255, 255, 0.45), transparent 70%);
 }
 
 h1,

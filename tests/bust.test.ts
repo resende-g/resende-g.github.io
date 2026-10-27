@@ -13,6 +13,6 @@ describe('glass bust assets', () => {
   });
 
   it('ships the static render used when WebGL is unavailable', () => {
-    expect(statSync('src/assets/bust-backdrop.png').size).toBeGreaterThan(10_000);
+    expect(statSync('src/assets/bust-fallback.webp').size).toBeGreaterThan(10_000);
   });
 });

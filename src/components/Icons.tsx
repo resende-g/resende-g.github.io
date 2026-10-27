@@ -3,7 +3,7 @@ import lattesMask from '../assets/lattes-mask.png';
 
 /**
  * Inline SVG icons (no runtime dependency, no external requests).
- * GitHub and ORCID paths come from simple-icons (CC0). LinkedIn and Mail are simplified in-house drawings.
+ * GitHub and ORCID paths come from simple-icons (CC0). LinkedIn, Mail, Pause and Play are simplified in-house drawings.
  * Lattes uses the supplied mark as a CSS mask so it takes the current text color like the SVG icons.
  */
 type IconProps = SVGProps<SVGSVGElement>;
@@ -53,6 +53,25 @@ export function MailIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
       <path d="M3 4.5h18A2.5 2.5 0 0 1 23.5 7v10a2.5 2.5 0 0 1-2.5 2.5H3A2.5 2.5 0 0 1 .5 17V7A2.5 2.5 0 0 1 3 4.5zm-.7 2.9V17c0 .4.3.7.7.7h18c.4 0 .7-.3.7-.7V7.4l-8.6 6.3a1.8 1.8 0 0 1-2.2 0zm1.1-1.1L12 12.2l8.6-5.9z" />
+    </svg>
+  );
+}
+
+/** Two bars; used by the map's pause control. */
+export function PauseIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="6" y="5" width="4" height="14" rx="1" />
+      <rect x="14" y="5" width="4" height="14" rx="1" />
+    </svg>
+  );
+}
+
+/** Right-pointing triangle; used by the map's resume control. */
+export function PlayIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" />
     </svg>
   );
 }

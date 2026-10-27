@@ -1,5 +1,5 @@
 /*
- * Glass surfaces. Used sparingly: header, hero card, section cards, chips.
+ * Glass surfaces. Used sparingly: header and hero identity card (solid variant), section cards, chips.
  * Falls back to a near-opaque surface where backdrop-filter is unsupported.
  */
 .glass {
@@ -12,8 +12,8 @@
   border-radius: var(--radius-lg);
 }
 
-.glass--strong {
-  background: var(--glass-bg-strong);
+.glass--solid {
+  background: var(--glass-bg-solid);
 }
 
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
@@ -25,7 +25,7 @@
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glass,
-  .glass--strong {
+  .glass--solid {
     background: var(--glass-fallback);
   }
 }
@@ -78,9 +78,8 @@
 }
 
 .button--secondary {
-  background: var(--glass-bg);
-  border-color: var(--glass-border);
-  box-shadow: 0 0 0 1px var(--glass-edge);
+  background: transparent;
+  border-color: var(--control-border);
   color: var(--text);
 }
 

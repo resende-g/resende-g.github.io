@@ -7,7 +7,7 @@ interface PanelProps {
   children: ReactNode;
 }
 
-/** Glass panel with a titled header; one per area of the dashboard layout. */
+/** Glass panel with a titled header; one per section of the page (curriculum, projects, research). */
 export function Panel({ id, children }: PanelProps) {
   const { t } = useI18n();
   const copy = t.panels[id];

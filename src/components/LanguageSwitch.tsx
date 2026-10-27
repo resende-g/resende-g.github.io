@@ -1,4 +1,4 @@
-import { SUPPORTED_LOCALES, LOCALE_LABELS, format, useI18n } from '../i18n';
+import { SUPPORTED_LOCALES, LOCALE_LABELS, useI18n } from '../i18n';
 
 export function LanguageSwitch() {
   const { locale, setLocale, t } = useI18n();
@@ -14,7 +14,8 @@ export function LanguageSwitch() {
             type="button"
             className="lang-switch__option"
             aria-pressed={active}
-            aria-label={active ? label.name : format(t.language.switchTo, { name: label.name })}
+            // The accessible name starts with the visible label ("PT – Português (Brasil)") so voice control works.
+            aria-label={`${label.short} – ${label.name}`}
             lang={option}
             onClick={() => setLocale(option)}
           >

@@ -5,12 +5,12 @@ import type { Locale } from '../i18n/locales';
  * Content about the person lives in src/content; UI strings in src/i18n.
  */
 
-/** Panels in navigation order. Each has a title/lead under `panels` in the dictionaries. */
-export const PANEL_IDS = ['papers', 'projects', 'curriculum', 'organizations'] as const;
+/** Panels in page order. Each has a title/lead under `panels` in the dictionaries. */
+export const PANEL_IDS = ['curriculum', 'projects', 'research'] as const;
 export type PanelId = (typeof PANEL_IDS)[number];
 
-/** Header navigation order: the impact section (data modules) first, then the panels. */
-export const NAV_IDS = ['impact', 'curriculum', 'projects', 'papers', 'organizations'] as const;
+/** Header navigation order, following the page: the panels, then the impact section (data modules). */
+export const NAV_IDS = ['curriculum', 'projects', 'research', 'impact'] as const;
 export type NavId = (typeof NAV_IDS)[number];
 
 /**

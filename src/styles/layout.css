@@ -21,6 +21,14 @@
   border-radius: var(--radius-pill);
 }
 
+/* No saturation boost on the header: it would tint the bar with whatever red button scrolls beneath it. */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .header__bar {
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+}
+
 .header__brand {
   display: inline-flex;
   align-items: center;
@@ -106,18 +114,11 @@
   color: var(--text);
 }
 
-/* Page column: hero, impact section, then the dashboard of panels */
+/* Page column: hero, then the panels in reading order, then the impact section */
 .page {
   display: grid;
   gap: var(--space-6);
   padding: var(--space-3) 0 var(--space-7);
-}
-
-/* Dashboard: projects on the left; papers with organizations under them on the right; stacked on narrow screens */
-.dashboard {
-  display: grid;
-  gap: var(--space-4);
-  grid-template-columns: 1fr;
 }
 
 .panel,
@@ -125,38 +126,20 @@
   min-width: 0;
 }
 
-.dashboard__aside {
-  display: contents;
-}
-
-@media (min-width: 1024px) {
-  .dashboard {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    align-items: start;
-  }
-
-  .dashboard__aside {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    min-width: 0;
-  }
-}
-
 /* Panels */
 .panel {
   padding: clamp(1.1rem, 2vw, 1.6rem);
-  scroll-margin-top: calc(var(--header-height) + var(--space-3));
 }
 
 .panel__header {
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-5);
 }
 
+/* Section titles share one scale (impact.css uses the same for its title). */
 .panel__title {
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: -0.005em;
+  font-size: clamp(1.3rem, 0.8vw + 1.05rem, 1.6rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
 }
 
 .panel__lead {
@@ -165,98 +148,146 @@
   font-size: 0.875rem;
 }
 
-/* Hero: the bust (fixed backdrop) shows between two columns of buttons; the text follows, centered */
+/*
+ * Hero: the identity card and the bust. Narrow screens: a compact bust above the card, which overlaps the bust's
+ * faded base. Wide screens: the card on the left, the bust on the right, together filling the first screen.
+ */
 .hero {
   display: grid;
-  gap: var(--space-5);
-  padding: var(--space-6) clamp(0.5rem, 2vw, 1.5rem) clamp(1rem, 3vw, 2rem);
-  scroll-margin-top: calc(var(--header-height) + var(--space-3));
-}
-
-.hero__columns {
-  display: grid;
-  gap: var(--space-3);
   justify-items: center;
+  padding: var(--space-2) 0 var(--space-4);
 }
 
-.hero__column {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  width: min(100%, 15rem);
+.hero__bust {
+  width: min(100%, 24rem);
+  height: clamp(8.5rem, 24vh, 16rem);
+  height: clamp(8.5rem, 24svh, 16rem);
+  pointer-events: none;
+  /* Fades out the flat cut at the base of the scan. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 97%);
+  mask-image: linear-gradient(to bottom, #000 60%, transparent 97%);
 }
 
-.hero__column .button {
-  justify-content: center;
+.hero__bust canvas {
+  display: block;
   width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 320ms var(--ease);
 }
 
-.hero__column .button svg,
-.hero__column .button .icon-mask {
-  width: 1.05rem;
-  height: 1.05rem;
-  fill: currentColor;
+.hero__bust[data-status='ready'] canvas {
+  opacity: 1;
 }
 
-.hero__text {
+.hero__bust[data-status='fallback'] {
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: contain;
+}
+
+.hero__card {
+  position: relative;
   display: grid;
-  justify-items: center;
-  text-align: center;
-  gap: var(--space-3);
+  justify-items: start;
+  gap: var(--space-4);
+  width: min(100%, 40rem);
+  margin-top: calc(-1 * clamp(1.25rem, 5vh, 2.5rem));
+  padding: clamp(1.25rem, 4vw, 2.25rem);
 }
 
-@media (min-width: 900px) {
+@media (min-width: 860px) {
   .hero {
-    padding-top: 10vh;
-  }
-
-  /* Center column kept free for the bust; buttons sit vertically centered beside it. */
-  .hero__columns {
-    grid-template-columns: minmax(0, 1fr) clamp(18rem, 32vw, 30rem) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    grid-template-areas: 'card bust';
     align-items: center;
-    min-height: 36vh;
+    column-gap: clamp(1.5rem, 4vw, 4rem);
+    min-height: calc(100vh - var(--header-offset) - var(--space-3));
+    min-height: calc(100svh - var(--header-offset) - var(--space-3));
+    padding: var(--space-4) 0 var(--space-6);
   }
 
-  .hero__column--left {
-    grid-column: 1;
-    justify-self: end;
+  /* A fixed proportion keeps the bust filling its slot in narrow columns instead of sinking to the bottom. */
+  .hero__bust {
+    grid-area: bust;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9 / 10;
+    max-height: min(76vh, 46rem);
+    max-height: min(76svh, 46rem);
   }
 
-  .hero__column--right {
-    grid-column: 3;
+  .hero__card {
+    grid-area: card;
     justify-self: start;
+    margin-top: 0;
   }
-}
-
-@media (max-width: 899.98px) {
-  /* The top of the viewport belongs to the bust; the button columns stack under it. */
-  .hero { padding-top: 40vh; }
 }
 
 .hero__name {
-  font-size: clamp(2rem, 1.6vw + 1.3rem, 3rem);
-  font-weight: 650;
-  letter-spacing: -0.028em;
+  font-size: clamp(2rem, 3vw + 1.25rem, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
   line-height: 1.02;
-  max-width: 18ch;
+  text-wrap: balance;
 }
 
-.hero__tagline {
-  margin-top: 0;
-  font-size: clamp(1rem, 0.4vw + 0.9rem, 1.2rem);
-  font-weight: 500;
-  color: var(--text-muted);
+/* Roles: one item each, never split inside an item; accent dots between them on wider screens. */
+.hero__roles {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: calc(-1 * var(--space-2));
+  font-size: clamp(1.0625rem, 0.4vw + 0.95rem, 1.25rem);
+  font-weight: 550;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.hero__roles li {
+  white-space: nowrap;
+}
+
+.hero__roles li:not(:last-child)::after {
+  content: '';
+  display: inline-block;
+  width: 0.3em;
+  height: 0.3em;
+  margin: 0 0.6em;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: middle;
+}
+
+@media (max-width: 419.98px) {
+  .hero__roles {
+    flex-direction: column;
+  }
+
+  .hero__roles li {
+    white-space: normal;
+  }
+
+  .hero__roles li:not(:last-child)::after {
+    display: none;
+  }
 }
 
 .hero__summary {
-  max-width: 62ch;
+  max-width: 60ch;
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: clamp(1rem, 0.2vw + 0.95rem, 1.0625rem);
+}
+
+.hero__actions,
+.hero__profiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 .hero__location {
   font-size: 0.875rem;
-  color: var(--text-subtle);
+  color: var(--text-muted);
 }
 
 .link-pill--icon svg,
@@ -283,6 +314,11 @@
 .stack {
   display: grid;
   gap: var(--space-3);
+}
+
+/* Project cards side by side on wide screens, so descriptions keep a readable line length. */
+.stack--grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 30rem), 1fr));
 }
 
 .item {
@@ -331,6 +367,29 @@
   font-size: 0.85rem;
 }
 
+/* Experience: role, organization and period beside the text on wide screens; text kept to a readable measure. */
+.exp {
+  display: grid;
+  gap: var(--space-2) var(--space-6);
+}
+
+.exp__meta p + p {
+  margin-top: 0.15rem;
+}
+
+.exp__body {
+  max-width: 72ch;
+}
+
+.exp__body > :first-child {
+  margin-top: 0;
+}
+
+@media (min-width: 1024px) {
+  .exp {
+    grid-template-columns: minmax(12rem, 17rem) minmax(0, 1fr);
+  }
+}
 
 .bullets {
   margin-top: var(--space-3);
@@ -420,12 +479,6 @@
   background: var(--accent);
 }
 
-.empty {
-  color: var(--text-subtle);
-  font-style: italic;
-  font-size: 0.93rem;
-}
-
 .plain-list {
   display: grid;
   gap: var(--space-3);
@@ -445,10 +498,6 @@
   border-top: 1px solid var(--divider);
 }
 
-.curriculum__block {
-  scroll-margin-top: calc(var(--header-height) + var(--space-3));
-}
-
 .curriculum__block--split {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
@@ -461,42 +510,22 @@
   gap: var(--space-3);
 }
 
-/* Organizations: tiles flow across the panel width (two columns in the right-hand column) */
-.org-grid {
+/* Research: groups beside interests and identifiers on wide screens */
+.research__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
-  gap: var(--space-2);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: var(--space-5) var(--space-6);
 }
 
-.org {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 3.5rem;
-  height: 100%;
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  border: 1px solid var(--divider);
-  color: var(--text);
+.research__block + .research__grid {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--divider);
 }
 
-.org--link:hover {
-  text-decoration: none;
-  background: var(--accent-soft);
-  border-color: var(--accent);
-}
-
-.org__name {
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-.org__relation {
-  font-size: 0.78rem;
-  color: var(--text-subtle);
-  margin-top: 2px;
+.research__text {
+  margin-top: var(--space-2);
+  max-width: 68ch;
 }
 
 /* Footer */
@@ -512,16 +541,30 @@
 }
 
 @media (max-width: 640px) {
+  .header {
+    padding: 0.375rem 0;
+  }
+
   .header__bar {
     flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
     border-radius: var(--radius-lg);
-    padding: var(--space-2) var(--space-3);
+    padding: 0.375rem var(--space-3);
   }
 
   .nav {
     order: 3;
     width: 100%;
-    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
-    mask-image: linear-gradient(90deg, #000 88%, transparent);
+  }
+
+  .nav__link {
+    min-height: 2rem;
+    padding: 0.25rem 0.65rem;
+  }
+
+  /* Hints at links beyond the edge, only when they do not all fit (flagged by Header.tsx). */
+  .nav[data-overflow='true'] {
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+    mask-image: linear-gradient(90deg, #000 85%, transparent);
   }
 }

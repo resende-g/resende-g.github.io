@@ -18,7 +18,6 @@ export function CyberModule() {
 
       <div className="cyber">
         <div className="cyber__map">
-          <span className="map-badge">{copy.simulationBadge}</span>
           <BrazilMap />
         </div>
         <ul className="stats">
