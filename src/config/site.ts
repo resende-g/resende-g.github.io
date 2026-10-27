@@ -10,7 +10,7 @@ export const PANEL_IDS = ['papers', 'projects', 'curriculum', 'organizations'] a
 export type PanelId = (typeof PANEL_IDS)[number];
 
 /** Header navigation order: the impact section (data modules) first, then the panels. */
-export const NAV_IDS = ['impact', 'projects', 'curriculum', 'papers', 'organizations'] as const;
+export const NAV_IDS = ['impact', 'curriculum', 'projects', 'papers', 'organizations'] as const;
 export type NavId = (typeof NAV_IDS)[number];
 
 /**

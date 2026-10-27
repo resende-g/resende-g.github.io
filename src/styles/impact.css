@@ -1,10 +1,11 @@
 /*
  * Impact section: two short modules (Justice, Cybersecurity) after the hero.
- * Chart colors are fixed per entity and validated for color-vision deficiency on the light surface.
+ * Chart colors are fixed per entity: Brazil in the blood-red accent, the EU in graphite; validated for
+ * color-vision deficiency on the light surface (they also differ in lightness).
  */
 .impact {
-  --series-brazil: #2a78d6;
-  --series-eu: #8d93a3;
+  --series-brazil: #8f0f1c;
+  --series-eu: #7a7e86;
   scroll-margin-top: calc(var(--header-height) + var(--space-3));
 }
 
@@ -35,14 +36,27 @@
 @media (min-width: 1100px) {
   .impact__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: start;
+    align-items: stretch;
   }
 }
 
-/* Module shell */
+/* Module shell: a column so the sources sit at the bottom and both cards share the same height */
 .module {
+  display: flex;
+  flex-direction: column;
   padding: clamp(1.1rem, 2vw, 1.6rem);
   min-width: 0;
+}
+
+.module .sources {
+  margin-top: auto;
+  padding-top: var(--space-3);
+}
+
+.justice,
+.cyber {
+  flex: 1 0 auto;
+  align-content: start;
 }
 
 .module__title {
@@ -88,7 +102,7 @@
 .statue {
   width: min(100%, 11rem);
   height: auto;
-  filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 14px 20px rgba(30, 32, 36, 0.22));
 }
 
 @media (max-width: 559.98px) {

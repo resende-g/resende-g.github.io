@@ -113,7 +113,7 @@
   padding: var(--space-3) 0 var(--space-7);
 }
 
-/* Dashboard grid (desktop): projects + organizations | curriculum (wide) ; papers below projects */
+/* Dashboard: projects on the left, papers on the right; stacked on narrow screens */
 .dashboard {
   display: grid;
   gap: var(--space-4);
@@ -127,32 +127,9 @@
 
 @media (min-width: 1024px) {
   .dashboard {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
-    grid-template-areas:
-      'aside curriculum'
-      'papers curriculum';
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
     align-items: start;
   }
-
-  .panel--papers { grid-area: papers; }
-  .panel--curriculum { grid-area: curriculum; }
-
-  .dashboard__aside {
-    grid-area: aside;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    min-width: 0;
-  }
-}
-
-/* On narrow screens the aside dissolves into the grid: projects, curriculum, papers, organizations. */
-@media (max-width: 1023.98px) {
-  .dashboard__aside { display: contents; }
-  .panel--projects { order: 0; }
-  .panel--curriculum { order: 1; }
-  .panel--papers { order: 2; }
-  .panel--organizations { order: 3; }
 }
 
 /* Panels */
@@ -177,22 +154,76 @@
   font-size: 0.875rem;
 }
 
-/* Hero: centered text stack; the top of the first screen is left to the bust behind it */
+/* Hero: the bust (fixed backdrop) shows between two columns of buttons; the text follows, centered */
 .hero {
   display: grid;
-  justify-items: center;
-  text-align: center;
-  gap: var(--space-4);
-  padding: 60vh clamp(0.5rem, 2vw, 1.5rem) clamp(1rem, 3vw, 2rem);
+  gap: var(--space-5);
+  padding: var(--space-6) clamp(0.5rem, 2vw, 1.5rem) clamp(1rem, 3vw, 2rem);
   scroll-margin-top: calc(var(--header-height) + var(--space-3));
 }
 
+.hero__columns {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+}
+
+.hero__column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: min(100%, 15rem);
+}
+
+.hero__column .button {
+  justify-content: center;
+  width: 100%;
+}
+
+.hero__column .button svg,
+.hero__column .button .icon-mask {
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: currentColor;
+}
+
+.hero__text {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--space-3);
+}
+
+@media (min-width: 900px) {
+  .hero {
+    padding-top: 10vh;
+  }
+
+  /* Center column kept free for the bust; buttons sit vertically centered beside it. */
+  .hero__columns {
+    grid-template-columns: minmax(0, 1fr) clamp(18rem, 32vw, 30rem) minmax(0, 1fr);
+    align-items: center;
+    min-height: 36vh;
+  }
+
+  .hero__column--left {
+    grid-column: 1;
+    justify-self: end;
+  }
+
+  .hero__column--right {
+    grid-column: 3;
+    justify-self: start;
+  }
+}
+
 @media (max-width: 899.98px) {
-  .hero { padding-top: 50vh; }
+  /* The top of the viewport belongs to the bust; the button columns stack under it. */
+  .hero { padding-top: 40vh; }
 }
 
 .hero__name {
-  font-size: clamp(2.2rem, 2vw + 1.4rem, 3.4rem);
+  font-size: clamp(2rem, 1.6vw + 1.3rem, 3rem);
   font-weight: 650;
   letter-spacing: -0.028em;
   line-height: 1.02;
@@ -200,7 +231,7 @@
 }
 
 .hero__tagline {
-  margin-top: var(--space-3);
+  margin-top: 0;
   font-size: clamp(1rem, 0.4vw + 0.9rem, 1.2rem);
   font-weight: 500;
   color: var(--text-muted);
@@ -212,30 +243,9 @@
   font-size: 1rem;
 }
 
-.hero__side {
-  display: grid;
-  gap: var(--space-3);
-  justify-items: center;
-}
-
 .hero__location {
   font-size: 0.875rem;
   color: var(--text-subtle);
-}
-
-.hero__links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-2);
-}
-
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-2);
-  margin-top: var(--space-1);
 }
 
 .link-pill--icon svg,
@@ -440,10 +450,10 @@
   gap: var(--space-3);
 }
 
-/* Organizations */
+/* Organizations: full-width panel, tiles flow across the available width */
 .org-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
   gap: var(--space-2);
 }
 

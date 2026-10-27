@@ -10,7 +10,7 @@ export interface Profile {
   name: string;
   /** Short professional identification shown under the name. */
   tagline: Localized;
-  /** Brief integrated presentation (professional, technological, academic). */
+  /** Brief integrated presentation (professional, technological, academic), kept generic about the employer's operations. */
   summary: Localized;
   location: Localized;
   links: ProfileLink[];
@@ -23,8 +23,8 @@ export const profile: Profile = {
     'pt-BR': 'Analista de Qualidade Jurídica | Avaliação de IA | Direito e Tecnologia',
   },
   summary: {
-    en: 'I work on the quality of legal data at Jusbrasil, a Brazilian legal technology company: assessing completeness, correctness, and recall of collected legislation, validating web crawlers, and evaluating responses from AI systems and legal search engines. My background combines an undergraduate technology degree in Information Security, a Bachelor of Laws in progress at the Federal University of Bahia (UFBA), and research interests in AI, data protection, and digital governance.',
-    'pt-BR': 'Atuo na qualidade de dados jurídicos no Jusbrasil: avalio completude, corretude e revocação da legislação coletada, valido crawlers e analiso respostas de sistemas de IA e mecanismos de busca jurídicos. Minha formação combina o curso superior de tecnologia em Segurança da Informação, a graduação em Direito em andamento na Universidade Federal da Bahia (UFBA) e interesses de pesquisa em IA, proteção de dados e governança digital.',
+    en: 'I work on the quality of legal data at Jusbrasil, a Brazilian legal technology company: assessing the completeness, correctness and recall of legal content collections, validating automated collection, and evaluating responses from AI systems and legal search engines. My background combines an undergraduate technology degree in Information Security, a Bachelor of Laws in progress at the Federal University of Bahia (UFBA), and research interests in AI, data protection, and digital governance.',
+    'pt-BR': 'Atuo na qualidade de dados jurídicos no Jusbrasil: avalio completude, corretude e revocação de acervos de conteúdo jurídico, valido a coleta automatizada e analiso respostas de sistemas de IA e mecanismos de busca jurídica. Minha formação combina o curso superior de tecnologia em Segurança da Informação, a graduação em Direito em andamento na Universidade Federal da Bahia (UFBA) e interesses de pesquisa em IA, proteção de dados e governança digital.',
   },
   location: { en: 'Salvador, Bahia, Brazil', 'pt-BR': 'Salvador, Bahia, Brasil' },
   links: [

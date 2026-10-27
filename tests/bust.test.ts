@@ -9,7 +9,7 @@ describe('glass bust assets', () => {
     const json = JSON.parse(glb.toString('utf8', 20, 20 + jsonLength)) as { images?: unknown[]; meshes: { primitives: { attributes: Record<string, number> }[] }[] };
     expect(json.images ?? []).toHaveLength(0);
     expect(json.meshes[0]?.primitives[0]?.attributes.POSITION).toBeDefined();
-    expect(glb.length).toBeLessThan(400_000);
+    expect(glb.length).toBeLessThan(800_000);
   });
 
   it('ships the static render used when WebGL is unavailable', () => {

@@ -21,14 +21,12 @@ export function App() {
       <main id="main" className="container page">
         <Hero />
         <ImpactSection />
+        <Curriculum />
         <div className="dashboard">
-          <div className="dashboard__aside">
-            <Projects />
-            <Organizations />
-          </div>
-          <Curriculum />
+          <Projects />
           <Papers />
         </div>
+        <Organizations />
       </main>
       <Footer />
     </>
