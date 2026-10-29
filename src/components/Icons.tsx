@@ -3,7 +3,8 @@ import lattesMask from '../assets/lattes-mask.png';
 
 /**
  * Inline SVG icons (no runtime dependency, no external requests).
- * GitHub and ORCID paths come from simple-icons (CC0). LinkedIn, Mail, Pause and Play are simplified in-house drawings.
+ * GitHub and ORCID paths come from simple-icons (CC0). LinkedIn, Mail, Pause, Play, Menu and Close are simplified
+ * in-house drawings.
  * Lattes uses the supplied mark as a CSS mask so it takes the current text color like the SVG icons.
  */
 type IconProps = SVGProps<SVGSVGElement>;
@@ -72,6 +73,25 @@ export function PlayIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
       <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" />
+    </svg>
+  );
+}
+
+/** Two bars (three would echo the brand mark beside it); opens the header menu on narrow screens. */
+export function MenuIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="4" y="8" width="16" height="1.8" rx="0.9" />
+      <rect x="4" y="14.2" width="16" height="1.8" rx="0.9" />
+    </svg>
+  );
+}
+
+/** Diagonal cross; closes the header menu. */
+export function CloseIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M6.3 5.03 12 10.73l5.7-5.7 1.27 1.27-5.7 5.7 5.7 5.7-1.27 1.27-5.7-5.7-5.7 5.7-1.27-1.27 5.7-5.7-5.7-5.7z" />
     </svg>
   );
 }

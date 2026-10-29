@@ -15,18 +15,18 @@ const LINK_ICONS: Record<ProfileLink['id'], (props: { className?: string }) => R
 };
 
 /**
- * Opening presentation: the identity card (name, roles, summary, actions, profiles) beside the bust on wide screens,
- * under a compact bust on narrow ones. The DOM follows the reading order; the bust is decorative.
- * There is deliberately no photograph.
+ * Opening presentation: one large glass frame holding the identity text (name, roles, summary, actions, profiles)
+ * beside the bust on wide screens, under a compact bust on narrow ones. The DOM follows the reading order; the bust is
+ * decorative. There is deliberately no photograph.
  */
 export function Hero() {
   const { t, tr, locale } = useI18n();
   const cvFile = CV_FILES[locale];
 
   return (
-    <section className="hero" id="profile" aria-labelledby="profile-name">
+    <section className="hero glass" id="profile" aria-labelledby="profile-name">
       <HeroBust />
-      <div className="hero__card glass glass--solid">
+      <div className="hero__card">
         <h1 id="profile-name" className="hero__name">
           {profile.name}
         </h1>

@@ -1,9 +1,12 @@
 /*
- * Glass surfaces. Used sparingly: header and hero identity card (solid variant), section cards, chips.
+ * Glass surfaces: the hero frame, header capsules, section panels, data modules and footer. Every block of text sits
+ * on one. The grainy photograph turns smooth behind them, a bright rim and top highlight mark their edges, and a sheen
+ * catches the top-left corner (it only adds white, so it never lowers text contrast).
  * Falls back to a near-opaque surface where backdrop-filter is unsupported.
  */
 .glass {
-  background: var(--glass-bg);
+  background-color: var(--glass-bg);
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 50%);
   border: 1px solid var(--glass-border);
   box-shadow:
     var(--glass-shadow),
@@ -12,21 +15,16 @@
   border-radius: var(--radius-lg);
 }
 
-.glass--solid {
-  background: var(--glass-bg-solid);
-}
-
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .glass {
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
-    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    backdrop-filter: blur(24px) saturate(140%);
   }
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glass,
-  .glass--solid {
-    background: var(--glass-fallback);
+  .glass {
+    background-color: var(--glass-fallback);
   }
 }
 

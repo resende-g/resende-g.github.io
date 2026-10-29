@@ -23,18 +23,21 @@ body {
 }
 
 /*
- * Fixed ambient light behind the page so the glass panels still read as glass. It only lightens --bg, so text on the
- * page background never has less contrast than on --bg itself.
+ * The grainy gray photograph behind the whole page, on a fixed layer (iOS ignores background-attachment: fixed). Its
+ * height is the large viewport, so it does not rescale while mobile toolbars show and hide. No text sits on it
+ * directly: it runs from dark gray to near white, too uneven to read on, so every block of text is on glass.
  */
 body::before {
   content: '';
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
   z-index: -1;
   pointer-events: none;
-  background:
-    radial-gradient(60rem 40rem at 10% -10%, rgba(255, 255, 255, 0.7), transparent 70%),
-    radial-gradient(48rem 36rem at 100% 40%, rgba(255, 255, 255, 0.45), transparent 70%);
+  background: url('../assets/background.webp') center / cover no-repeat;
 }
 
 h1,
