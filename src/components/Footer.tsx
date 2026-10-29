@@ -6,7 +6,7 @@ export function Footer() {
   const { t } = useI18n();
   return (
     <footer className="footer">
-      <div className="container">
+      <div className="container footer__inner glass">
         <p>{t.footer.builtWith}</p>
         <p>
           <ExternalLink href={SITE_REPOSITORY_URL}>{t.footer.source}</ExternalLink>

@@ -1,6 +1,6 @@
 /*
- * Design tokens. Light-first, after the silver finish of a MacBook: a neutral light-silver page, graphite text and
- * blood-red accents, with the polished graphite bust beside the identity card in the hero.
+ * Design tokens. Light-first: frosted glass over a grainy gray photograph, graphite text and blood-red accents, with
+ * the polished graphite bust inside the hero frame.
  * A dark set is kept under [data-theme="dark"] for a future toggle; it is not active.
  */
 :root {
@@ -25,33 +25,38 @@
 
   --content-width: 88rem;
   /* Height of the sticky header; Header.tsx replaces it with the measured value. */
-  --header-offset: 4.625rem;
+  --header-offset: 4.5rem;
 
   --motion-fast: 160ms;
   --motion-base: 240ms;
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
 
-  /* Light silver. */
-  --bg: #e2e3e6;
+  /* Mean gray of the background photograph (base.css), shown until it loads. */
+  --bg: #a4a4a4;
 
+  /*
+   * Text always sits on glass. Over the darkest part of the photograph (74/255 once blurred) a --glass-bg surface
+   * keeps --text at 7.6:1, --text-muted at 5.2:1 and --text-subtle at 4.7:1.
+   */
   --text: #26282c;
-  --text-muted: #4b4e55;
-  /* 4.9:1 on --bg, 6.3:1 on white. */
-  --text-subtle: #5c6068;
+  --text-muted: #3f4248;
+  --text-subtle: #45484f;
 
-  /* Blood red accent, dark enough for white text and for text on the silver ground. */
+  /* Blood red accent, dark enough for white text and for text on the glass. */
   --accent: #8f0f1c;
   --accent-contrast: #ffffff;
   --accent-soft: rgba(143, 15, 28, 0.1);
 
-  --glass-bg: rgba(255, 255, 255, 0.52);
-  --glass-bg-strong: rgba(255, 255, 255, 0.7);
-  /* Frosted surface opaque enough that body text keeps AA contrast even over the darkest part of the bust. */
-  --glass-bg-solid: rgba(255, 255, 255, 0.82);
+  --glass-bg: rgba(255, 255, 255, 0.62);
+  /* Hero frame on wide screens: its text column never passes over photograph darker than 115/255 (4.8:1 for
+   * --text-muted). */
+  --glass-bg-clear: rgba(255, 255, 255, 0.45);
+  /* Header capsules and menu, which pass over the dark bust and over text. */
+  --glass-bg-strong: rgba(255, 255, 255, 0.72);
   --glass-border: rgba(255, 255, 255, 0.85);
   --glass-edge: rgba(30, 32, 36, 0.08);
   --glass-highlight: rgba(255, 255, 255, 0.95);
-  --glass-shadow: 0 12px 36px rgba(30, 32, 36, 0.1);
+  --glass-shadow: 0 24px 60px rgba(20, 22, 26, 0.2);
   --glass-fallback: rgba(246, 246, 248, 0.97);
 
   --surface: rgba(255, 255, 255, 0.55);
@@ -75,8 +80,8 @@
   --accent-contrast: #1a0a0c;
   --accent-soft: rgba(224, 107, 118, 0.16);
   --glass-bg: rgba(38, 41, 48, 0.78);
+  --glass-bg-clear: rgba(38, 41, 48, 0.7);
   --glass-bg-strong: rgba(38, 41, 48, 0.88);
-  --glass-bg-solid: rgba(38, 41, 48, 0.92);
   --glass-border: rgba(255, 255, 255, 0.14);
   --glass-edge: rgba(0, 0, 0, 0.35);
   --glass-highlight: rgba(255, 255, 255, 0.22);

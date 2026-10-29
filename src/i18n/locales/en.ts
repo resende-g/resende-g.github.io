@@ -10,6 +10,7 @@ export const en = {
   },
   nav: {
     label: 'Main navigation',
+    menu: 'Menu',
     curriculum: 'Curriculum',
     projects: 'Projects',
     research: 'Research',

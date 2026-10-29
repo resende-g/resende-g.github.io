@@ -3,29 +3,45 @@
   margin-inline: auto;
 }
 
-/* Header */
+/*
+ * Header: two floating glass capsules, after the reference design. The brand on the left; on the right the section
+ * links and the language switch, which become a menu behind a toggle on narrow screens. At the top of the page the
+ * capsules sit inside the hero frame's top edge.
+ */
 .header {
   position: sticky;
   top: 0;
   z-index: 50;
-  padding: var(--space-2) 0;
+  padding: var(--space-5) 0 var(--space-2);
 }
 
-.header__bar {
+.header__inner {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  min-height: 3.25rem;
-  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-4);
+  padding-inline: var(--space-4);
+}
+
+.header__brand,
+.header__toggle,
+.header__menu {
+  min-height: 2.5rem;
   border-radius: var(--radius-pill);
 }
 
-/* No saturation boost on the header: it would tint the bar with whatever red button scrolls beneath it. */
+/*
+ * Denser than the other glass: the capsules pass over the dark bust and over text. No saturation boost: it would tint
+ * them with whatever red button scrolls beneath.
+ */
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-  .header__bar {
-    -webkit-backdrop-filter: blur(18px);
-    backdrop-filter: blur(18px);
+  .header__brand,
+  .header__toggle,
+  .header__menu {
+    background-color: var(--glass-bg-strong);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
   }
 }
 
@@ -33,6 +49,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
+  padding: 0 var(--space-4) 0 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 650;
   letter-spacing: -0.01em;
   color: var(--text);
@@ -43,28 +61,47 @@
   text-decoration: none;
 }
 
+.header__toggle {
+  display: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.header__toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+}
+
+/* 3px + 32px controls + 3px, plus the 1px rim: as tall as the brand capsule. */
+.header__menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 3px;
+}
+
 .nav {
   display: flex;
-  gap: var(--space-1);
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  padding: 2px;
+  gap: 0.125rem;
 }
 
-.nav::-webkit-scrollbar {
-  display: none;
-}
-
+/* Small uppercase links, as in the reference design. */
 .nav__link {
   display: inline-flex;
   align-items: center;
-  min-height: 2.25rem;
-  padding: 0.3rem 0.8rem;
+  min-height: 2rem;
+  padding: 0 0.875rem;
   border-radius: var(--radius-pill);
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  font-weight: 500;
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   white-space: nowrap;
   transition:
     background-color var(--motion-fast) var(--ease),
@@ -73,14 +110,13 @@
 
 .nav__link:hover {
   text-decoration: none;
-  color: var(--text);
   background: var(--accent-soft);
 }
 
 /* Language switch (segmented control) */
 .lang-switch {
   display: inline-flex;
-  padding: 3px;
+  padding: 2px;
   border-radius: var(--radius-pill);
   background: var(--chip-bg);
   border: 1px solid var(--divider);
@@ -88,16 +124,16 @@
 }
 
 .lang-switch__option {
-  min-width: 2.75rem;
-  min-height: 2rem;
-  padding: 0 var(--space-3);
+  min-width: 2.375rem;
+  min-height: 1.625rem;
+  padding: 0 var(--space-2);
   border: 0;
   border-radius: var(--radius-pill);
   background: transparent;
   color: var(--text-muted);
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   cursor: pointer;
   transition:
     background-color var(--motion-fast) var(--ease),
@@ -114,11 +150,70 @@
   color: var(--text);
 }
 
+/* Narrow screens: brand and toggle; the links and the language switch open below them. */
+@media (max-width: 767.98px) {
+  .header__inner {
+    padding-inline: var(--space-3);
+  }
+
+  .header__brand {
+    min-height: 2.75rem;
+  }
+
+  .header__toggle {
+    display: grid;
+  }
+
+  .header__menu {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    right: var(--space-3);
+    left: var(--space-3);
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+  }
+
+  .header__menu[data-open='true'] {
+    display: flex;
+    animation: menu-open var(--motion-base) var(--ease);
+  }
+
+  .nav {
+    flex-direction: column;
+  }
+
+  .nav__link {
+    min-height: 2.75rem;
+    padding: 0 var(--space-3);
+    font-size: 0.8125rem;
+  }
+
+  .lang-switch {
+    align-self: flex-start;
+  }
+
+  .lang-switch__option {
+    min-width: 3rem;
+    min-height: 2.5rem;
+  }
+}
+
+@keyframes menu-open {
+  from {
+    opacity: 0;
+    transform: translateY(-0.375rem);
+  }
+}
+
 /* Page column: hero, then the panels in reading order, then the impact section */
 .page {
   display: grid;
   gap: var(--space-6);
-  padding: var(--space-3) 0 var(--space-7);
+  padding: 0 0 var(--space-6);
 }
 
 .panel,
@@ -149,13 +244,16 @@
 }
 
 /*
- * Hero: the identity card and the bust. Narrow screens: a compact bust above the card, which overlaps the bust's
- * faded base. Wide screens: the card on the left, the bust on the right, together filling the first screen.
+ * Hero: one large glass frame holding the identity text and the bust, after the reference design. It starts behind the
+ * sticky header, so the header's capsules sit inside its top edge. Narrow screens: a compact bust above the text.
+ * Wide screens: the text on the left, the bust on the right, the frame filling the first screen.
  */
 .hero {
   display: grid;
   justify-items: center;
-  padding: var(--space-2) 0 var(--space-4);
+  margin-top: calc(var(--space-2) - var(--header-offset));
+  padding: var(--header-offset) clamp(1.25rem, 4vw, 2.25rem) clamp(1.25rem, 4vw, 2.25rem);
+  border-radius: 2rem;
 }
 
 .hero__bust {
@@ -186,14 +284,12 @@
   background-size: contain;
 }
 
+/* The bust's base fades out inside its own slot, so the text starts below it and never sits over the graphite. */
 .hero__card {
-  position: relative;
   display: grid;
   justify-items: start;
   gap: var(--space-4);
   width: min(100%, 40rem);
-  margin-top: calc(-1 * clamp(1.25rem, 5vh, 2.5rem));
-  padding: clamp(1.25rem, 4vw, 2.25rem);
 }
 
 @media (min-width: 860px) {
@@ -202,9 +298,9 @@
     grid-template-areas: 'card bust';
     align-items: center;
     column-gap: clamp(1.5rem, 4vw, 4rem);
-    min-height: calc(100vh - var(--header-offset) - var(--space-3));
-    min-height: calc(100svh - var(--header-offset) - var(--space-3));
-    padding: var(--space-4) 0 var(--space-6);
+    min-height: calc(100vh - var(--space-4));
+    min-height: calc(100svh - var(--space-4));
+    padding: var(--header-offset) clamp(1.75rem, 4vw, 3.5rem) var(--space-6);
   }
 
   /* A fixed proportion keeps the bust filling its slot in narrow columns instead of sinking to the bottom. */
@@ -220,7 +316,15 @@
   .hero__card {
     grid-area: card;
     justify-self: start;
-    margin-top: 0;
+  }
+}
+
+/* Wide screens: the text column never passes over dark photograph, so the frame can be clearer there. */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  @media (min-width: 860px) {
+    .hero {
+      background-color: var(--glass-bg-clear);
+    }
   }
 }
 
@@ -530,41 +634,17 @@
 
 /* Footer */
 .footer {
-  padding: var(--space-4) 0 var(--space-6);
+  padding: 0 0 var(--space-6);
   color: var(--text-subtle);
   font-size: 0.875rem;
   text-align: center;
+}
+
+.footer__inner {
+  padding: var(--space-4) var(--space-5);
 }
 
 .footer p + p {
   margin-top: var(--space-2);
 }
 
-@media (max-width: 640px) {
-  .header {
-    padding: 0.375rem 0;
-  }
-
-  .header__bar {
-    flex-wrap: wrap;
-    gap: var(--space-1) var(--space-3);
-    border-radius: var(--radius-lg);
-    padding: 0.375rem var(--space-3);
-  }
-
-  .nav {
-    order: 3;
-    width: 100%;
-  }
-
-  .nav__link {
-    min-height: 2rem;
-    padding: 0.25rem 0.65rem;
-  }
-
-  /* Hints at links beyond the edge, only when they do not all fit (flagged by Header.tsx). */
-  .nav[data-overflow='true'] {
-    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
-    mask-image: linear-gradient(90deg, #000 85%, transparent);
-  }
-}

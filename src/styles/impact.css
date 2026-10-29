@@ -8,9 +8,9 @@
   --series-eu: #7a7e86;
 }
 
+/* On glass like the panels (no text sits on the bare photograph); the lead keeps its own measure. */
 .impact__header {
-  max-width: 68ch;
-  padding: 0 clamp(0.5rem, 2vw, 1.5rem);
+  padding: clamp(1.1rem, 2vw, 1.6rem);
 }
 
 /* Same scale as .panel__title. */

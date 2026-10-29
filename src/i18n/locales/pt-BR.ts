@@ -8,6 +8,7 @@ export const ptBR: Dictionary = {
   },
   nav: {
     label: 'Navegação principal',
+    menu: 'Menu',
     curriculum: 'Currículo',
     projects: 'Projetos',
     research: 'Pesquisa',

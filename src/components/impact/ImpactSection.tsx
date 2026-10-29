@@ -7,7 +7,7 @@ export function ImpactSection() {
   const { t } = useI18n();
   return (
     <section className="impact" id="impact" aria-labelledby="impact-title">
-      <header className="impact__header">
+      <header className="impact__header glass">
         <h2 id="impact-title" className="impact__title">
           {t.impact.title}
         </h2>
