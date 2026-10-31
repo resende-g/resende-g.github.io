@@ -37,6 +37,17 @@ export const researchInterests: Localized[] = [
 
 export const researchGroups: ResearchGroup[] = [
   {
+    id: 'gedep',
+    name: 'GEDEP – Grupo de Estudos Direito e Economia Política',
+    institution: { en: 'UFBA School of Law', 'pt-BR': 'Faculdade de Direito da UFBA' },
+    role: { en: 'Member', 'pt-BR': 'Integrante' },
+    period: { en: '2025 – Present', 'pt-BR': '2025 – presente' },
+    description: {
+      en: 'Reading of Marx’s Capital in light of Pashukanis’s theory of the legal form, coordinated by Prof. Mario Soares Neto.',
+      'pt-BR': 'Leitura de O capital, de Marx, à luz da teoria da forma jurídica de Pachukanis, sob coordenação do Prof. Mario Soares Neto.',
+    },
+  },
+  {
     id: 'labid2',
     name: 'Labid² – Laboratório de Inovação e Direitos Digitais',
     institution: { en: 'UFBA', 'pt-BR': 'UFBA' },
