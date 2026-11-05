@@ -3,6 +3,7 @@ import { DEFAULT_LOCALE, SUPPORTED_LOCALES, dictionaries, format, isLocale } fro
 import { experience } from '../src/content/experience';
 import { projects } from '../src/content/projects';
 import { profile } from '../src/content/profile';
+import { researchGroups } from '../src/content/research';
 import { CV_FILES } from '../src/config/site';
 
 type Tree = { [key: string]: string | Tree };
@@ -75,7 +76,7 @@ describe('localized content', () => {
   });
 
   it('only links to https URLs or the Lattes platform', () => {
-    const urls = [...profile.links.map((link) => link.url), ...projects.flatMap((p) => [p.repositoryUrl, p.demoUrl ?? ''])];
+    const urls = [...profile.links.map((link) => link.url), ...projects.flatMap((p) => [p.repositoryUrl, p.demoUrl ?? '']), ...researchGroups.map((g) => g.url ?? '')];
     for (const url of urls.filter(Boolean)) {
       expect(url.startsWith('https://') || url.startsWith('http://lattes.cnpq.br/')).toBe(true);
     }

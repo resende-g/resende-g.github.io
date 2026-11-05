@@ -16,7 +16,7 @@ export interface Project {
 }
 
 /**
- * Descriptions are summarized from each repository's README (checked on 2026-10-22).
+ * Descriptions are summarized from each repository's README (checked on 2026-11-05).
  * Keep them aligned with the repositories; do not add features or results that are not documented there.
  * Order: maturity and closeness to law, AI and security first; projects not built yet last.
  */
@@ -64,25 +64,25 @@ export const projects: Project[] = [
     repositoryUrl: 'https://github.com/resende-g/prometeu',
   },
   {
-    id: 'bmo',
-    name: 'BMO',
+    id: 'd-bmo',
+    name: 'd-BMO (BE MORE DARK)',
     description: {
-      en: 'Experimental local assistant for querying documents with models run through Ollama, prioritizing local execution, verifiable references, and separation between document collections. The MVP targets a command-line tool on Ubuntu that answers questions about a public document using locally retrieved passages and shows each passage with its source. The README states the MVP is not finished and the repository currently holds only the initial documentation; the prototype code is not in it yet.',
-      'pt-BR': 'Assistente local experimental para consultar documentos com modelos executados pelo Ollama, com prioridade para execução local, referências verificáveis e separação entre coleções de documentos. O MVP prevê uma ferramenta de linha de comando no Ubuntu que responda perguntas sobre um documento público usando trechos recuperados localmente e mostre cada trecho com sua fonte. O README registra que o MVP não está concluído e que o repositório, por enquanto, contém só a documentação inicial; o código do protótipo ainda não está nele.',
+      en: 'Personal local-first AI assistant meant to grow from a document-query prototype into a modular, auditable infrastructure under the user’s control, with planned modules for orchestration (BMO Brain), persistent personal memory (BMO Heart), document retrieval (BMO Knowledge), and model evaluation (BMO Model Lab). The repository publishes the architecture, security and governance, roadmap, evaluation protocol, and brand documentation, plus the record of a QLoRA smoke test on Qwen3-1.7B with an exploratory A/B comparison: no consistent improvement from the adapter was observed, and the comparison is confounded by different tokenizers/templates between conditions, so it must be repeated. The README states the repository holds documentation only: application code and the evaluation harness are not versioned yet, and no base model has been chosen.',
+      'pt-BR': 'Assistente pessoal de IA local-first, pensado para evoluir de um protótipo de consulta documental para uma infraestrutura modular, auditável e controlada pelo usuário, com módulos previstos de orquestração (BMO Brain), memória pessoal persistente (BMO Heart), recuperação documental (BMO Knowledge) e avaliação de modelos (BMO Model Lab). O repositório publica arquitetura, segurança e governança, roadmap, protocolo de avaliação e documentação de identidade visual, além do registro de um smoke test de QLoRA no Qwen3-1.7B com comparação A/B exploratória: não houve melhora consistente com o adapter, e a comparação está confundida por tokenizer/template diferentes entre as condições, por isso precisa ser repetida. O README registra que o repositório contém apenas documentação: o código de aplicação e o harness de avaliação ainda não estão versionados, e nenhum modelo-base foi escolhido.',
     },
-    technologies: ['Ollama', 'Local LLMs', 'Ubuntu'],
+    technologies: ['Ollama', 'Local LLMs', 'RAG', 'QLoRA', 'Qwen3', 'Ubuntu'],
     status: 'experimental',
-    repositoryUrl: 'https://github.com/resende-g/BMO',
+    repositoryUrl: 'https://github.com/resende-g/d-BMO',
   },
   {
-    id: 'dark-bmo',
-    name: 'dark-BMO',
+    id: 'd-bmo-body',
+    name: 'd-BMO-body',
     description: {
-      en: 'DIY handheld multitool for hands-on information security study, in the style of the Flipper Zero, built around an ESP32-S3 with a look inspired by BMO from Adventure Time. Planned features: sub-GHz 433 MHz radio (CC1101), NFC (PN532), infrared, Wi-Fi, and Bluetooth on the Bruce firmware, plus retro games through Retro-Go. The README states the project is planned, with parts partially purchased and not yet assembled; the RF, NFC, and IR functions are meant for studying protocols on one’s own equipment, in a lab, or in CTFs.',
-      'pt-BR': 'Multitool portátil DIY para estudar segurança da informação na prática, no estilo do Flipper Zero, baseado em ESP32-S3 e com visual inspirado no BMO de Hora de Aventura. Previstos: rádio sub-GHz 433 MHz (CC1101), NFC (PN532), infravermelho, Wi-Fi e Bluetooth com o firmware Bruce, além de jogos retrô via Retro-Go. O README registra que o projeto está planejado, com peças parcialmente compradas e ainda não montado; as funções de RF, NFC e IR servem para estudar protocolos em equipamento próprio, em laboratório ou em CTFs.',
+      en: 'Hardware for d-BMO: a DIY handheld for hands-on information security study, in the style of the Flipper Zero, with the body of a vertical retro emulation handheld and an original character. Platform confirmed as the ESP32-S3 N16R8 (an ESP32-P4 migration was deferred to a future v2). Planned features: sub-GHz 433 MHz radio (CC1101), NFC (PN532), infrared, Wi-Fi, and Bluetooth on the Bruce firmware, retro games through Retro-Go, audio and microphone, and an agent mode in which the device connects to the d-BMO assistant without access to personal memory and without remote triggering of the RF, NFC, and IR tools. On the bench, the board, display, and three buttons run a custom Bruce build; the CC1101 is not tested yet, the remaining parts are on order, and the device is not assembled. The RF, NFC, and IR functions are meant for studying protocols on one’s own equipment, in a lab, or in CTFs.',
+      'pt-BR': 'Hardware do d-BMO: aparelho portátil DIY para estudar segurança da informação na prática, no estilo do Flipper Zero, com corpo de videogame portátil de emulação vertical e personagem original. Plataforma confirmada: ESP32-S3 N16R8 (a migração para ESP32-P4 foi adiada para uma futura v2). Previstos: rádio sub-GHz 433 MHz (CC1101), NFC (PN532), infravermelho, Wi-Fi e Bluetooth com o firmware Bruce, jogos retrô via Retro-Go, áudio e microfone, e um modo agente em que o aparelho se conecta ao assistente d-BMO sem acesso à memória pessoal e sem acionamento remoto das ferramentas de RF, NFC e IR. Na bancada, placa, tela e três botões rodam um build próprio do Bruce; o CC1101 ainda não foi testado, as demais peças estão em compra e o aparelho não está montado. As funções de RF, NFC e IR servem para estudar protocolos em equipamento próprio, em laboratório ou em CTFs.',
     },
     technologies: ['ESP32-S3', 'CC1101', 'PN532', 'Bruce', 'Retro-Go', 'MicroPython'],
-    status: 'planning',
-    repositoryUrl: 'https://github.com/resende-g/dark-BMO',
+    status: 'experimental',
+    repositoryUrl: 'https://github.com/resende-g/d-BMO-body',
   },
 ];

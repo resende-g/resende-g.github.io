@@ -32,7 +32,9 @@ export function Research() {
           <ul className="plain-list">
             {researchGroups.map((group) => (
               <li key={group.id}>
-                <strong>{group.name}</strong>
+                <strong>
+                  {group.url ? <ExternalLink href={group.url}>{group.name}</ExternalLink> : group.name}
+                </strong>
                 <br />
                 {tr(group.role)} · {tr(group.institution)}
                 <br />
