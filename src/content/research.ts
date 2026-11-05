@@ -7,6 +7,8 @@ export interface ResearchGroup {
   role: Localized;
   period: Localized;
   description: Localized;
+  /** Public page of the group, when it has one. */
+  url?: string;
 }
 
 export interface Publication {
@@ -46,6 +48,7 @@ export const researchGroups: ResearchGroup[] = [
       en: 'Reading of Marx’s Capital in light of Pashukanis’s theory of the legal form, coordinated by Prof. Mario Soares Neto.',
       'pt-BR': 'Leitura de O capital, de Marx, à luz da teoria da forma jurídica de Pachukanis, sob coordenação do Prof. Mario Soares Neto.',
     },
+    url: 'https://gedep-marx.github.io',
   },
   {
     id: 'labid2',
