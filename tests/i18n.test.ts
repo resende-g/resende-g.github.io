@@ -71,11 +71,12 @@ describe('localized content', () => {
   ];
 
   it('keeps d-BMO as one project with separately identified modules', () => {
-    const dbmo = projects.filter((project) => project.id === 'd-bmo');
-    expect(dbmo).toHaveLength(1);
-    expect(dbmo[0].modules?.map((module) => module.name)).toContain('d-BMO Body');
-    expect(dbmo[0].modules?.map((module) => module.name)).toContain('BMO Heart');
-    expect(dbmo[0].modules?.map((module) => module.name)).toContain('BMO Brain');
+    const dbmo = projects.find((project) => project.id === 'd-bmo');
+    if (!dbmo) throw new Error('d-BMO project is missing');
+    expect(projects.filter((project) => project.id === 'd-bmo')).toHaveLength(1);
+    expect(dbmo.modules?.map((module) => module.name)).toContain('d-BMO Body');
+    expect(dbmo.modules?.map((module) => module.name)).toContain('BMO Heart');
+    expect(dbmo.modules?.map((module) => module.name)).toContain('BMO Brain');
     expect(projects.some((project) => project.id === 'd-bmo-body')).toBe(false);
     expect(projects.some((project) => project.id === 'esperanca')).toBe(false);
   });
