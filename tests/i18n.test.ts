@@ -64,8 +64,26 @@ describe('localized content', () => {
     ...profile.tagline,
     profile.summary,
     ...experience.flatMap((entry) => [entry.role, entry.period, ...entry.highlights]),
-    ...projects.map((project) => project.description),
+    ...projects.flatMap((project) => [
+      project.description,
+      ...(project.modules?.map((module) => module.description) ?? []),
+    ]),
   ];
+
+  it('keeps d-BMO as one project with separately identified modules', () => {
+    const dbmo = projects.filter((project) => project.id === 'd-bmo');
+    expect(dbmo).toHaveLength(1);
+    expect(dbmo[0].modules?.map((module) => module.name)).toContain('d-BMO Body');
+    expect(dbmo[0].modules?.map((module) => module.name)).toContain('BMO Heart');
+    expect(dbmo[0].modules?.map((module) => module.name)).toContain('BMO Brain');
+    expect(projects.some((project) => project.id === 'd-bmo-body')).toBe(false);
+    expect(projects.some((project) => project.id === 'esperanca')).toBe(false);
+  });
+
+  it('includes the published GEDEP site', () => {
+    const gedep = projects.find((project) => project.id === 'gedep');
+    expect(gedep?.demoUrl).toBe('https://gedep-marx.github.io/');
+  });
 
   it('provides non-empty text for every supported locale', () => {
     for (const sample of samples) {
@@ -76,7 +94,11 @@ describe('localized content', () => {
   });
 
   it('only links to https URLs or the Lattes platform', () => {
-    const urls = [...profile.links.map((link) => link.url), ...projects.flatMap((p) => [p.repositoryUrl, p.demoUrl ?? '']), ...researchGroups.map((g) => g.url ?? '')];
+    const urls = [...profile.links.map((link) => link.url), ...projects.flatMap((project) => [
+      project.repositoryUrl,
+      project.demoUrl ?? '',
+      ...(project.modules?.map((module) => module.repositoryUrl ?? '') ?? []),
+    ]), ...researchGroups.map((g) => g.url ?? '')];
     for (const url of urls.filter(Boolean)) {
       expect(url.startsWith('https://') || url.startsWith('http://lattes.cnpq.br/')).toBe(true);
     }

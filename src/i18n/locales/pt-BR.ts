@@ -49,6 +49,7 @@ export const ptBR: Dictionary = {
     technologies: 'Tecnologias',
     status: 'Situação',
     role: 'Contribuição',
+    architecture: 'Arquitetura',
     statusValues: {
       planning: 'Em planejamento',
       experimental: 'Experimental',
