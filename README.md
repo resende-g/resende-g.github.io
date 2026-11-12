@@ -25,7 +25,8 @@ No analytics, telemetry, fonts, or scripts are loaded from third parties. The si
 ├── index.html                     # HTML shell, English meta tags, Open Graph
 ├── public/
 │   ├── favicon.png, apple-touch-icon.png   # Generated from the brand mark
-│   └── cv/                        # Put public CV PDFs here (see below)
+│   ├── cv/                        # Put public CV PDFs here (see below)
+│   └── projects/                  # Local marks shown on project cards
 ├── src/
 │   ├── assets/                    # Bundled: brand mark (white/black), Lattes mask, bust.glb (3D scan), bust-fallback.webp (static render), background.webp (page background)
 │   ├── main.tsx                   # Entry point
@@ -105,8 +106,12 @@ Append an entry to `src/content/projects.ts`:
   contribution: { en: '…', 'pt-BR': '…' },  // optional
   repositoryUrl: 'https://github.com/…',
   demoUrl: 'https://…',         // optional; only if documented in the project's README
+  icon: 'projects/my-project.png', // local image copied to public/projects/
+  modules: [],                   // optional architecture displayed within the parent card
 }
 ```
+
+Project icons live in `public/projects/` so the portfolio does not depend on expiring external image URLs. A `modules` array renders component responsibilities and statuses inside the parent project card, keeping one system as one portfolio project.
 
 To add a status value, extend `ProjectStatus` and add its label under `projects.statusValues` in both dictionaries.
 

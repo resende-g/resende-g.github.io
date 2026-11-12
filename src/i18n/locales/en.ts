@@ -51,6 +51,7 @@ export const en = {
     technologies: 'Technologies',
     status: 'Status',
     role: 'Contribution',
+    architecture: 'Architecture',
     statusValues: {
       planning: 'Planning',
       experimental: 'Experimental',
